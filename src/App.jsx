@@ -76,10 +76,72 @@ function LoadingScreen() {
   return (
     <div style={{
       minHeight:'100vh', display:'flex', flexDirection:'column',
-      alignItems:'center', justifyContent:'center', gap:16, background:'var(--bg-base)'
+      alignItems:'center', justifyContent:'center', gap:20, background:'var(--bg-base)',
+      fontFamily: 'var(--font-display)'
     }}>
-      <Spinner size="lg" />
-      <span style={{ color:'var(--txt-muted)', fontSize:'var(--fs-sm)' }}>Iniciando Fluento...</span>
+      <style>{`
+        @keyframes dojo-bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-12px); }
+        }
+        @keyframes dojo-spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes dojo-loading-bar {
+          0% { left: -100%; width: 50%; }
+          50% { left: 30%; width: 70%; }
+          100% { left: 100%; width: 30%; }
+        }
+      `}</style>
+
+      {/* Animated Mascot Container */}
+      <div style={{
+        position: 'relative',
+        width: 120,
+        height: 120,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, rgba(79,142,247,0.15), rgba(79,142,247,0.05))',
+        border: '3px solid var(--brd-default)',
+        borderRadius: '50%',
+        boxShadow: '4px 4px 0 var(--brd-default)',
+        animation: 'dojo-bounce 2s infinite ease-in-out',
+      }}>
+        {/* Glowing aura */}
+        <div style={{
+          position: 'absolute',
+          inset: -10,
+          borderRadius: '50%',
+          border: '2px dashed var(--clr-accent)',
+          opacity: 0.5,
+          animation: 'dojo-spin 12s infinite linear'
+        }} />
+        
+        {/* Mascot Face (Ninja) */}
+        <span style={{ fontSize: '4.5rem', filter: 'drop-shadow(2px 2px 0 var(--brd-default))', userSelect: 'none' }} role="img" aria-label="Mascota Fluento">
+          🥷
+        </span>
+      </div>
+
+      <div style={{ textAlign: 'center', marginTop: 10 }}>
+        <h2 style={{ fontSize: 'var(--fs-md)', fontWeight: 'var(--fw-black)', color: 'var(--txt-primary)', marginBottom: 8, letterSpacing: '0.02em' }}>
+          Cargando tu Dojo de Inglés...
+        </h2>
+        <div style={{ width: 160, height: 8, background: 'var(--bg-card-2)', border: '2px solid var(--brd-default)', borderRadius: 'var(--rad-full)', margin: '0 auto', overflow: 'hidden', position: 'relative' }}>
+          <div style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            bottom: 0,
+            background: 'var(--clr-accent)',
+            borderRadius: 'var(--rad-full)',
+            width: '60%',
+            animation: 'dojo-loading-bar 1.5s infinite ease-in-out'
+          }} />
+        </div>
+      </div>
     </div>
   )
 }
