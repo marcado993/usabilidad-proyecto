@@ -1,0 +1,110 @@
+/* ============================================================
+   FLUENTO — Design Tokens (CSS Custom Properties)
+   Atomic Design: Base layer — tokens only, no selectors
+   Visual Style: "Grammar Dojo" (Duolingo + Grammar Ninja + Lucide)
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&display=swap');
+
+:root {
+  /* ── Brand Colors ── */
+  --clr-primary:        #1e232a; /* Deep Slate Ink */
+  --clr-primary-light:  #2d3641;
+  --clr-primary-dark:   #0f1216;
+  --clr-primary-shadow: #000000;
+
+  --clr-accent:         #1890ff; /* Duolingo-style Vibrant Blue */
+  --clr-accent-light:   #69c0ff;
+  --clr-accent-hover:   #40a9ff;
+  --clr-accent-shadow:  #0050b3;
+
+  --clr-gold:           #ffc01e; /* Tactile Gold */
+  --clr-gold-light:     #ffe58f;
+  --clr-gold-shadow:    #ad7d00;
+
+  --clr-success:        #58cc02; /* Duolingo Green */
+  --clr-success-light:  #b7eb8f;
+  --clr-success-shadow: #389e0d;
+
+  --clr-error:          #ff4d4f; /* Crimson Ninja Crimson */
+  --clr-error-light:    #ffccc7;
+  --clr-error-shadow:   #cf1322;
+
+  --clr-warning:        #fa8c16;
+  --clr-warning-light:  #ffd591;
+  --clr-warning-shadow: #d4380d;
+
+  --clr-purple:         #722ed1;
+  --clr-purple-light:   #efdbff;
+  --clr-purple-shadow:  #531dab;
+
+  /* ── Backgrounds (Tinta & Pergamino / Dojo Palette) ── */
+  --bg-base:     #faf7f0; /* Warm Cream Parchment base */
+  --bg-card:     #ffffff; /* Clean white card face */
+  --bg-card-2:   #f6f3eb; /* Soft scroll parchment highlights */
+  --bg-sidebar:  #fdfcf9; /* Light elegant Dojo panel */
+  --bg-input:    #ffffff;
+  --bg-overlay:  rgba(15,18,22,0.45);
+
+  /* ── Text (High legibility ink) ── */
+  --txt-primary:   #181b20; /* Solid charcoal ink */
+  --txt-secondary: #5a6270; /* Soft slate */
+  --txt-muted:     #8c96a8; /* Ink wash grey */
+  --txt-inverse:   #faf7f0;
+
+  /* ── Cartoon Borders (Grammar Ninja / Comic style) ── */
+  --brd-default: #181b20; /* Heavy ink line */
+  --brd-light:   #2d3641;
+  --brd-focus:   #1890ff;
+  --brd-width:   2.5px;   /* Comic book flat thick strokes */
+
+  /* ── Border Radius (Friendly Duolingo rounded shape) ── */
+  --rad-xs:   6px;
+  --rad-sm:   12px;
+  --rad-md:   16px;
+  --rad-lg:   24px;
+  --rad-xl:   32px;
+  --rad-full: 9999px;
+
+  /* ── Shadows (Flat displaced cartoon shadows) ── */
+  --shd-sm:   0 2px 0 #181b20;
+  --shd-md:   4px 4px 0 #181b20; /* 100% unique displacement shadow */
+  --shd-lg:   8px 8px 0 #181b20;
+  --shd-glow: 0 0 16px rgba(24,144,255,0.2);
+
+  /* ── Spacing (8-point grid) ── */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-7:  28px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+
+  /* ── Typography (Fredoka Display + Nunito Body) ── */
+  --font-base:     'Nunito', system-ui, -apple-system, sans-serif;
+  --font-display:  'Fredoka', system-ui, -apple-system, sans-serif;
+  
+  --fs-xs:   0.75rem;
+  --fs-sm:   0.85rem;
+  --fs-base: 0.95rem;
+  --fs-md:   1.05rem;
+  --fs-lg:   1.20rem;
+  --fs-xl:   1.45rem;
+  --fs-2xl:  1.85rem;
+  --fs-3xl:  2.40rem;
+  
+  --fw-regular: 400;
+  --fw-medium:  600;
+  --fw-semi:    700;
+  --fw-bold:    800;
+  --fw-black:   900;
+
+  /* ── Transitions ── */
+  --tr-fast:   0.08s ease;
+  --tr-base:   0.15s cubic-bezier(0.34,1.56,0.64,1);
+  --tr-slow:   0.28s ease;
+  --tr-spring: 0.28s cubic-bezier(0.34,1.8,0.64,1);
+}

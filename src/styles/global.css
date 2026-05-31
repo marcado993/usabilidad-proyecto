@@ -1,0 +1,141 @@
+/* ============================================================
+   FLUENTO — Global Reset + Base + Utility classes
+   Visual Style: "Grammar Dojo" (Comic-book / Gamified)
+   ============================================================ */
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-base);
+  background: var(--bg-base);
+  color: var(--txt-primary);
+  min-height: 100vh;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  padding: 0;
+  margin: 0;
+}
+img { max-width: 100%; display: block; }
+
+/* ── Typographic Hierarchy (Fredoka Rounded Display) ── */
+h1, h2, h3, h4, h5, h6, .display-font {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  color: var(--txt-primary);
+  line-height: 1.25;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  outline: none;
+  background: none;
+}
+input, select, textarea {
+  font-family: inherit;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+ul { list-style: none; }
+
+/* ── Scrollbar (Ink on Parchment) ── */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb {
+  background: var(--brd-default);
+  border: 2.5px solid var(--bg-base);
+  border-radius: var(--rad-full);
+}
+
+/* ── Animations ── */
+@keyframes spin        { to { transform: rotate(360deg); } }
+@keyframes fadeIn      { from { opacity:0; } to { opacity:1; } }
+@keyframes slideUp     { from { opacity:0; transform: translateY(18px); } to { opacity:1; transform: translateY(0); } }
+@keyframes pulse       { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+@keyframes bounce      { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-5px); } }
+
+/* ── Utilities ── */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+.flex         { display: flex; }
+.flex-col     { display: flex; flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-1  { gap: var(--sp-1); }
+.gap-2  { gap: var(--sp-2); }
+.gap-3  { gap: var(--sp-3); }
+.gap-4  { gap: var(--sp-4); }
+.gap-5  { gap: var(--sp-5); }
+.gap-6  { gap: var(--sp-6); }
+.w-full { width: 100%; }
+.text-center { text-align: center; }
+.text-muted  { color: var(--txt-secondary); }
+.text-accent { color: var(--clr-accent); }
+.text-gold   { color: var(--clr-gold); }
+.text-success{ color: var(--clr-success); }
+.text-error  { color: var(--clr-error); }
+.font-bold   { font-weight: var(--fw-bold); }
+.font-semi   { font-weight: var(--fw-semi); }
+.text-sm     { font-size: var(--fs-sm); }
+.text-xs     { font-size: var(--fs-xs); }
+.text-lg     { font-size: var(--fs-lg); }
+.mt-1 { margin-top: var(--sp-1); }
+.mt-2 { margin-top: var(--sp-2); }
+.mt-3 { margin-top: var(--sp-3); }
+.mt-4 { margin-top: var(--sp-4); }
+.mb-2 { margin-bottom: var(--sp-2); }
+.mb-3 { margin-bottom: var(--sp-3); }
+.mb-4 { margin-bottom: var(--sp-4); }
+.mb-6 { margin-bottom: var(--sp-6); }
+
+/* ── Grid helpers ── */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-5); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-5); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-5); }
+
+/* ── Alert Strip (Comic book ink style, displacements) ── */
+.alert {
+  padding: var(--sp-4);
+  border-radius: var(--rad-md);
+  border: var(--brd-width) solid var(--brd-default);
+  box-shadow: 3px 3px 0 var(--brd-default);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  margin-top: var(--sp-3);
+}
+.alert-info    { background: var(--bg-card-2); color: var(--txt-primary); }
+.alert-success { background: var(--clr-success-light); color: var(--txt-primary); }
+.alert-error   { background: var(--clr-error-light); color: var(--txt-primary); }
+.alert-warning { background: var(--clr-warning-light); color: var(--txt-primary); }
+
+/* ── Divider ── */
+.divider { height: 2px; background: var(--brd-default); margin: var(--sp-5) 0; }
+.divider-text {
+  display: flex; align-items: center; gap: var(--sp-3);
+  color: var(--txt-secondary); font-size: var(--fs-xs); font-family: var(--font-display);
+}
+.divider-text::before,
+.divider-text::after { content:''; flex:1; height:2.5px; background: var(--brd-default); }
+
+/* ── Section heading ── */
+.section-title { font-size: var(--fs-lg); font-family: var(--font-display); font-weight: var(--fw-bold); color: var(--txt-primary); }
+.section-sub   { font-size: var(--fs-sm); color: var(--txt-secondary); margin-top: var(--sp-1); }
+
+.relative { position: relative; }
+
+@media (max-width: 900px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+}

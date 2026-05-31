@@ -1,0 +1,162 @@
+/* ============================================================
+   FLUENTO — Templates & Pages CSS
+   ============================================================ */
+
+/* ── App Layout template ── */
+.app-layout      { display: flex; height: 100vh; overflow: hidden; }
+.main-content    { flex: 1; overflow-y: auto; display: flex; flex-direction: column; background: var(--bg-base); }
+.page-inner      { padding: var(--sp-7); max-width: 1250px; flex: 1; margin: 0 auto; width: 100%; box-sizing: border-box; }
+
+/* ── Dojo Two-Column Layout ── */
+.dojo-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: var(--sp-6);
+  align-items: start;
+  width: 100%;
+}
+.dojo-layout__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+.dojo-layout__side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+@media (max-width: 1024px) {
+  .dojo-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Auth Layout template (Login / Register) ── */
+.auth-layout { display: flex; min-height: 100vh; }
+.auth-hero {
+  width: 42%; background: linear-gradient(135deg, var(--clr-primary-dark) 0%, var(--clr-primary-light) 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: var(--sp-12); position: relative; overflow: hidden;
+}
+.auth-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 70%, rgba(79,142,247,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 20%, rgba(244,185,66,0.15) 0%, transparent 50%);
+}
+.auth-hero__content { position: relative; z-index: 1; text-align: center; width: 100%; }
+.auth-hero__logo {
+  width: 72px; height: 72px; border-radius: 20px;
+  background: linear-gradient(135deg, var(--clr-accent), rgba(79,142,247,0.5));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; font-weight: var(--fw-black); color: #fff; margin: 0 auto var(--sp-6);
+  box-shadow: 0 8px 32px rgba(79,142,247,0.4);
+}
+.auth-hero__title { font-size: var(--fs-3xl); font-weight: var(--fw-black); color: #fff; line-height: 1.15; }
+.auth-hero__title span { color: var(--clr-gold); }
+.auth-hero__sub { font-size: var(--fs-md); color: rgba(255,255,255,0.6); margin-top: var(--sp-3); }
+.auth-hero__features { margin-top: var(--sp-10); display: flex; flex-direction: column; gap: var(--sp-4); text-align: left; }
+.auth-hero__dots { display: flex; gap: var(--sp-2); justify-content: center; margin-top: var(--sp-8); }
+
+.auth-form-area {
+  flex: 1; display: flex; align-items: center; justify-content: center; padding: var(--sp-10);
+}
+.auth-form-box { width: 100%; max-width: 400px; }
+.auth-form-title { font-size: var(--fs-2xl); font-weight: var(--fw-black); color: var(--txt-primary); }
+.auth-form-sub   { font-size: var(--fs-sm); color: var(--txt-muted); margin-top: var(--sp-2); }
+
+/* ── Teacher level row ── */
+.teacher-row {
+  display: flex; align-items: center; gap: var(--sp-4); padding: var(--sp-4) var(--sp-5);
+  background: var(--bg-card-2); border: 1px solid var(--brd-default); border-radius: var(--rad-md);
+  transition: all var(--tr-base); cursor: pointer;
+}
+.teacher-row:hover { border-color: var(--clr-accent); box-shadow: var(--shd-glow); }
+.teacher-row__badge {
+  width: 48px; height: 48px; border-radius: var(--rad-md); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--fs-md); font-weight: var(--fw-black);
+}
+.teacher-row__info    { flex: 1; }
+.teacher-row__name    { font-size: var(--fs-base); font-weight: var(--fw-semi); color: var(--txt-primary); }
+.teacher-row__sub     { font-size: var(--fs-xs); color: var(--txt-muted); margin-top: 2px; margin-bottom: var(--sp-2); }
+.teacher-row__metrics { display: flex; gap: var(--sp-5); flex-shrink: 0; text-align: center; }
+.teacher-row__metric-val { font-size: 1.1rem; font-weight: var(--fw-bold); }
+.teacher-row__metric-lbl { font-size: var(--fs-xs); color: var(--txt-muted); }
+
+/* ── Result modal icons ── */
+.result-icon {
+  width: 76px; height: 76px; border-radius: 50%; margin: 0 auto var(--sp-4);
+  display: flex; align-items: center; justify-content: center; font-size: 2.2rem;
+}
+.result-icon--fail    { background: rgba(239,68,68,0.15); border: 3px solid var(--clr-error); color: var(--clr-error); }
+.result-icon--success { background: rgba(34,197,94,0.15); border: 3px solid var(--clr-success); color: var(--clr-success); }
+
+/* ── MCER levels grid ── */
+.mcer-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--sp-3); }
+.mcer-card { padding: var(--sp-3); border-radius: var(--rad-md); }
+.mcer-card__level { font-size: 1.1rem; font-weight: var(--fw-black); }
+.mcer-card__name  { font-size: var(--fs-xs); font-weight: var(--fw-semi); }
+.mcer-card__desc  { font-size: var(--fs-xs); color: var(--txt-muted); line-height: 1.5; margin-top: var(--sp-2); }
+
+/* ── Badge gallery ── */
+.badge-item {
+  padding: var(--sp-4); text-align: center; border-radius: var(--rad-md);
+  transition: all var(--tr-base); cursor: help;
+}
+.badge-item__icon { font-size: 1.8rem; margin-bottom: var(--sp-2); }
+.badge-item__name { font-size: var(--fs-xs); font-weight: var(--fw-semi); }
+
+/* ── Onboarding card ── */
+.onboarding-card {
+  background: var(--bg-card); border: 1px solid var(--brd-default);
+  border-radius: var(--rad-xl); padding: var(--sp-10) var(--sp-8);
+  width: 100%; max-width: 440px; text-align: center; position: relative;
+  box-shadow: var(--shd-lg); animation: slideUp 0.3s ease;
+}
+.onboarding-card__icon {
+  width: 84px; height: 84px; border-radius: 24px; margin: 0 auto var(--sp-5);
+  display: flex; align-items: center; justify-content: center; font-size: 2.5rem;
+}
+.onboarding-card__title { font-size: var(--fs-xl); font-weight: var(--fw-black); margin-bottom: var(--sp-3); }
+.onboarding-card__desc  { color: var(--txt-secondary); font-size: var(--fs-base); line-height: 1.7; margin-bottom: var(--sp-7); }
+
+/* ── Bar chart (teacher stats) ── */
+.bar-chart { display: flex; align-items: flex-end; gap: var(--sp-2); height: 120px; }
+.bar-chart__col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: var(--sp-1); }
+.bar-chart__bar { width: 100%; border-radius: 4px 4px 0 0; transition: height 0.8s ease; }
+.bar-chart__lbl { font-size: var(--fs-xs); color: var(--txt-muted); }
+
+/* ── Welcome banner ── */
+.welcome-banner {
+  background: linear-gradient(135deg, rgba(79,142,247,0.15), rgba(244,185,66,0.1));
+  border: 1px solid rgba(79,142,247,0.3); border-radius: var(--rad-lg);
+  padding: var(--sp-5) var(--sp-6); margin-bottom: var(--sp-6);
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4);
+}
+.welcome-banner__title { font-weight: var(--fw-bold); font-size: var(--fs-md); }
+.welcome-banner__sub   { font-size: var(--fs-sm); color: var(--txt-muted); margin-top: 2px; }
+
+/* ── Stats table ── */
+.stats-table { width: 100%; border-collapse: collapse; }
+.stats-table th {
+  padding: var(--sp-2) var(--sp-3); text-align: left;
+  font-size: var(--fs-xs); font-weight: var(--fw-bold); color: var(--txt-muted);
+  text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid var(--brd-default);
+}
+.stats-table td { padding: var(--sp-3); vertical-align: middle; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.stats-table tr:last-child td { border-bottom: none; }
+.stats-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .auth-hero   { display: none; }
+  .auth-form-area { padding: var(--sp-6); }
+  .sidebar     { width: 180px; }
+  .mcer-grid   { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 640px) {
+  .page-inner  { padding: var(--sp-4); }
+  .mcer-grid   { grid-template-columns: 1fr; }
+}

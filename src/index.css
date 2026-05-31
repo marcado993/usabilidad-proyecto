@@ -1,0 +1,9 @@
+/* ============================================================
+   FLUENTO — Main CSS Entry Point
+   Import order follows Atomic Design layers
+   ============================================================ */
+@import './styles/tokens.css';    /* Design tokens (variables) */
+@import './styles/global.css';    /* Reset + utilities         */
+@import './styles/atoms.css';     /* Atoms layer               */
+@import './styles/components.css';/* Molecules + Organisms     */
+@import './styles/templates.css'; /* Templates + Pages         */
