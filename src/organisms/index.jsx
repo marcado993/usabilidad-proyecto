@@ -381,9 +381,9 @@ export function FAQAccordion({ items }) {
 //  HERO CAROUSEL (H3: controles de carrusel)
 // ══════════════════════════════════════════════════
 const SLIDES = [
-  { icon:'gamepad', title:'Aprende Jugando',    sub:'Gamificación que te mantiene motivado cada día' },
-  { icon:'trophy',  title:'Gana Insignias',     sub:'Colecciona logros y sube en el ranking global' },
-  { icon:'chart',   title:'Sigue tu Progreso',  sub:'Estadísticas detalladas de tu avance en inglés' },
+  { icon:'gamepad', image: '/aprende_jugando.png', title:'Aprende Jugando',    sub:'Gamificación que te mantiene motivado cada día' },
+  { icon:'trophy',  image: '/gana_insignias.png', title:'Gana Insignias',     sub:'Colecciona logros y sube en el ranking global' },
+  { icon:'chart',   image: '/sigue_progreso.png', title:'Sigue tu Progreso',  sub:'Estadísticas detalladas de tu avance en inglés' },
 ]
 
 export function HeroCarousel() {
@@ -398,6 +398,41 @@ export function HeroCarousel() {
 
   return (
     <>
+      {/* Dynamic Slide Image (Tactile cartoon preview card) */}
+      <div style={{
+        width: '100%',
+        maxWidth: 320,
+        height: 220,
+        background: 'rgba(255,255,255,0.06)',
+        border: '3px dashed rgba(255,255,255,0.15)',
+        borderRadius: 'var(--rad-lg)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 28,
+        overflow: 'hidden',
+        position: 'relative',
+        boxShadow: 'var(--shd-md)',
+      }}>
+        {SLIDES.map((s, i) => (
+          <img
+            key={i}
+            src={s.image}
+            alt={s.title}
+            style={{
+              position: 'absolute',
+              width: '88%',
+              height: '88%',
+              objectFit: 'contain',
+              opacity: slide === i ? 1 : 0,
+              transform: slide === i ? 'scale(1) translateY(0)' : 'scale(0.9) translateY(12px)',
+              transition: 'all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              pointerEvents: slide === i ? 'auto' : 'none'
+            }}
+          />
+        ))}
+      </div>
+
       <div
         className="auth-hero__features"
         onMouseEnter={() => setPaused(true)}   // H3: pausa en hover
