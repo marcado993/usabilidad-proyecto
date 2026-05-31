@@ -25,6 +25,7 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
   const [role,     setRole    ] = useState('student')
   const [loading,  setLoading ] = useState(false)
   const [apiError, setApiError] = useState('')
+  const [slide,    setSlide   ] = useState(0)
 
   const handleSubmit = async (e) => {
     e?.preventDefault()
@@ -39,14 +40,51 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
 
   // Hero side
   const hero = (
-    <div className="auth-hero__content">
-      <div className="auth-hero__logo" aria-hidden="true">F</div>
-      <h1 className="auth-hero__title">
-        Aprende inglés<br /><span>con Fluento</span>
-      </h1>
-      <p className="auth-hero__sub">Tu plataforma gamificada de aprendizaje de inglés</p>
-      <HeroCarousel />
-    </div>
+    <>
+      {/* Absolute Full-bleed Background Images for the auth-hero container */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        zIndex: 0,
+        overflow: 'hidden'
+      }}>
+        {['/aprende_jugando.png', '/gana_insignias.png', '/sigue_progreso.png'].map((img, i) => (
+          <img
+            key={i}
+            src={img}
+            alt=""
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              opacity: slide === i ? 0.15 : 0,
+              transform: slide === i ? 'scale(1.05)' : 'scale(1.0)',
+              transition: 'opacity 0.8s ease-in-out, transform 0.8s ease-in-out',
+            }}
+          />
+        ))}
+        {/* Soft gradient overlay for excellent contrast (Nielsen Heuristics 8) */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(135deg, rgba(20, 27, 43, 0.4) 0%, rgba(20, 27, 43, 0.75) 100%)',
+        }} />
+      </div>
+
+      <div className="auth-hero__content" style={{ zIndex: 1, position: 'relative' }}>
+        <div className="auth-hero__logo" aria-hidden="true">F</div>
+        <h1 className="auth-hero__title">
+          Aprende inglés<br /><span>con Fluento</span>
+        </h1>
+        <p className="auth-hero__sub">Tu plataforma gamificada de aprendizaje de inglés</p>
+        <HeroCarousel activeSlide={slide} onSlideChange={setSlide} />
+      </div>
+    </>
   )
 
   // Form side

@@ -386,53 +386,19 @@ const SLIDES = [
   { icon:'chart',   image: '/sigue_progreso.png', title:'Sigue tu Progreso',  sub:'Estadísticas detalladas de tu avance en inglés' },
 ]
 
-export function HeroCarousel() {
-  const [slide, setSlide] = useState(0)
+export function HeroCarousel({ activeSlide = 0, onSlideChange }) {
   const [paused, setPaused] = useState(false)
 
   useEffect(() => {
-    if (paused) return
-    const t = setInterval(() => setSlide(s => (s + 1) % SLIDES.length), 3500)
+    if (paused || !onSlideChange) return
+    const t = setInterval(() => onSlideChange(s => (s + 1) % SLIDES.length), 3500)
     return () => clearInterval(t)
-  }, [paused])
+  }, [paused, onSlideChange])
+
+  const slide = activeSlide
 
   return (
     <>
-      {/* Dynamic Slide Image (Tactile cartoon preview card) */}
-      <div style={{
-        width: '100%',
-        maxWidth: 320,
-        height: 220,
-        background: 'rgba(255,255,255,0.06)',
-        border: '3px dashed rgba(255,255,255,0.15)',
-        borderRadius: 'var(--rad-lg)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 28,
-        overflow: 'hidden',
-        position: 'relative',
-        boxShadow: 'var(--shd-md)',
-      }}>
-        {SLIDES.map((s, i) => (
-          <img
-            key={i}
-            src={s.image}
-            alt={s.title}
-            style={{
-              position: 'absolute',
-              width: '88%',
-              height: '88%',
-              objectFit: 'contain',
-              opacity: slide === i ? 1 : 0,
-              transform: slide === i ? 'scale(1) translateY(0)' : 'scale(0.9) translateY(12px)',
-              transition: 'all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)',
-              pointerEvents: slide === i ? 'auto' : 'none'
-            }}
-          />
-        ))}
-      </div>
-
       <div
         className="auth-hero__features"
         onMouseEnter={() => setPaused(true)}   // H3: pausa en hover
@@ -460,7 +426,7 @@ export function HeroCarousel() {
           <button
             key={i}
             className={`carousel-dot${slide === i ? ' carousel-dot--active' : ''}`}
-            onClick={() => { setSlide(i); setPaused(true) }}
+            onClick={() => { onSlideChange && onSlideChange(i); setPaused(true) }}
             role="tab"
             aria-selected={slide === i}
             aria-label={`Característica ${i + 1}: ${SLIDES[i].title}`}
