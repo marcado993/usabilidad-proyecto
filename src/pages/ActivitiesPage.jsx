@@ -229,8 +229,8 @@ export default function ActivitiesPage({ user, progress, onComplete, nav, onSetL
                 {earnedBadges.map(b => (
                   <Tooltip key={b.id} text={b.desc} position="top">
                     <div style={{ textAlign: 'center', cursor: 'help', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.8rem', marginBottom: 4, display: 'block' }}>{b.icon}</span>
-                      <span style={{ fontSize: '10px', fontWeight: 'var(--fw-bold)', color: 'var(--clr-gold-shadow)', textTransform: 'uppercase', letterSpacing: '0.02em' }}>{b.name}</span>
+                      <Icon name={b.icon} size="xl" color={b.earned ? 'var(--clr-gold)' : 'var(--txt-muted)'} style={{ marginBottom: 4 }} />
+                      <span style={{ fontSize: '10px', fontWeight: 'var(--fw-bold)', color: b.earned ? 'var(--clr-gold-shadow)' : 'var(--txt-muted)', textTransform: 'uppercase', letterSpacing: '0.02em' }}>{b.name}</span>
                     </div>
                   </Tooltip>
                 ))}

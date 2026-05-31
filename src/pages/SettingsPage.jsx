@@ -144,7 +144,9 @@ export default function SettingsPage({ user, progress, onUpdateSettings, onUpdat
                     role="img"
                     aria-label={`${b.name}: ${b.desc}${b.earned ? ' — Obtenida' : ' — Pendiente'}`}
                   >
-                    <div className="badge-item__icon" style={{ filter: b.earned ? 'none' : 'grayscale(1)' }}>{b.icon}</div>
+                    <div className="badge-item__icon" style={{ filter: b.earned ? 'none' : 'grayscale(1)', color: b.earned ? 'var(--clr-gold)' : 'var(--txt-muted)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Icon name={b.icon} size="xl" />
+                    </div>
                     <div className="badge-item__name" style={{ color: b.earned ? 'var(--clr-gold)' : 'var(--txt-muted)' }}>{b.name}</div>
                   </div>
                 </Tooltip>
