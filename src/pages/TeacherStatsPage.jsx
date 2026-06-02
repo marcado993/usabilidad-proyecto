@@ -7,10 +7,10 @@ import { StatCard } from '../molecules'
 import { AppLayout } from '../templates'
 
 const TEACHER_NAV = [
-  { key:'home',       screen:'teacher-home',  icon:<Icon name="home" size="sm" />, label:'Inicio'        },
-  { key:'statistics', screen:'teacher-stats', icon:<Icon name="chart" size="sm" />, label:'Estadísticas'  },
-  { key:'settings',   screen:'teacher-home',  icon:<Icon name="settings" size="sm" />, label:'Configuración' },
-  { key:'help',       screen:'teacher-home',  icon:<Icon name="help" size="sm" />, label:'Ayuda'         },
+  { key:'home',       screen:'teacher-home',  icon:<Icon name="home" size="sm" />, label:'Home'          },
+  { key:'statistics', screen:'teacher-stats', icon:<Icon name="chart" size="sm" />, label:'Statistics'  },
+  { key:'settings',   screen:'teacher-home',  icon:<Icon name="settings" size="sm" />, label:'Settings' },
+  { key:'help',       screen:'teacher-home',  icon:<Icon name="help" size="sm" />, label:'Help'         },
 ]
 
 const STUDENTS = [
@@ -22,41 +22,41 @@ const STUDENTS = [
 ]
 
 const CHART_DAYS = [
-  { label:'Lun', val:65, color:'var(--clr-accent)' },
-  { label:'Mar', val:80, color:'var(--clr-accent)' },
-  { label:'Mié', val:55, color:'var(--clr-accent)' },
-  { label:'Jue', val:90, color:'var(--clr-gold)'   },
-  { label:'Vie', val:75, color:'var(--clr-accent)' },
-  { label:'Sáb', val:40, color:'var(--clr-accent)' },
-  { label:'Dom', val:30, color:'var(--brd-default)' },
+  { label:'Mon', val:65, color:'var(--clr-accent)' },
+  { label:'Tue', val:80, color:'var(--clr-accent)' },
+  { label:'Wed', val:55, color:'var(--clr-accent)' },
+  { label:'Thu', val:90, color:'var(--clr-gold)'   },
+  { label:'Fri', val:75, color:'var(--clr-accent)' },
+  { label:'Sat', val:40, color:'var(--clr-accent)' },
+  { label:'Sun', val:30, color:'var(--brd-default)' },
 ]
 
 export default function TeacherStatsPage({ user, nav }) {
   return (
     <AppLayout user={user} nav={nav} activeNav="statistics" navItems={TEACHER_NAV}
-      title="Estadísticas" parent="Dashboard Docente"
+      title="Statistics" parent="Teacher Dashboard"
     >
 
       <div className="grid-4 mb-6">
-        <StatCard label="Tareas Asignadas"  value="24" sub="esta semana"       color="var(--clr-accent)" />
-        <StatCard label="Tareas Entregadas" value="18" sub="de 24 asignadas"   color="var(--clr-gold)" />
-        <StatCard label="Ejercicios Hechos" value="392" sub="en total"         color="var(--clr-success)" />
-        <StatCard label="Tiempo Promedio"   value="24m" sub="por sesión"       color="var(--clr-purple)" />
+        <StatCard label="Assigned Homework"  value="24" sub="this week"       color="var(--clr-accent)" />
+        <StatCard label="Submitted Homework" value="18" sub="out of 24 assigned" color="var(--clr-gold)" />
+        <StatCard label="Exercises Done" value="392" sub="in total"         color="var(--clr-success)" />
+        <StatCard label="Average Time"   value="24m" sub="per session"       color="var(--clr-purple)" />
       </div>
 
       <div className="grid-2 mb-6">
         {/* Bar chart */}
         <div className="card">
           <h3 style={{ fontSize:'var(--fs-base)', fontWeight:'var(--fw-bold)', marginBottom:16, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-            <Icon name="chart" size="sm" /> Actividad diaria del grupo
+            <Icon name="chart" size="sm" /> Group daily activity
           </h3>
-          <div className="bar-chart" role="img" aria-label="Gráfico de barras de actividad semanal del grupo">
+          <div className="bar-chart" role="img" aria-label="Group weekly activity bar chart">
             {CHART_DAYS.map((d, i) => (
               <div key={i} className="bar-chart__col">
                 <div
                   className="bar-chart__bar"
                   style={{ height:`${d.val}%`, background:d.color, opacity:0.85 }}
-                  aria-label={`${d.label}: ${d.val}% de actividad`}
+                  aria-label={`${d.label}: ${d.val}% activity`}
                 />
                 <span className="bar-chart__lbl">{d.label}</span>
               </div>
@@ -67,14 +67,14 @@ export default function TeacherStatsPage({ user, nav }) {
         {/* Notes */}
         <div className="card">
           <h3 style={{ fontSize:'var(--fs-base)', fontWeight:'var(--fw-bold)', marginBottom:16, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-            <Icon name="book" size="sm" /> Observaciones del grupo B1
+            <Icon name="book" size="sm" /> Observations for group B1
           </h3>
           <ul className="flex flex-col gap-3">
             {[
-              ['check-circle','El grupo B1 muestra mejora en comprensión lectora (+12%)'],
-              ['warning','Dificultad en "Segunda Condicional" — requiere refuerzo'],
-              ['chart','Tiempo promedio: 31 min (superior a la meta de 20 min)'],
-              ['star','Recomendación: reforzar práctica de listening esta semana'],
+              ['check-circle','Group B1 shows improvement in reading comprehension (+12%)'],
+              ['warning','Difficulty in "Second Conditional" — needs reinforcement'],
+              ['chart','Average time: 31 min (above the 20 min goal)'],
+              ['star','Recommendation: reinforce listening practice this week'],
             ].map(([icon, text], i) => (
               <li key={i} className="flex gap-3" style={{ fontSize:'var(--fs-sm)', color:'var(--txt-secondary)', alignItems:'flex-start' }}>
                 <Icon name={icon} size="sm" color={icon === 'check-circle' ? 'var(--clr-success)' : icon === 'warning' ? 'var(--clr-error)' : icon === 'star' ? 'var(--clr-gold)' : 'var(--clr-accent)'} style={{ flexShrink:0 }} /><span>{text}</span>
@@ -88,20 +88,20 @@ export default function TeacherStatsPage({ user, nav }) {
       <div className="card">
         <div className="flex items-center justify-between mb-4">
           <h3 style={{ fontSize:'var(--fs-base)', fontWeight:'var(--fw-bold)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-            <Icon name="user" size="sm" /> Desempeño por estudiante
+            <Icon name="user" size="sm" /> Student performance
           </h3>
           <Button variant="secondary" size="sm"
-            onClick={() => alert('📄 Generando reporte en PDF...')}
-            ariaLabel="Exportar reporte de estadísticas en PDF"
+            onClick={() => alert('📄 Generating report in PDF...')}
+            ariaLabel="Export statistics report in PDF"
             style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
-          ><Icon name="logout" size="xs" style={{ transform: 'rotate(90deg)' }} /> Exportar</Button>
+          ><Icon name="logout" size="xs" style={{ transform: 'rotate(90deg)' }} /> Export</Button>
         </div>
 
         <div style={{ overflowX:'auto' }}>
-          <table className="stats-table" aria-label="Tabla de desempeño de estudiantes">
+          <table className="stats-table" aria-label="Student performance table">
             <thead>
               <tr>
-                {['Estudiante','Nivel','Tareas','Ejercicios','Tiempo prom.','Progreso'].map(h => (
+                {['Student','Level','Homeworks','Exercises','Avg. Time','Progress'].map(h => (
                   <th key={h} scope="col">{h}</th>
                 ))}
               </tr>

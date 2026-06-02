@@ -27,8 +27,8 @@ export function Modal({ onClose, children, maxWidth = 460 }) {
         <button
           className="modal-close"
           onClick={onClose}
-          aria-label="Cerrar (también puedes presionar Escape)"
-          title="Cerrar (Esc)"
+          aria-label="Close (you can also press Escape)"
+          title="Close (Esc)"
         >✕</button>
         <div className="modal-body">
           {children}
@@ -43,12 +43,12 @@ export function Modal({ onClose, children, maxWidth = 460 }) {
 // ══════════════════════════════════════════════════
 export function Sidebar({ user, activeNav, nav, items }) {
   const role = user?.role || 'student'
-  const name = user?.name || 'Estudiante'
+  const name = user?.name || 'Student'
   const level = user?.level || 'A2'
-  const initials = user?.initials || 'ES'
+  const initials = user?.initials || 'ST'
 
   return (
-    <aside className="sidebar" aria-label="Navegación principal">
+    <aside className="sidebar" aria-label="Main navigation">
       {/* Logo */}
       <div className="sidebar__logo">
         <div className="sidebar__logo-icon" aria-hidden="true">F</div>
@@ -57,7 +57,7 @@ export function Sidebar({ user, activeNav, nav, items }) {
 
       {/* Role badge (H4: indicador de rol activo) */}
       <div className={`sidebar__role-badge sidebar__role-badge--${role}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-        {role === 'teacher' ? <><Icon name="teacher" size="sm" /> Docente</> : <><Icon name="student" size="sm" /> Estudiante</>}
+        {role === 'teacher' ? <><Icon name="teacher" size="sm" /> Teacher</> : <><Icon name="student" size="sm" /> Student</>}
       </div>
 
       {/* Nav */}
@@ -80,12 +80,12 @@ export function Sidebar({ user, activeNav, nav, items }) {
           onClick={() => nav(role === 'teacher' ? 'teacher-home' : 'student-settings')}
           role="button" tabIndex={0}
           onKeyDown={e => e.key === 'Enter' && nav(role === 'teacher' ? 'teacher-home' : 'student-settings')}
-          aria-label={`Perfil de ${name}`}
+          aria-label={`Profile of ${name}`}
         >
           <Avatar initials={initials} size="md" role={role} />
           <div>
             <div className="sidebar__user-name">{name}</div>
-            <div className="sidebar__user-sub">{role === 'teacher' ? 'Docente' : `Nivel ${level}`}</div>
+            <div className="sidebar__user-sub">{role === 'teacher' ? 'Teacher' : `Level ${level}`}</div>
           </div>
         </div>
       </div>
@@ -101,29 +101,29 @@ export function PageHeader({ title, parent, user, nav }) {
 
   return (
     <header className="page-header">
-      <nav className="breadcrumb" aria-label="Ruta de navegación">
+      <nav className="breadcrumb" aria-label="Navigation path">
         {parent && <><span>{parent}</span><span className="breadcrumb__sep" aria-hidden="true">›</span></>}
         <span className="breadcrumb__current">{title}</span>
       </nav>
       <div className="header-actions">
-        <Tooltip text="Notificaciones" position="bottom">
+        <Tooltip text="Notifications" position="bottom">
           <IconBtn
             icon={<Icon name="bell" size="md" />} badge
-            ariaLabel="Ver notificaciones (1 nueva)"
+            ariaLabel="View notifications (1 new)"
             onClick={() => {}}
           />
         </Tooltip>
-        <Tooltip text="Mi perfil" position="bottom">
+        <Tooltip text="My profile" position="bottom">
           <IconBtn
             icon={<Icon name="user" size="md" />}
-            ariaLabel="Ver mi perfil"
+            ariaLabel="View my profile"
             onClick={() => nav(role === 'teacher' ? 'teacher-home' : 'student-settings')}
           />
         </Tooltip>
-        <Tooltip text="Cerrar sesión" position="bottom">
+        <Tooltip text="Log out" position="bottom">
           <IconBtn
             icon={<Icon name="logout" size="md" />}
-            ariaLabel="Cerrar sesión"
+            ariaLabel="Log out"
             onClick={() => nav('logout')}
           />
         </Tooltip>
@@ -136,9 +136,9 @@ export function PageHeader({ title, parent, user, nav }) {
 //  ONBOARDING WIZARD (H3: control, paso a paso)
 // ══════════════════════════════════════════════════
 const OB_STEPS = [
-  { icon:'map',      title:'Aprende Jugando',      desc:'Completa lecciones con videos, audio y ejercicios adaptativos según tu nivel MCER.',  color:'var(--clr-accent)' },
-  { icon:'trophy',   title:'Gana Puntos e Insignias', desc:'Acumula XP por cada actividad. Sube en el leaderboard y desbloquea insignias exclusivas.', color:'var(--clr-gold)' },
-  { icon:'chart',    title:'Sigue tu Progreso',    desc:'Revisa estadísticas, rachas diarias y módulos completados en tu dashboard personal.', color:'var(--clr-success)' },
+  { icon:'map',      title:'Learn by Playing',      desc:'Complete lessons with videos, audio, and adaptive exercises based on your CEFR level.',  color:'var(--clr-accent)' },
+  { icon:'trophy',   title:'Earn Points and Badges', desc:'Accumulate XP for each activity. Climb the leaderboard and unlock exclusive badges.', color:'var(--clr-gold)' },
+  { icon:'chart',    title:'Track Your Progress',    desc:'Review statistics, daily streaks, and completed modules on your personal dashboard.', color:'var(--clr-success)' },
 ]
 
 export function OnboardingWizard({ onDone }) {
@@ -146,12 +146,12 @@ export function OnboardingWizard({ onDone }) {
   const cur = OB_STEPS[step]
 
   return (
-    <div className="onboarding-card" role="dialog" aria-modal="true" aria-label={`Paso ${step + 1} de ${OB_STEPS.length}: ${cur.title}`}>
+    <div className="onboarding-card" role="dialog" aria-modal="true" aria-label={`Step ${step + 1} of ${OB_STEPS.length}: ${cur.title}`}>
       <button
         className="modal-close"
         onClick={onDone}
-        aria-label="Omitir presentación e ir al test de nivel (Esc)"
-        title="Omitir (Esc)"
+        aria-label="Skip presentation and go to level test (Esc)"
+        title="Skip (Esc)"
       >✕</button>
 
       <Badge variant="level" style={{ marginBottom: 16 }}>{step + 1} / {OB_STEPS.length}</Badge>
@@ -170,12 +170,12 @@ export function OnboardingWizard({ onDone }) {
         <Button
           variant="primary" full
           onClick={() => step < OB_STEPS.length - 1 ? setStep(s => s + 1) : onDone()}
-          ariaLabel={step < OB_STEPS.length - 1 ? 'Siguiente paso' : '¡Empezar test de nivel!'}
+          ariaLabel={step < OB_STEPS.length - 1 ? 'Next step' : 'Start level test!'}
         >
-          {step < OB_STEPS.length - 1 ? 'Siguiente →' : '¡Empezar test de nivel!'}
+          {step < OB_STEPS.length - 1 ? 'Next →' : 'Start level test!'}
         </Button>
-        <Button variant="secondary" full onClick={onDone} ariaLabel="Omitir presentación">
-          Omitir presentación
+        <Button variant="secondary" full onClick={onDone} ariaLabel="Skip presentation">
+          Skip presentation
         </Button>
       </div>
     </div>
@@ -214,13 +214,13 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
           border: '1px solid rgba(79,142,247,0.3)', borderRadius: 'var(--rad-md)',
           aspectRatio: '16/9', display: 'flex', alignItems: 'center', justifyContent: 'center',
           flexDirection: 'column', gap: 12, marginBottom: 20, cursor: 'pointer', transition: 'all 0.2s'
-        }} role="img" aria-label="Reproductor de video de la lección — Haz clic para reproducir"
+        }} role="img" aria-label="Lesson video player — Click to play"
            onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--clr-accent)'}
            onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(79,142,247,0.3)'}>
           <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 56, height: 56, borderRadius: '50%', background: 'rgba(79,142,247,0.2)', border: '2.5px solid var(--clr-accent)' }}>
             <Icon name="play" size="lg" color="var(--clr-accent-light)" style={{ marginLeft: 4 }} />
           </div>
-          <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', fontWeight: 'var(--fw-medium)' }}>Haz clic para reproducir</div>
+          <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', fontWeight: 'var(--fw-medium)' }}>Click to play</div>
         </div>
 
         <h3 style={{ fontSize: 'var(--fs-md)', fontWeight: 'var(--fw-bold)', marginBottom: 14, textAlign:'left' }}>
@@ -229,7 +229,7 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
 
         {/* Radio options (H5: restrictivo — solo una opción) */}
         <div className="flex flex-col gap-2" style={{ marginBottom: 12 }}
-          role="radiogroup" aria-label="Selecciona una respuesta"
+          role="radiogroup" aria-label="Select an answer"
         >
           {q.options.map((opt, i) => (
             <RadioOption key={i} label={opt} selected={sel === i} onSelect={() => setSel(i)} />
@@ -239,7 +239,7 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
         {/* H5: hint when nothing selected */}
         {sel === null && (
           <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', marginBottom: 10, display: 'inline-flex', alignItems: 'center', gap: 4 }} aria-live="polite">
-            <Icon name="lightbulb" size="xs" color="var(--clr-gold)" /> Selecciona una respuesta para poder enviar
+            <Icon name="lightbulb" size="xs" color="var(--clr-gold)" /> Select an answer to submit
           </p>
         )}
 
@@ -249,9 +249,9 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
           onClick={handleSend}
           disabled={sel === null || loading}
           loading={loading}
-          ariaLabel={sel !== null ? 'Enviar respuesta seleccionada' : 'Selecciona una opción primero'}
+          ariaLabel={sel !== null ? 'Submit selected answer' : 'Select an option first'}
         >
-          Enviar respuesta
+          Submit answer
         </Button>
       </div>
     </Modal>
@@ -272,12 +272,12 @@ export function ResultModal({ type, xpGained = 50, streak = 0, onRetry, onContin
 
         {/* H9: tono empático sin culpar */}
         <h2 style={{ fontSize:'var(--fs-xl)', fontWeight:'var(--fw-black)', marginBottom:8 }}>
-          {isFail ? '¡Casi lo logras!' : '¡Excelente trabajo!'}
+          {isFail ? 'Almost there!' : 'Great job!'}
         </h2>
         <p style={{ color:'var(--txt-secondary)', fontSize:'var(--fs-sm)', lineHeight:1.7, marginBottom:16 }}>
           {isFail
-            ? 'Esa no era la opción correcta, pero cada intento te acerca al dominio. ¡Repasa la lección y vuelve a intentarlo!'
-            : 'Respondiste correctamente. ¡Tu esfuerzo constante está dando frutos!'
+            ? 'That was not the correct option, but every attempt gets you closer to mastery. Review the lesson and try again!'
+            : 'You answered correctly. Your constant effort is paying off!'
           }
         </p>
 
@@ -285,7 +285,7 @@ export function ResultModal({ type, xpGained = 50, streak = 0, onRetry, onContin
         {isFail && (
           <div className="alert alert-info" style={{ textAlign:'left', marginBottom:16, display: 'flex', gap: 12 }}>
             <Icon name="lightbulb" size="sm" style={{ flexShrink: 0, marginTop: 2 }} />
-            <span><strong>Pista:</strong> Revisa el inicio del video para identificar el contexto principal. La respuesta describe la situación general.</span>
+            <span><strong>Hint:</strong> Review the beginning of the video to identify the main context. The answer describes the general situation.</span>
           </div>
         )}
 
@@ -297,7 +297,7 @@ export function ResultModal({ type, xpGained = 50, streak = 0, onRetry, onContin
           }}>
             <div style={{ textAlign:'center' }}>
               <div style={{ fontSize:'1.4rem', fontWeight:'var(--fw-black)', color:'var(--clr-gold)' }}>+{xpGained}</div>
-              <div style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)' }}>XP ganados</div>
+              <div style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)' }}>XP earned</div>
             </div>
             {streak > 0 && <>
               <div style={{ width:1, background:'var(--brd-default)' }} />
@@ -305,7 +305,7 @@ export function ResultModal({ type, xpGained = 50, streak = 0, onRetry, onContin
                 <div style={{ fontSize:'1.4rem', fontWeight:'var(--fw-black)', color:'var(--clr-error)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                   <Icon name="streak" size="sm" /> {streak}
                 </div>
-                <div style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)' }}>días de racha</div>
+                <div style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)' }}>streak days</div>
               </div>
             </>}
           </div>
@@ -314,12 +314,12 @@ export function ResultModal({ type, xpGained = 50, streak = 0, onRetry, onContin
         <div className="flex flex-col gap-3">
           {isFail
             ? <>
-                <Button variant="primary" full onClick={onRetry}  ariaLabel="Revisar la lección de nuevo" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}><Icon name="book" size="sm" /> Revisar lección de nuevo</Button>
-                <Button variant="secondary" full onClick={onHome} ariaLabel="Volver al inicio">Volver al inicio</Button>
+                <Button variant="primary" full onClick={onRetry}  ariaLabel="Review the lesson again" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}><Icon name="book" size="sm" /> Review lesson again</Button>
+                <Button variant="secondary" full onClick={onHome} ariaLabel="Back to home">Back to home</Button>
               </>
             : <>
-                <Button variant="gold" full onClick={onContinue} ariaLabel="Continuar con la siguiente lección" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}><Icon name="arrow-right" size="sm" /> Continuar siguiente lección</Button>
-                <Button variant="secondary" full onClick={onHome} ariaLabel="Volver al inicio">Volver al inicio</Button>
+                <Button variant="gold" full onClick={onContinue} ariaLabel="Continue to the next lesson" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}><Icon name="arrow-right" size="sm" /> Continue to next lesson</Button>
+                <Button variant="secondary" full onClick={onHome} ariaLabel="Back to home">Back to home</Button>
               </>
           }
         </div>
@@ -335,7 +335,7 @@ export function LeaderboardPanel({ entries, currentUserId, showInRanking }) {
   return (
     <div>
       {entries.map((e, i) => {
-        const name = (e.userId === currentUserId && !showInRanking) ? 'Anónimo' : e.name
+        const name = (e.userId === currentUserId && !showInRanking) ? 'Anonymous' : e.name
         return (
           <LeaderboardItem
             key={e.userId}
@@ -381,9 +381,9 @@ export function FAQAccordion({ items }) {
 //  HERO CAROUSEL (H3: controles de carrusel)
 // ══════════════════════════════════════════════════
 const SLIDES = [
-  { icon:'gamepad', image: '/aprende_jugando.png', title:'Aprende Jugando',    sub:'Gamificación que te mantiene motivado cada día' },
-  { icon:'trophy',  image: '/gana_insignias.png', title:'Gana Insignias',     sub:'Colecciona logros y sube en el ranking global' },
-  { icon:'chart',   image: '/sigue_progreso.png', title:'Sigue tu Progreso',  sub:'Estadísticas detalladas de tu avance en inglés' },
+  { icon:'gamepad', image: '/aprende_jugando.png', title:'Learn by Playing',    sub:'Gamification that keeps you motivated every day' },
+  { icon:'trophy',  image: '/gana_insignias.png', title:'Earn Badges',     sub:'Collect achievements and climb the global ranking' },
+  { icon:'chart',   image: '/sigue_progreso.png', title:'Track Your Progress',  sub:'Detailed statistics of your progress in English' },
 ]
 
 export function HeroCarousel({ activeSlide = 0, onSlideChange }) {
@@ -436,8 +436,8 @@ export function HeroCarousel({ activeSlide = 0, onSlideChange }) {
         <button
           style={{ background:'none', border:'none', color:'rgba(255,255,255,0.5)', cursor:'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', paddingLeft:4 }}
           onClick={() => setPaused(p => !p)}
-          aria-label={paused ? 'Reanudar carrusel' : 'Pausar carrusel'}
-          title={paused ? 'Reanudar' : 'Pausar'}
+          aria-label={paused ? 'Resume carousel' : 'Pause carousel'}
+          title={paused ? 'Resume' : 'Pause'}
         >
           {paused ? <Icon name="play" size="xs" /> : <Icon name="pause" size="xs" />}
         </button>

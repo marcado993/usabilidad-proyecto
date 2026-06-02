@@ -14,10 +14,10 @@ import { LeaderboardPanel } from '../organisms'
 import gsap from 'gsap'
 
 const STUDENT_NAV = [
-  { key:'home',       screen:'student-home',       icon:<Icon name="home" size="sm" />, label:'Inicio'        },
-  { key:'activities', screen:'student-activities', icon:<Icon name="book" size="sm" />, label:'Actividades'   },
-  { key:'settings',   screen:'student-settings',  icon:<Icon name="settings" size="sm" />, label:'Configuración' },
-  { key:'help',       screen:'student-help',       icon:<Icon name="help" size="sm" />, label:'Ayuda'         },
+  { key:'home',       screen:'student-home',       icon:<Icon name="home" size="sm" />, label:'Home'          },
+  { key:'activities', screen:'student-activities', icon:<Icon name="book" size="sm" />, label:'Activities'    },
+  { key:'settings',   screen:'student-settings',  icon:<Icon name="settings" size="sm" />, label:'Settings'    },
+  { key:'help',       screen:'student-help',       icon:<Icon name="help" size="sm" />, label:'Help'            },
 ]
 
 export default function StudentHomePage({ user, progress, nav, onSetLevel }) {
@@ -37,8 +37,8 @@ export default function StudentHomePage({ user, progress, nav, onSetLevel }) {
     .map(([id]) => LESSONS_MAP[id])
     .filter(Boolean)[0]
 
-  const displayName = user?.name || 'Estudiante'
-  const nameToShow = displayName.trim().split(/\s+/)[0] || 'Estudiante'
+  const displayName = user?.name || 'Student'
+  const nameToShow = displayName.trim().split(/\s+/)[0] || 'Student'
 
   return (
     <AppLayout user={user} nav={nav} activeNav="home" navItems={STUDENT_NAV} title="Dashboard">
@@ -49,22 +49,22 @@ export default function StudentHomePage({ user, progress, nav, onSetLevel }) {
           {/* Welcome banner */}
           <div className="welcome-banner" style={{ marginBottom: 12 }}>
             <div>
-              <div className="welcome-banner__title">¡Hola, {nameToShow}!</div>
+              <div className="welcome-banner__title">Hello, {nameToShow}!</div>
               <div className="welcome-banner__sub">
-                Nivel actual: <strong style={{ color: mcer.color }}>{level} — {mcer.name}</strong>
-                &nbsp;·&nbsp; Siguiente: <strong>{mcer.next || '¡Maestría!'}</strong>
+                Current Level: <strong style={{ color: mcer.color }}>{level} — {mcer.name}</strong>
+                &nbsp;·&nbsp; Next: <strong>{mcer.next || 'Mastery!'}</strong>
               </div>
             </div>
             {/* H7: acceso directo a actividades */}
-            <Button variant="primary" size="sm" onClick={() => nav('student-activities')} ariaLabel="Ir a actividades de aprendizaje">
-              Practicar ahora →
+            <Button variant="primary" size="sm" onClick={() => nav('student-activities')} ariaLabel="Go to learning activities">
+              Practice Now →
             </Button>
           </div>
 
           {/* Timeline de Niveles MCER (Mockup: bolitas como niveles) */}
           <div className="card" style={{ marginBottom: 12, padding: 'var(--sp-4)' }}>
             <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', textTransform: 'uppercase', fontWeight: 'var(--fw-bold)', marginBottom: 12, textAlign: 'center', letterSpacing: '0.04em' }}>
-              Progreso de Niveles MCER
+              CEFR Level Progress
             </div>
             <div className="flex justify-between items-center" style={{ position: 'relative', gap: 12, maxWidth: 500, margin: '0 auto', minHeight: 60 }}>
               {/* Línea conectora */}
@@ -141,8 +141,8 @@ export default function StudentHomePage({ user, progress, nav, onSetLevel }) {
                     }}
                     className={`level-seal-btn${isCurrent ? ' level-seal-btn--active' : ''}${isPassed ? ' level-seal-btn--passed' : ''}${isBlocked ? ' level-seal-btn--blocked' : ''}`}
                     style={{ zIndex: 2 }}
-                    aria-label={isBlocked ? `Nivel ${lv} (Bloqueado)` : `Cambiar a nivel ${lv}`}
-                    title={isBlocked ? `Nivel ${lv} (Bloqueado)` : `Cambiar a nivel ${lv}`}
+                    aria-label={isBlocked ? `Level ${lv} (Locked)` : `Change to level ${lv}`}
+                    title={isBlocked ? `Level ${lv} (Locked)` : `Change to level ${lv}`}
                   >
                     {lv}
                   </button>
@@ -154,22 +154,22 @@ export default function StudentHomePage({ user, progress, nav, onSetLevel }) {
           {/* Stats (H1: estado del sistema visible) */}
           <div className="grid-4" style={{ marginBottom: 12 }}>
             <StatCard
-              label="Puntos XP" value={(progress?.xp || 0).toLocaleString()} sub="Total acumulado"
+              label="XP Points" value={(progress?.xp || 0).toLocaleString()} sub="Total accumulated"
               color="var(--clr-accent)"
             />
             <StatCard
-              label="Racha" value={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Icon name="streak" size="md" /> {progress?.streak || 0}</span>} sub="días"
+              label="Streak" value={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Icon name="streak" size="md" /> {progress?.streak || 0}</span>} sub="days"
               color="var(--clr-error)"
             />
             <StatCard
-              label="Lecciones" value={(progress?.completedLessons || []).length} sub="completadas"
+              label="Lessons" value={(progress?.completedLessons || []).length} sub="completed"
               color="var(--clr-success)"
             />
             <StatCard
-              label="Nivel actual" value={level} sub={mcer.name}
+              label="Current Level" value={level} sub={mcer.name}
               color={mcer.color} clickable onClick={() => nav('student-help')}
-              ariaLabel={`Nivel ${level}: ${mcer.name}. Haz clic para aprender más sobre los niveles MCER`}
-              tooltip="Haz clic para ver información sobre tu nivel MCER"
+              ariaLabel={`Level ${level}: ${mcer.name}. Click to learn more about CEFR levels`}
+              tooltip="Click to view info about your CEFR level"
             />
           </div>
 
@@ -185,22 +185,22 @@ export default function StudentHomePage({ user, progress, nav, onSetLevel }) {
                   }}><Icon name={lastLesson.category.icon} size="md" color={lastLesson.category.color} /></div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontWeight:'var(--fw-semi)', marginBottom:6, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                      <Icon name="lightning" size="xs" color="var(--clr-accent)" /> Continuar donde lo dejaste
+                      <Icon name="lightning" size="xs" color="var(--clr-accent)" /> Continue where you left off
                     </div>
                     <div style={{ fontSize:'var(--fs-sm)', color:'var(--txt-muted)', marginBottom: 6 }}>{lastLesson.title}</div>
                     <ProgressBar value={progress?.lessons?.[lastLesson.id]?.progress || 0} showPct={false} />
                   </div>
                 </div>
                 <Button variant="primary" size="sm" onClick={() => nav('student-activities')}
-                  ariaLabel={`Continuar lección: ${lastLesson.title}`}>
-                  Continuar →
+                  ariaLabel={`Continue lesson: ${lastLesson.title}`}>
+                  Continue →
                 </Button>
               </div>
             </div>
           )}
 
           {/* Categories quick-access */}
-          <h2 className="section-title" style={{ marginBottom: 8, marginTop: 12 }}>Categorías de aprendizaje</h2>
+          <h2 className="section-title" style={{ marginBottom: 8, marginTop: 12 }}>Learning Categories</h2>
           <div className="flex flex-col gap-3">
             {cats.map(cat => (
               <button
@@ -208,7 +208,7 @@ export default function StudentHomePage({ user, progress, nav, onSetLevel }) {
                 className="cat-card"
                 style={{ borderColor: cat.borderAlpha }}
                 onClick={() => nav('student-activities')}
-                aria-label={`Ir a ${cat.title} — Nivel ${cat.level}`}
+                aria-label={`Go to ${cat.title} — Level ${cat.level}`}
               >
                 <div className="cat-card__icon" style={{ background:cat.bgAlpha, border:`1px solid ${cat.borderAlpha}`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Icon name={cat.icon} size="md" color={cat.color} />
@@ -230,14 +230,14 @@ export default function StudentHomePage({ user, progress, nav, onSetLevel }) {
           {/* Widget 1: Meta Diaria */}
           <div className="card" style={{ padding: 'var(--sp-5)' }}>
             <h3 style={{ fontSize: 'var(--fs-base)', fontWeight: 'var(--fw-black)', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Icon name="lightning" size="sm" color="var(--clr-gold)" /> Meta Diaria
+              <Icon name="lightning" size="sm" color="var(--clr-gold)" /> Daily Goal
             </h3>
             <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', marginBottom: 12, lineHeight: 1.5 }}>
-              ¡Lleva tu práctica de inglés al siguiente nivel! Completa actividades para alcanzar tu objetivo.
+              Take your English practice to the next level! Complete activities to reach your objective.
             </p>
-            <ProgressBar value={Math.min(progress?.xp || 0, 100)} max={100} label="XP del Día" showPct />
+            <ProgressBar value={Math.min(progress?.xp || 0, 100)} max={100} label="XP of the Day" showPct />
             <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-secondary)', marginTop: 10, textAlign: 'center', fontWeight: 'var(--fw-bold)' }}>
-              {(progress?.xp || 0) >= 100 ? '🎉 ¡Meta diaria completada!' : `Te faltan ${100 - (progress?.xp || 0)} XP para tu meta`}
+              {(progress?.xp || 0) >= 100 ? '🎉 Daily goal completed!' : `You need ${100 - (progress?.xp || 0)} more XP for your goal`}
             </div>
           </div>
 
@@ -245,26 +245,26 @@ export default function StudentHomePage({ user, progress, nav, onSetLevel }) {
           <div className="card" style={{ padding: 'var(--sp-5)' }}>
             <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
               <h3 style={{ fontSize: 'var(--fs-base)', fontWeight: 'var(--fw-black)', display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Icon name="trophy" size="sm" color="var(--clr-gold)" /> Clasificación del Dojo
+                <Icon name="trophy" size="sm" color="var(--clr-gold)" /> Dojo Leaderboard
               </h3>
               <Badge variant="muted">{rank > 0 ? `#${rank}` : '—'}</Badge>
             </div>
             <LeaderboardPanel entries={lb} currentUserId={user?.id} showInRanking={true} />
             <div style={{ textAlign: 'center', marginTop: 12 }}>
-              <Button variant="secondary" size="sm" full onClick={() => nav('student-settings')} ariaLabel="Ver ranking completo">
-                Ver ranking completo
+              <Button variant="secondary" size="sm" full onClick={() => nav('student-settings')} ariaLabel="View full leaderboard">
+                View full leaderboard
               </Button>
             </div>
           </div>
 
-          {/* Widget 3: Insignias */}
+          {/* Widget 3: Badges */}
           <div className="card" style={{ padding: 'var(--sp-5)' }}>
             <h3 style={{ fontSize: 'var(--fs-base)', fontWeight: 'var(--fw-black)', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Icon name="star" size="sm" color="var(--clr-gold)" /> Logros Desbloqueados
+              <Icon name="star" size="sm" color="var(--clr-gold)" /> Unlocked Achievements
             </h3>
             {earnedBadges.length === 0 ? (
               <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', textAlign: 'center', padding: '12px 0' }}>
-                Completa lecciones para ganar insignias del Dojo
+                Complete lessons to earn Dojo badges
               </p>
             ) : (
               <div className="flex justify-around" style={{ gap: 12, marginTop: 8 }}>

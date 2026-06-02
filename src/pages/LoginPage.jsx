@@ -12,10 +12,10 @@ import { useForm } from '../hooks/useForm'
 
 function validator({ email, password }) {
   const e = {}
-  if (!email)    e.email    = 'El correo es obligatorio'
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = 'Correo no válido (ej: usuario@dominio.com)'
-  if (!password) e.password = 'La contraseña es obligatoria'
-  else if (password.length < 6) e.password = 'Mínimo 6 caracteres'
+  if (!email)    e.email    = 'Email is required'
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = 'Invalid email (e.g., user@domain.com)'
+  if (!password) e.password = 'Password is required'
+  else if (password.length < 6) e.password = 'Minimum 6 characters'
   return e
 }
 
@@ -79,9 +79,9 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
       <div className="auth-hero__content" style={{ zIndex: 1, position: 'relative' }}>
         <div className="auth-hero__logo" aria-hidden="true">F</div>
         <h1 className="auth-hero__title">
-          Aprende inglés<br /><span>con Fluento</span>
+          Learn English<br /><span>with Fluento</span>
         </h1>
-        <p className="auth-hero__sub">Tu plataforma gamificada de aprendizaje de inglés</p>
+        <p className="auth-hero__sub">Your gamified English learning platform</p>
         <HeroCarousel activeSlide={slide} onSlideChange={setSlide} />
       </div>
     </>
@@ -90,42 +90,42 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
   // Form side
   const form = (
     <div className="auth-form-box">
-      <h2 className="auth-form-title">Bienvenido de nuevo</h2>
-      <p className="auth-form-sub">Inicia sesión para continuar tu progreso en inglés</p>
+      <h2 className="auth-form-title">Welcome back</h2>
+      <p className="auth-form-sub">Log in to continue your English progress</p>
 
       {/* Role selector (demo) */}
       <div className="flex gap-2" style={{ marginTop: 20 }}>
         <Button
           variant={role === 'student' ? 'primary' : 'secondary'} size="sm"
           onClick={() => setRole('student')}
-          ariaLabel="Ingresar como Estudiante" aria-pressed={role === 'student'}
+          ariaLabel="Log in as Student" aria-pressed={role === 'student'}
           style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
-        ><Icon name="student" size="sm" /> Estudiante</Button>
+        ><Icon name="student" size="sm" /> Student</Button>
         <Button
           variant={role === 'teacher' ? 'gold' : 'secondary'} size="sm"
           onClick={() => setRole('teacher')}
-          ariaLabel="Ingresar como Docente" aria-pressed={role === 'teacher'}
+          ariaLabel="Log in as Teacher" aria-pressed={role === 'teacher'}
           style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
-        ><Icon name="teacher" size="sm" /> Docente</Button>
+        ><Icon name="teacher" size="sm" /> Teacher</Button>
       </div>
 
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5" style={{ marginTop: 28 }}>
         <FormField
-          id="login-email" label="Correo electrónico" type="email"
-          placeholder="tu@correo.com"
-          hint="Usa el correo con el que te registraste"
+          id="login-email" label="Email address" type="email"
+          placeholder="your@email.com"
+          hint="Use the email you registered with"
           autoComplete="email" required
           {...fieldProps('email')}
-          success={fieldProps('email').success ? 'Correo válido' : ''}
+          success={fieldProps('email').success ? 'Valid email' : ''}
         />
 
         <div className="flex flex-col gap-2">
           <FormField
-            id="login-pass" label="Contraseña" type="password"
-            placeholder="Mínimo 6 caracteres"
+            id="login-pass" label="Password" type="password"
+            placeholder="Minimum 6 characters"
             autoComplete="current-password" required
             {...fieldProps('password')}
-            success={fieldProps('password').success ? 'Contraseña válida' : ''}
+            success={fieldProps('password').success ? 'Valid password' : ''}
           />
           {/* H6: enlace de recuperación de contraseña */}
           <div style={{ textAlign:'right' }}>
@@ -133,15 +133,15 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
               href="#recover"
               style={{ fontSize:'var(--fs-xs)', color:'var(--clr-accent)', fontWeight:'var(--fw-semi)' }}
               onClick={e => { e.preventDefault(); onForgotPassword() }}
-              aria-label="Recuperar contraseña olvidada — Te enviaremos un enlace a tu correo"
+              aria-label="Recover forgotten password — We will send a link to your email"
             >
-              ¿Olvidaste tu contraseña?
+              Forgot your password?
             </a>
           </div>
         </div>
 
         {/* H4: toggle con etiqueta (WCAG 2.1) */}
-        <Toggle id="login-remember" checked={remember} onChange={setRemember} label="Recordar mi sesión en este dispositivo" />
+        <Toggle id="login-remember" checked={remember} onChange={setRemember} label="Remember my session on this device" />
 
         {/* H9: API error message */}
         {apiError && (
@@ -154,24 +154,24 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
         <Button
           type="submit" variant="primary" full loading={loading}
           disabled={loading}
-          ariaLabel="Iniciar sesión en Fluento"
+          ariaLabel="Log in to Fluento"
         >
-          Iniciar Sesión
+          Log In
         </Button>
 
         {/* H3: modo demo */}
         <div style={{ padding:'12px 16px', background:'rgba(79,142,247,0.08)', borderRadius:'var(--rad-md)', border:'1px solid rgba(79,142,247,0.2)', textAlign:'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
           <p style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-            <Icon name="lightning" size="xs" color="var(--clr-accent)" /> <strong style={{ color:'var(--clr-accent)' }}>Demo:</strong> Regístrate o usa cualquier cuenta existente.
+            <Icon name="lightning" size="xs" color="var(--clr-accent)" /> <strong style={{ color:'var(--clr-accent)' }}>Demo:</strong> Register or use any existing account.
           </p>
         </div>
 
         <p style={{ textAlign:'center', fontSize:'var(--fs-sm)', color:'var(--txt-muted)' }}>
-          ¿No tienes cuenta?{' '}
+          Don't have an account?{' '}
           <a href="#register" onClick={e => { e.preventDefault(); onRegister() }}
             style={{ color:'var(--clr-accent)', fontWeight:'var(--fw-semi)' }}
-            aria-label="Crear una cuenta nueva gratuita"
-          >Regístrate gratis</a>
+            aria-label="Create a new free account"
+          >Register for free</a>
         </p>
       </form>
     </div>

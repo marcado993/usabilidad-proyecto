@@ -77,7 +77,7 @@ export function Button({
       title={title}
       {...rest}
     >
-      {loading ? <><Spinner /> Procesando...</> : children}
+      {loading ? <><Spinner /> Processing...</> : children}
     </button>
   )
 }
@@ -88,7 +88,7 @@ export function Spinner({ size = '', dark = false }) {
     <span
       className={['spinner', size && `spinner--${size}`, dark && 'spinner--dark'].filter(Boolean).join(' ')}
       role="status"
-      aria-label="Cargando"
+      aria-label="Loading"
     />
   )
 }
@@ -107,7 +107,7 @@ export function Avatar({ initials, size = 'md', role: userRole = 'student', aria
   return (
     <div
       className={['avatar', `avatar--${size}`, userRole === 'teacher' && 'avatar--teacher'].filter(Boolean).join(' ')}
-      aria-label={ariaLabel || `Avatar de usuario: ${initials}`}
+      aria-label={ariaLabel || `User avatar: ${initials}`}
       aria-hidden={!ariaLabel}
     >
       {initials}
@@ -132,7 +132,7 @@ export function ProgressBar({ value, max = 100, label, showPct = true, variant =
         aria-valuenow={pct}
         aria-valuemin={0}
         aria-valuemax={100}
-        aria-label={ariaLabel || label || 'Progreso'}
+        aria-label={ariaLabel || label || 'Progress'}
       >
         <div
           className={['progress__fill', variant && `progress__fill--${variant}`].filter(Boolean).join(' ')}
@@ -184,7 +184,7 @@ export function IconBtn({ icon, onClick, ariaLabel, title, badge = false, classN
       style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
     >
       {icon}
-      {badge && <span className="notif-dot" aria-label="Nueva notificación" />}
+      {badge && <span className="notif-dot" aria-label="New notification" />}
     </button>
   )
 }

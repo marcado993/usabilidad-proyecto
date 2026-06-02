@@ -120,14 +120,14 @@ export function RadioOption({ label, selected, onSelect, state = '' }) {
 // H1: Visibilidad del estado — posición en wizard
 export function StepDots({ total, current }) {
   return (
-    <div className="step-dots" role="tablist" aria-label={`Paso ${current + 1} de ${total}`}>
+    <div className="step-dots" role="tablist" aria-label={`Step ${current + 1} of ${total}`}>
       {Array.from({ length: total }, (_, i) => (
         <div
           key={i}
           className={['step-dot', i === current && 'step-dot--active', i < current && 'step-dot--done'].filter(Boolean).join(' ')}
           role="tab"
           aria-selected={i === current}
-          aria-label={`Paso ${i + 1}${i < current ? ' — completado' : i === current ? ' — actual' : ''}`}
+          aria-label={`Step ${i + 1}${i < current ? ' — completed' : i === current ? ' — current' : ''}`}
         />
       ))}
     </div>
@@ -143,7 +143,7 @@ export function LevelCircle({ level, active, completed, onClick }) {
       onClick={onClick}
       role="tab"
       aria-selected={active}
-      aria-label={`Nivel ${level}${completed ? ' — completado' : active ? ' — nivel actual' : ''}`}
+      aria-label={`Level ${level}${completed ? ' — completed' : active ? ' — current level' : ''}`}
     >
       {completed ? <Icon name="check" size="sm" /> : level}
     </button>
@@ -222,14 +222,14 @@ export function LeaderboardItem({ rank, name, initials, xp, isSelf }) {
   return (
     <div
       className={`lb-item${isSelf ? ' lb-item--self' : ''}`}
-      aria-label={`Posición ${rank}: ${isSelf ? 'Tú' : name} — ${xp.toLocaleString()} puntos`}
+      aria-label={`Rank ${rank}: ${isSelf ? 'You' : name} — ${xp.toLocaleString()} points`}
     >
       <span className={`lb-item__rank${rank <= 3 ? ' lb-item__rank--top' : ''}`}>
         {medal || `${rank}.`}
       </span>
       <Avatar initials={initials} size="sm" />
       <span className={`lb-item__name${isSelf ? ' lb-item__name--self' : ''}`}>
-        {name}{isSelf && ' (Tú)'}
+        {name}{isSelf && ' (You)'}
       </span>
       <span className="lb-item__pts">{xp.toLocaleString()} pts</span>
     </div>
@@ -293,7 +293,7 @@ export function CategoryCard({ icon, bgAlpha, borderAlpha, color, title, desc, l
       onClick={onClick}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
-      aria-label={`Categoría ${title} — Nivel ${level} — ${desc}`}
+      aria-label={`Category ${title} — Level ${level} — ${desc}`}
     >
       <div className="cat-card__icon" style={{ background: bgAlpha, border: `1px solid ${borderAlpha}`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
         {typeof icon === 'string' ? <Icon name={icon} size="md" color={color} /> : icon}
@@ -369,7 +369,7 @@ export function LessonCard({ icon, bgAlpha, borderAlpha, title, progress, durati
       role="button"
       tabIndex={0}
       onKeyDown={e => e.key === 'Enter' && onClick()}
-      aria-label={`Lección: ${title} — ${isCompleted ? 'Completada' : `${progress}% completado`}`}
+      aria-label={`Lesson: ${title} — ${isCompleted ? 'Completed' : `${progress}% completed`}`}
     >
       <div className="lesson-card__icon" style={{ background: bgAlpha, border: `1px solid ${borderAlpha}`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
         {typeof icon === 'string' ? <Icon name={icon} size="md" color="var(--clr-accent)" /> : icon}
@@ -380,9 +380,9 @@ export function LessonCard({ icon, bgAlpha, borderAlpha, title, progress, durati
       </div>
       <div className="lesson-card__meta">
         <span className="lesson-card__time" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><Icon name="clock" size="xs" /> {duration}</span>
-        {isCompleted ? <Badge variant="success" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><Icon name="check" size="xs" /> Lista</Badge>
-         : inProgress  ? <Badge variant="level">En progreso</Badge>
-         : <Badge variant="muted">Nueva</Badge>}
+        {isCompleted ? <Badge variant="success" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><Icon name="check" size="xs" /> Ready</Badge>
+         : inProgress  ? <Badge variant="level">In progress</Badge>
+         : <Badge variant="muted">New</Badge>}
       </div>
     </div>
   )

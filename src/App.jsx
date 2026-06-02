@@ -40,30 +40,30 @@ function ForgotPasswordModal({ onClose }) {
   return (
     <Modal onClose={onClose}>
       <h2 style={{ fontSize:'var(--fs-lg)', fontWeight:'var(--fw-black)', marginBottom:8, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-        <Icon name="lock" size="sm" /> Recuperar contraseña
+        <Icon name="lock" size="sm" /> Recover password
       </h2>
       {sent ? (
         <>
           <div className="alert alert-success" style={{ marginTop:16, display: 'flex', gap: 10, alignItems: 'center' }}>
             <Icon name="check" size="sm" style={{ flexShrink: 0 }} />
-            <span>Si el correo está registrado, recibirás el enlace de recuperación en los próximos minutos.</span>
+            <span>If the email is registered, you will receive the recovery link in the next few minutes.</span>
           </div>
-          <Button variant="primary" full onClick={onClose} style={{ marginTop:20 }}>Volver al login</Button>
+          <Button variant="primary" full onClick={onClose} style={{ marginTop:20 }}>Back to login</Button>
         </>
       ) : (
         <>
           <p style={{ color:'var(--txt-muted)', fontSize:'var(--fs-sm)', marginBottom:20 }}>
-            Ingresa tu correo y te enviaremos un enlace para restablecer tu contraseña.
+            Enter your email and we will send you a link to reset your password.
           </p>
           <FormField
-            id="recover-email" label="Correo electrónico" type="email"
-            value={email} onChange={setEmail} placeholder="tu@correo.com" required
+            id="recover-email" label="Email address" type="email"
+            value={email} onChange={setEmail} placeholder="your@email.com" required
           />
           <Button variant="primary" full loading={loading} disabled={!email.trim() || loading}
             onClick={send} style={{ marginTop:16 }}
-            ariaLabel="Enviar enlace de recuperación de contraseña"
+            ariaLabel="Send password recovery link"
           >
-            Enviar enlace de recuperación
+            Send recovery link
           </Button>
         </>
       )}
@@ -127,7 +127,7 @@ function LoadingScreen() {
 
       <div style={{ textAlign: 'center', marginTop: 10 }}>
         <h2 style={{ fontSize: 'var(--fs-md)', fontWeight: 'var(--fw-black)', color: 'var(--txt-primary)', marginBottom: 8, letterSpacing: '0.02em' }}>
-          Cargando tu Dojo de Inglés...
+          Loading your English Dojo...
         </h2>
         <div style={{ width: 160, height: 8, background: 'var(--bg-card-2)', border: '2px solid var(--brd-default)', borderRadius: 'var(--rad-full)', margin: '0 auto', overflow: 'hidden', position: 'relative' }}>
           <div style={{

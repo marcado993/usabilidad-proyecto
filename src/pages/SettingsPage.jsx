@@ -12,13 +12,13 @@ import { computeEarnedBadges } from '../data/badges'
 import { useLeaderboard } from '../store/useLeaderboard'
 
 const STUDENT_NAV = [
-  { key:'home',       screen:'student-home',       icon:<Icon name="home" size="sm" />, label:'Inicio'        },
-  { key:'activities', screen:'student-activities', icon:<Icon name="book" size="sm" />, label:'Actividades'   },
-  { key:'settings',   screen:'student-settings',  icon:<Icon name="settings" size="sm" />, label:'Configuración' },
-  { key:'help',       screen:'student-help',       icon:<Icon name="help" size="sm" />, label:'Ayuda'         },
+  { key:'home',       screen:'student-home',       icon:<Icon name="home" size="sm" />, label:'Home'          },
+  { key:'activities', screen:'student-activities', icon:<Icon name="book" size="sm" />, label:'Activities'    },
+  { key:'settings',   screen:'student-settings',  icon:<Icon name="settings" size="sm" />, label:'Settings'    },
+  { key:'help',       screen:'student-help',       icon:<Icon name="help" size="sm" />, label:'Help'            },
 ]
 
-const GOALS = ['10 min','20 min','30 min','1 hora']
+const GOALS = ['10 min','20 min','30 min','1 hour']
 
 export default function SettingsPage({ user, progress, onUpdateSettings, onUpdateProfile, onDeleteAccount, nav }) {
   const userId = user?.id || ''
@@ -36,12 +36,12 @@ export default function SettingsPage({ user, progress, onUpdateSettings, onUpdat
   const saveProfile = () => {
     onUpdateProfile({ name: editName })
     setEditMode(false)
-    setSaveMsg('Perfil actualizado correctamente')
+    setSaveMsg('Profile updated successfully')
     setTimeout(() => setSaveMsg(''), 3000)
   }
 
   return (
-    <AppLayout user={user} nav={nav} activeNav="settings" navItems={STUDENT_NAV} title="Configuración">
+    <AppLayout user={user} nav={nav} activeNav="settings" navItems={STUDENT_NAV} title="Settings">
       <div className="dojo-layout">
         {saveMsg && (
           <div className="alert alert-success" role="status" aria-live="polite" style={{ gridColumn: '1 / -1', display: 'flex', gap: 10, alignItems: 'center', marginBottom: 12 }}>
@@ -55,27 +55,27 @@ export default function SettingsPage({ user, progress, onUpdateSettings, onUpdat
           <div className="card">
             <div className="flex items-center justify-between mb-4">
               <h2 style={{ fontSize:'var(--fs-md)', fontWeight:'var(--fw-bold)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                <Icon name="user" size="sm" /> Perfil
+                <Icon name="user" size="sm" /> Profile
               </h2>
               <Button variant="secondary" size="sm"
                 onClick={() => { setEditMode(m => !m); setEditName(user?.name || '') }}
-                ariaLabel={editMode ? 'Cancelar edición' : 'Editar perfil'}
+                ariaLabel={editMode ? 'Cancel edit' : 'Edit profile'}
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
               >
-                {editMode ? <><Icon name="close" size="xs" /> Cancelar</> : <><Icon name="pencil" size="xs" /> Editar</>}
+                {editMode ? <><Icon name="close" size="xs" /> Cancel</> : <><Icon name="pencil" size="xs" /> Edit</>}
               </Button>
             </div>
             <div className="flex items-center gap-5">
-              <Avatar initials={user?.initials || ''} size="xl" ariaLabel={`Avatar de ${user?.name || 'Usuario'}`} />
+              <Avatar initials={user?.initials || ''} size="xl" ariaLabel={`Avatar of ${user?.name || 'User'}`} />
               <div style={{ flex:1 }}>
                 {editMode ? (
                   <div className="flex flex-col gap-3">
                     <FormField
-                      id="settings-name" label="Nombre" value={editName}
-                      onChange={setEditName} placeholder="Tu nombre completo"
+                      id="settings-name" label="Name" value={editName}
+                      onChange={setEditName} placeholder="Your full name"
                     />
-                    <Button variant="primary" size="sm" onClick={saveProfile} ariaLabel="Guardar cambios de perfil" disabled={!editName.trim()} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                      <Icon name="check" size="xs" /> Guardar
+                    <Button variant="primary" size="sm" onClick={saveProfile} ariaLabel="Save profile changes" disabled={!editName.trim()} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                      <Icon name="check" size="xs" /> Save
                     </Button>
                   </div>
                 ) : (
@@ -83,8 +83,8 @@ export default function SettingsPage({ user, progress, onUpdateSettings, onUpdat
                     <div style={{ fontSize:'var(--fs-lg)', fontWeight:'var(--fw-bold)' }}>{user?.name}</div>
                     <div style={{ color:'var(--txt-muted)', fontSize:'var(--fs-sm)', marginTop:2 }}>{user?.email}</div>
                     <div className="flex gap-2" style={{ marginTop:8 }}>
-                      <Badge variant="level">Nivel {user?.level || 'A2'}</Badge>
-                      {progress?.streak > 0 && <Badge variant="gold" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><Icon name="streak" size="xs" /> {progress.streak} días</Badge>}
+                      <Badge variant="level">Level {user?.level || 'A2'}</Badge>
+                      {progress?.streak > 0 && <Badge variant="gold" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><Icon name="streak" size="xs" /> {progress.streak} days</Badge>}
                     </div>
                   </>
                 )}
@@ -92,10 +92,10 @@ export default function SettingsPage({ user, progress, onUpdateSettings, onUpdat
             </div>
             {!editMode && (
               <Button variant="secondary" size="sm" style={{ marginTop:16, display: 'inline-flex', alignItems: 'center', gap: 6 }}
-                onClick={() => alert('📧 Te enviaremos un enlace a tu correo para cambiar tu contraseña.')}
-                ariaLabel="Cambiar contraseña — recibirás un correo"
+                onClick={() => alert('📧 We will send a link to your email to change your password.')}
+                ariaLabel="Change password — you will receive an email"
               >
-                <Icon name="lock" size="xs" /> Cambiar contraseña
+                <Icon name="lock" size="xs" /> Change password
               </Button>
             )}
           </div>
@@ -103,18 +103,18 @@ export default function SettingsPage({ user, progress, onUpdateSettings, onUpdat
           {/* ── Study preferences (H7) ── */}
           <div className="card">
             <h2 style={{ fontSize:'var(--fs-md)', fontWeight:'var(--fw-bold)', marginBottom:16, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="star" size="sm" /> Preferencias de estudio
+              <Icon name="star" size="sm" /> Study preferences
             </h2>
             <div className="flex flex-col gap-5">
               <div>
                 <label style={{ fontSize:'var(--fs-xs)', fontWeight:'var(--fw-bold)', color:'var(--txt-secondary)', textTransform:'uppercase', letterSpacing:'0.05em', display:'block', marginBottom:8 }}>
-                  Meta diaria
+                  Daily goal
                 </label>
                 <div className="flex gap-2">
                   {GOALS.map(g => (
                     <Button key={g} variant={s.dailyGoal === g ? 'primary' : 'secondary'} size="sm"
                       aria-pressed={s.dailyGoal === g}
-                      ariaLabel={`Meta diaria: ${g}`}
+                      ariaLabel={`Daily goal: ${g}`}
                       onClick={() => onUpdateSettings({ dailyGoal: g })}
                     >{g}</Button>
                   ))}
@@ -122,14 +122,14 @@ export default function SettingsPage({ user, progress, onUpdateSettings, onUpdat
               </div>
               <Toggle id="study-reminder" checked={!!s.studyReminder}
                 onChange={v => onUpdateSettings({ studyReminder: v })}
-                label="Recordatorio de estudio diario (9 PM)" />
+                label="Daily study reminder (9 PM)" />
             </div>
           </div>
 
           {/* ── Badges ── */}
           <div className="card">
             <h2 style={{ fontSize:'var(--fs-md)', fontWeight:'var(--fw-bold)', marginBottom:16, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="trophy" size="sm" color="var(--clr-gold)" /> Mis Insignias
+              <Icon name="trophy" size="sm" color="var(--clr-gold)" /> My Badges
             </h2>
             <div className="grid-3">
               {badges.map(b => (
@@ -161,9 +161,9 @@ export default function SettingsPage({ user, progress, onUpdateSettings, onUpdat
           <div className="card">
             <div className="flex items-center justify-between mb-4">
               <h3 style={{ fontSize: 'var(--fs-base)', fontWeight: 'var(--fw-black)', display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Icon name="trophy" size="sm" color="var(--clr-gold)" /> Clasificación del Dojo
+                <Icon name="trophy" size="sm" color="var(--clr-gold)" /> Dojo Leaderboard
               </h3>
-              <Badge variant="muted">{rank > 0 ? `#${rank}` : 'Sin datos'}</Badge>
+              <Badge variant="muted">{rank > 0 ? `#${rank}` : 'No data'}</Badge>
             </div>
             <LeaderboardPanel entries={lb} currentUserId={userId} showInRanking={s.showInRanking !== false} />
           </div>
@@ -171,45 +171,45 @@ export default function SettingsPage({ user, progress, onUpdateSettings, onUpdat
           {/* ── Notifications ── */}
           <div className="card">
             <h2 style={{ fontSize:'var(--fs-md)', fontWeight:'var(--fw-bold)', marginBottom:16, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="bell" size="sm" /> Notificaciones
+              <Icon name="bell" size="sm" /> Notifications
             </h2>
             <div className="flex flex-col gap-4">
               <Toggle id="notif-email" checked={!!s.notifEmail}
-                onChange={v => onUpdateSettings({ notifEmail: v })} label="Notificaciones por correo" />
+                onChange={v => onUpdateSettings({ notifEmail: v })} label="Email notifications" />
               <Toggle id="notif-push" checked={!!s.notifPush}
-                onChange={v => onUpdateSettings({ notifPush: v })} label="Notificaciones en el navegador" />
+                onChange={v => onUpdateSettings({ notifPush: v })} label="Browser notifications" />
             </div>
           </div>
 
           {/* ── Privacy (H3) ── */}
           <div className="card">
             <h2 style={{ fontSize:'var(--fs-md)', fontWeight:'var(--fw-bold)', marginBottom:16, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="lock" size="sm" /> Privacidad
+              <Icon name="lock" size="sm" /> Privacy
             </h2>
             <Toggle id="show-ranking" checked={!!s.showInRanking}
               onChange={v => onUpdateSettings({ showInRanking: v })}
-              label="Mostrar mi nombre en el leaderboard" />
+              label="Show my name on the leaderboard" />
             <p style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)', marginTop:8 }}>
-              Si desactivas esta opción, aparecerás como "Anónimo" en el ranking.
+              If you disable this option, you will appear as "Anonymous" on the leaderboard.
             </p>
           </div>
 
           {/* ── Danger zone (H3: derecho a eliminar) ── */}
           <div className="card" style={{ border:'1px solid rgba(239,68,68,0.25)' }}>
             <h2 style={{ fontSize:'var(--fs-md)', fontWeight:'var(--fw-bold)', color:'var(--clr-error)', marginBottom:8, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="warning" size="sm" color="var(--clr-error)" /> Zona peligrosa
+              <Icon name="warning" size="sm" color="var(--clr-error)" /> Danger zone
             </h2>
             <p style={{ fontSize:'var(--fs-sm)', color:'var(--txt-muted)', marginBottom:16 }}>
-              Eliminar tu cuenta es permanente. Todos tus datos y progreso se borrarán y no se podrán recuperar.
+              Deleting your account is permanent. All your data and progress will be deleted and cannot be recovered.
             </p>
             {!deleteConf
-              ? <Button variant="danger" size="sm" onClick={() => setDeleteConf(true)} ariaLabel="Iniciar eliminación de cuenta" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                  <Icon name="trash" size="xs" /> Eliminar mi cuenta
+              ? <Button variant="danger" size="sm" onClick={() => setDeleteConf(true)} ariaLabel="Start account deletion" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                  <Icon name="trash" size="xs" /> Delete my account
                 </Button>
               : <div className="flex items-center gap-3">
-                  <span style={{ fontSize:'var(--fs-sm)', color:'var(--txt-secondary)' }}>¿Confirmas la eliminación?</span>
-                  <Button variant="danger" size="sm" onClick={onDeleteAccount} ariaLabel="Confirmar eliminación permanente">Sí, eliminar</Button>
-                  <Button variant="secondary" size="sm" onClick={() => setDeleteConf(false)} ariaLabel="Cancelar">Cancelar</Button>
+                  <span style={{ fontSize:'var(--fs-sm)', color:'var(--txt-secondary)' }}>Confirm deletion?</span>
+                  <Button variant="danger" size="sm" onClick={onDeleteAccount} ariaLabel="Confirm permanent deletion">Yes, delete</Button>
+                  <Button variant="secondary" size="sm" onClick={() => setDeleteConf(false)} ariaLabel="Cancel">Cancel</Button>
                 </div>
             }
           </div>

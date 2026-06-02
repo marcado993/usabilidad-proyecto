@@ -11,25 +11,25 @@ import { AppLayout } from '../templates'
 import { MCER_INFO } from '../data/badges'
 
 const STUDENT_NAV = [
-  { key:'home',       screen:'student-home',       icon:<Icon name="home" size="sm" />, label:'Inicio'        },
-  { key:'activities', screen:'student-activities', icon:<Icon name="book" size="sm" />, label:'Actividades'   },
-  { key:'settings',   screen:'student-settings',  icon:<Icon name="settings" size="sm" />, label:'Configuración' },
-  { key:'help',       screen:'student-help',       icon:<Icon name="help" size="sm" />, label:'Ayuda'         },
+  { key:'home',       screen:'student-home',       icon:<Icon name="home" size="sm" />, label:'Home'          },
+  { key:'activities', screen:'student-activities', icon:<Icon name="book" size="sm" />, label:'Activities'    },
+  { key:'settings',   screen:'student-settings',  icon:<Icon name="settings" size="sm" />, label:'Settings'    },
+  { key:'help',       screen:'student-help',       icon:<Icon name="help" size="sm" />, label:'Help'            },
 ]
 
 const FAQ_ITEMS = [
-  { q:'¿Cómo funciona el sistema de puntos (XP)?',
-    a:'Ganas XP al completar lecciones y al mantener tu racha de estudio diario. Los puntos determinan tu posición en el leaderboard global.' },
-  { q:'¿Puedo cambiar mi nivel asignado?',
-    a:'Sí. Ve a Configuración y solicita un nuevo test diagnóstico. Tu nivel se actualizará según tu desempeño más reciente.' },
-  { q:'¿Qué pasa si pierdo mi racha de días?',
-    a:'La racha se reinicia a 0. Estudiar al menos 10 minutos diarios la mantiene activa. Recibirás un recordatorio a las 9 PM si activas las notificaciones.' },
-  { q:'¿Mi progreso se guarda automáticamente?',
-    a:'Sí. Tu progreso se guarda automáticamente en tu dispositivo después de cada lección. Puedes cerrar sesión sin perder tu avance.' },
-  { q:'¿Cómo funciona el leaderboard?',
-    a:'El ranking se actualiza en tiempo real cuando completas lecciones. En Configuración > Privacidad puedes elegir aparecer como anónimo.' },
-  { q:'¿Qué significa cada nivel MCER?',
-    a:'El MCER (Marco Común Europeo de Referencia) es el estándar internacional de idiomas. Los niveles van de A1 (principiante) a C2 (maestría). Consulta la guía de niveles más abajo.' },
+  { q:'How does the point system (XP) work?',
+    a:'You earn XP by completing lessons and maintaining your daily study streak. Points determine your position on the global leaderboard.' },
+  { q:'Can I change my assigned level?',
+    a:'Yes. Go to Settings and request a new diagnostic test. Your level will be updated based on your most recent performance.' },
+  { q:'What happens if I lose my daily streak?',
+    a:'The streak resets to 0. Studying at least 10 minutes daily keeps it active. You will receive a reminder at 9 PM if you enable notifications.' },
+  { q:'Is my progress saved automatically?',
+    a:'Yes. Your progress is saved automatically on your device after each lesson. You can log out without losing your progress.' },
+  { q:'How does the leaderboard work?',
+    a:'The ranking is updated in real time as you complete lessons. In Settings > Privacy, you can choose to appear as anonymous.' },
+  { q:'What does each CEFR level mean?',
+    a:'CEFR (Common European Framework of Reference for Languages) is the international standard for language proficiency. Levels range from A1 (beginner) to C2 (mastery). See the level guide below.' },
 ]
 
 export default function HelpPage({ user, nav }) {
@@ -47,7 +47,7 @@ export default function HelpPage({ user, nav }) {
   }
 
   return (
-    <AppLayout user={user} nav={nav} activeNav="help" navItems={STUDENT_NAV} title="Ayuda y Documentación">
+    <AppLayout user={user} nav={nav} activeNav="help" navItems={STUDENT_NAV} title="Help & Documentation">
       <div className="dojo-layout">
         
         {/* Columna Principal / Izquierda */}
@@ -55,9 +55,9 @@ export default function HelpPage({ user, nav }) {
           {/* Quick help cards (H10) */}
           <div className="grid-3">
             {[
-              { icon:'book',  title:'Guía de inicio', desc:'Aprende a usar Fluento en 5 minutos', action:() => alert('Abriendo guía...') },
-              { icon:'video', title:'Videotutoriales', desc:'Mira cómo funciona cada sección',    action:() => alert('Abriendo videos...') },
-              { icon:'mail',  title:'Chat de soporte', desc:'Lun-Vie 8am-6pm',                    action:() => alert('Iniciando chat de soporte...') },
+              { icon:'book',  title:'Quick Start Guide', desc:'Learn how to use Fluento in 5 minutes', action:() => alert('Opening guide...') },
+              { icon:'video', title:'Video Tutorials', desc:'See how each section works',    action:() => alert('Opening videos...') },
+              { icon:'mail',  title:'Support Chat', desc:'Mon-Fri 8am-6pm',                    action:() => alert('Starting support chat...') },
             ].map((c, i) => (
               <button key={i} className="card" onClick={c.action}
                 style={{ textAlign:'center', cursor:'pointer', transition:'all 0.2s' }}
@@ -77,16 +77,16 @@ export default function HelpPage({ user, nav }) {
           {/* MCER levels guide (H10: documentación de niveles) */}
           <div className="card">
             <h2 style={{ fontSize:'var(--fs-md)', fontWeight:'var(--fw-bold)', marginBottom:4, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="globe" size="sm" /> Sistema de Niveles MCER
+              <Icon name="globe" size="sm" /> CEFR Level System
             </h2>
             <p style={{ fontSize:'var(--fs-sm)', color:'var(--txt-muted)', marginBottom:16 }}>
-              El Marco Común Europeo de Referencia (MCER) es el estándar internacional para medir el dominio de un idioma.
+              The Common European Framework of Reference for Languages (CEFR) is the international standard for measuring language proficiency.
             </p>
             <div className="mcer-grid">
               {Object.entries(MCER_INFO).map(([lv, info]) => (
                 <div key={lv} className="mcer-card"
                   style={{ background:`${info.color}12`, border:`1px solid ${info.color}30` }}
-                  aria-label={`Nivel ${lv} — ${info.name}: ${info.desc}`}
+                  aria-label={`Level ${lv} — ${info.name}: ${info.desc}`}
                 >
                   <div className="flex items-center gap-2" style={{ marginBottom:6 }}>
                     <span className="mcer-card__level" style={{ color:info.color }}>{lv}</span>
@@ -101,7 +101,7 @@ export default function HelpPage({ user, nav }) {
           {/* FAQ accordion (H10) */}
           <div>
             <h2 style={{ fontSize:'var(--fs-md)', fontWeight:'var(--fw-bold)', marginBottom:14, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="question" size="sm" /> Preguntas Frecuentes
+              <Icon name="question" size="sm" /> Frequently Asked Questions
             </h2>
             <FAQAccordion items={FAQ_ITEMS} />
           </div>
@@ -112,12 +112,12 @@ export default function HelpPage({ user, nav }) {
           {/* Canales de Contacto */}
           <div className="card" style={{ padding: 'var(--sp-5)' }}>
             <h2 style={{ fontSize:'var(--fs-md)', fontWeight:'var(--fw-bold)', marginBottom:12, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="mail" size="sm" /> Canales de Contacto
+              <Icon name="mail" size="sm" /> Contact Channels
             </h2>
             <div className="flex flex-col gap-3">
               {[
-                { icon:'mail', title:'Correo de soporte', desc:'soporte@fluento.app', sub:'Respuesta en 24-48 horas' },
-                { icon:'bug',  title:'Reportar un error', desc:'Usa el formulario abajo', sub:'Revisión en menos de 12 horas' },
+                { icon:'mail', title:'Support Email', desc:'support@fluento.app', sub:'Response within 24-48 hours' },
+                { icon:'bug',  title:'Report a Bug', desc:'Use the form below', sub:'Reviewed in less than 12 hours' },
               ].map((c, i) => (
                 <div key={i} style={{
                   padding:'var(--sp-4)', background:'var(--bg-card-2)', border:'1px solid var(--brd-default)',
@@ -137,29 +137,29 @@ export default function HelpPage({ user, nav }) {
           {/* Bug report form (H10) */}
           <div className="card" style={{ padding: 'var(--sp-5)' }}>
             <h2 style={{ fontSize:'var(--fs-md)', fontWeight:'var(--fw-bold)', marginBottom:14, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="bug" size="sm" /> Reportar un problema
+              <Icon name="bug" size="sm" /> Report an Issue
             </h2>
             {sent ? (
               <div className="alert alert-success" role="status" aria-live="polite" style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
                 <Icon name="check" size="sm" style={{ flexShrink: 0 }} />
-                <span><strong>¡Reporte enviado!</strong> Nuestro equipo técnico lo revisará en las próximas 12 horas. Gracias por ayudarnos a mejorar Fluento.</span>
+                <span><strong>Report sent!</strong> Our technical team will review it within the next 12 hours. Thank you for helping us improve Fluento.</span>
               </div>
             ) : (
-              <form onSubmit={sendReport} aria-label="Formulario de reporte de problema">
+              <form onSubmit={sendReport} aria-label="Bug report form">
                 <FormField
-                  id="report-text" label="Describe el problema" type="textarea"
+                  id="report-text" label="Describe the issue" type="textarea"
                   value={report} onChange={setReport}
-                  placeholder="Ej: Al hacer clic en 'Enviar' en la lección de Gramática B1, la página se congela..."
-                  hint="Sé específico: indica la pantalla, la acción y el resultado esperado"
+                  placeholder="e.g. When clicking 'Submit' in B1 Grammar lesson, the page freezes..."
+                  hint="Be specific: indicate the screen, the action, and the expected result"
                   required rows={4}
                 />
                 <Button
                   type="submit" variant="primary" loading={loading}
                   disabled={!report.trim() || loading}
                   style={{ marginTop:16, display: 'inline-flex', alignItems: 'center', gap: 8 }}
-                  ariaLabel="Enviar reporte de problema"
+                  ariaLabel="Send bug report"
                 >
-                  <Icon name="send" size="xs" /> Enviar reporte
+                  <Icon name="send" size="xs" /> Send report
                 </Button>
               </form>
             )}

@@ -1,11 +1,11 @@
 /** data/badges.js — Badge definitions */
 export const BADGES = [
-  { id:'b-1', icon:'star',      name:'Primera lección',   desc:'Completaste tu primera lección',       xpRequired: 1  },
-  { id:'b-2', icon:'streak',    name:'Racha de 7 días',   desc:'7 días consecutivos estudiando',        streakRequired: 7 },
-  { id:'b-3', icon:'trophy',    name:'Top 10',            desc:'Entraste al top 10 del leaderboard',    rankRequired: 10 },
-  { id:'b-4', icon:'reading',   name:'Lector voraz',      desc:'10 lecciones de lectura completadas',   xpRequired: 500 },
-  { id:'b-5', icon:'listening', name:'Oído fino',         desc:'5 ejercicios de listening perfectos',   xpRequired: 250 },
-  { id:'b-6', icon:'lightning', name:'Velocista',         desc:'Completa una lección en menos de 5 min',xpRequired: 100 },
+  { id:'b-1', icon:'star',      name:'First Lesson',      desc:'Completed your first lesson',          xpRequired: 1  },
+  { id:'b-2', icon:'streak',    name:'7-Day Streak',      desc:'7 consecutive days of studying',       streakRequired: 7 },
+  { id:'b-3', icon:'trophy',    name:'Top 10',            desc:'Entered the top 10 on the leaderboard',rankRequired: 10 },
+  { id:'b-4', icon:'reading',   name:'Voracious Reader',  desc:'10 reading lessons completed',         xpRequired: 500 },
+  { id:'b-5', icon:'listening', name:'Sharp Listener',    desc:'5 perfect listening exercises',        xpRequired: 250 },
+  { id:'b-6', icon:'lightning', name:'Sprinter',          desc:'Complete a lesson in less than 5 min', xpRequired: 100 },
 ]
 
 /**
@@ -42,10 +42,10 @@ export function computeLevel(correctCount, total) {
 }
 
 export const MCER_INFO = {
-  A1: { name:'Principiante',     color:'#64748b', desc:'Entiendes expresiones cotidianas básicas.', next:'A2' },
-  A2: { name:'Elementario',      color:'var(--clr-accent)', desc:'Puedes comunicarte en situaciones simples y rutinarias.', next:'B1' },
-  B1: { name:'Intermedio',       color:'var(--clr-gold)',   desc:'Puedes manejar situaciones habituales de viaje y trabajo.', next:'B2' },
-  B2: { name:'Intermedio alto',  color:'var(--clr-success)',desc:'Interactúas con fluidez con hablantes nativos.', next:'C1' },
-  C1: { name:'Avanzado',         color:'var(--clr-purple)', desc:'Usas el idioma con flexibilidad y eficacia.', next:'C2' },
-  C2: { name:'Maestría',         color:'var(--clr-error)',  desc:'Comprendes prácticamente todo y te expresas con gran precisión.', next:null },
+  A1: { name:'Beginner',         color:'#64748b', desc:'You understand basic everyday expressions.', next:'A2' },
+  A2: { name:'Elementary',       color:'var(--clr-accent)', desc:'You can communicate in simple and routine situations.', next:'B1' },
+  B1: { name:'Intermediate',     color:'var(--clr-gold)',   desc:'You can handle standard travel and work situations.', next:'B2' },
+  B2: { name:'Upper Intermediate',color:'var(--clr-success)',desc:'You interact fluently with native speakers.', next:'C1' },
+  C1: { name:'Advanced',         color:'var(--clr-purple)', desc:'You use the language flexibly and effectively.', next:'C2' },
+  C2: { name:'Mastery',          color:'var(--clr-error)',  desc:'You understand practically everything and express yourself with great precision.', next:null },
 }

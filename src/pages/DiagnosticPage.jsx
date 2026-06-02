@@ -35,18 +35,18 @@ export default function DiagnosticPage({ onComplete, onSkip }) {
       minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center',
       background:'radial-gradient(ellipse at 70% 30%, rgba(79,142,247,0.1), transparent 60%), var(--bg-base)',
       padding: 24
-    }} aria-label="Test diagnóstico de nivel de inglés">
+    }} aria-label="English level diagnostic test">
       <div style={{ width:'100%', maxWidth:500 }}>
         <div className="card" style={{ padding:36 }}>
           {/* H1: visibilidad del estado */}
           <div className="flex items-center justify-between mb-4">
-            <Badge variant="level">Test Diagnóstico</Badge>
-            <span style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)' }}>Pregunta {idx + 1} de {total}</span>
+            <Badge variant="level">Diagnostic Test</Badge>
+            <span style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)' }}>Question {idx + 1} of {total}</span>
           </div>
 
           <ProgressBar
             value={idx} max={total}
-            ariaLabel={`Progreso del test: pregunta ${idx + 1} de ${total}`}
+            ariaLabel={`Test progress: question ${idx + 1} of ${total}`}
           />
 
           <StepDots total={total} current={idx} />
@@ -55,13 +55,13 @@ export default function DiagnosticPage({ onComplete, onSkip }) {
             {current.q}
           </h1>
           <p style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)', marginBottom:20 }}>
-            Selecciona la opción más correcta gramaticalmente
+            Select the grammatically correct option
           </p>
 
           <div
             className="flex flex-col gap-2"
             role="radiogroup"
-            aria-label="Opciones de respuesta"
+            aria-label="Answer options"
             style={{ marginBottom: 24 }}
           >
             {current.options.map((opt, i) => (
@@ -72,7 +72,7 @@ export default function DiagnosticPage({ onComplete, onSkip }) {
           {/* H5: disabled until selection */}
           {sel === null && (
             <p style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)', marginBottom:10, textAlign:'center', display:'inline-flex', alignItems:'center', justifyContent:'center', width:'100%', gap:4 }} aria-live="polite">
-              <Icon name="lightbulb" size="xs" color="var(--clr-gold)" /> Selecciona una opción para continuar
+              <Icon name="lightbulb" size="xs" color="var(--clr-gold)" /> Select an option to continue
             </p>
           )}
 
@@ -80,19 +80,19 @@ export default function DiagnosticPage({ onComplete, onSkip }) {
             variant="primary" full
             onClick={handleNext}
             disabled={sel === null}
-            ariaLabel={idx < total - 1 ? 'Siguiente pregunta' : 'Ver mi nivel y comenzar'}
+            ariaLabel={idx < total - 1 ? 'Next question' : 'View my level and start'}
           >
-            {idx < total - 1 ? 'Siguiente pregunta →' : '¡Ver mi nivel!'}
+            {idx < total - 1 ? 'Next question →' : 'View my level!'}
           </Button>
 
           {/* H3: skip */}
           <Button
             variant="secondary" full size="sm"
             onClick={onSkip}
-            ariaLabel="Omitir test y comenzar desde nivel A2"
+            ariaLabel="Skip test and start from level A2"
             style={{ marginTop:12 }}
           >
-            Omitir (comenzar desde A2)
+            Skip (start from A2)
           </Button>
         </div>
       </div>

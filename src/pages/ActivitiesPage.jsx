@@ -16,10 +16,10 @@ import { computeEarnedBadges } from '../data/badges'
 import gsap from 'gsap'
 
 const STUDENT_NAV = [
-  { key:'home',       screen:'student-home',       icon:<Icon name="home" size="sm" />, label:'Inicio'        },
-  { key:'activities', screen:'student-activities', icon:<Icon name="book" size="sm" />, label:'Actividades'   },
-  { key:'settings',   screen:'student-settings',  icon:<Icon name="settings" size="sm" />, label:'Configuración' },
-  { key:'help',       screen:'student-help',       icon:<Icon name="help" size="sm" />, label:'Ayuda'         },
+  { key:'home',       screen:'student-home',       icon:<Icon name="home" size="sm" />, label:'Home'          },
+  { key:'activities', screen:'student-activities', icon:<Icon name="book" size="sm" />, label:'Activities'    },
+  { key:'settings',   screen:'student-settings',  icon:<Icon name="settings" size="sm" />, label:'Settings'    },
+  { key:'help',       screen:'student-help',       icon:<Icon name="help" size="sm" />, label:'Help'            },
 ]
 
 export default function ActivitiesPage({ user, progress, onComplete, nav, onSetLevel }) {
@@ -49,8 +49,8 @@ export default function ActivitiesPage({ user, progress, onComplete, nav, onSetL
   return (
     <AppLayout
       user={user} nav={nav} activeNav="activities" navItems={STUDENT_NAV}
-      title={selectedCat ? selectedCat.title : 'Actividades'}
-      parent={selectedCat ? 'Actividades' : undefined}
+      title={selectedCat ? selectedCat.title : 'Activities'}
+      parent={selectedCat ? 'Activities' : undefined}
     >
       <div className="dojo-layout">
         
@@ -60,7 +60,7 @@ export default function ActivitiesPage({ user, progress, onComplete, nav, onSetL
           {/* Timeline de Niveles MCER (Mockup: bolitas como niveles) */}
           <div className="card" style={{ marginBottom: 12, padding: 'var(--sp-4)' }}>
             <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', textTransform: 'uppercase', fontWeight: 'var(--fw-bold)', marginBottom: 12, textAlign: 'center', letterSpacing: '0.04em' }}>
-              Progreso de Niveles MCER
+              CEFR Level Progress
             </div>
             <div className="flex justify-between items-center" style={{ position: 'relative', gap: 12, maxWidth: 500, margin: '0 auto', minHeight: 60 }}>
               {/* Línea conectora */}
@@ -142,8 +142,8 @@ export default function ActivitiesPage({ user, progress, onComplete, nav, onSetL
                     }}
                     className={`level-seal-btn${isCurrent ? ' level-seal-btn--active' : ''}${isPassed ? ' level-seal-btn--passed' : ''}${isBlocked ? ' level-seal-btn--blocked' : ''}`}
                     style={{ zIndex: 2 }}
-                    aria-label={isBlocked ? `Nivel ${lv} (Bloqueado)` : `Cambiar a nivel ${lv}`}
-                    title={isBlocked ? `Nivel ${lv} (Bloqueado)` : `Cambiar a nivel ${lv}`}
+                    aria-label={isBlocked ? `Level ${lv} (Locked)` : `Change to level ${lv}`}
+                    title={isBlocked ? `Level ${lv} (Locked)` : `Change to level ${lv}`}
                   >
                     {lv}
                   </button>
@@ -155,8 +155,8 @@ export default function ActivitiesPage({ user, progress, onComplete, nav, onSetL
           {!selectedCat ? (
             <>
               <div style={{ marginBottom:14 }}>
-                <h1 className="section-title">Categorías de aprendizaje</h1>
-                <p className="section-sub">Selecciona una categoría para ver las lecciones disponibles</p>
+                <h1 className="section-title">Learning Categories</h1>
+                <p className="section-sub">Select a category to view the available lessons</p>
               </div>
               <div className="flex flex-col gap-3">
                 {CATEGORIES.filter(c => c.level === level).map(cat => (
@@ -171,8 +171,8 @@ export default function ActivitiesPage({ user, progress, onComplete, nav, onSetL
             <>
               {/* Back button + heading (H3: libertad) */}
               <div className="flex items-center gap-3" style={{ marginBottom:14 }}>
-                <Button variant="secondary" size="sm" onClick={() => setCat(null)} ariaLabel="Volver a todas las categorías">
-                  ← Volver
+                <Button variant="secondary" size="sm" onClick={() => setCat(null)} ariaLabel="Back to all categories">
+                  ← Back
                 </Button>
                 <h1 style={{ fontSize:'var(--fs-lg)', fontWeight:'var(--fw-bold)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                   <Icon name={selectedCat.icon} size="md" color={selectedCat.color} /> {selectedCat.title}
@@ -204,25 +204,25 @@ export default function ActivitiesPage({ user, progress, onComplete, nav, onSetL
           {/* Widget 1: Meta Diaria */}
           <div className="card" style={{ padding: 'var(--sp-5)' }}>
             <h3 style={{ fontSize: 'var(--fs-base)', fontWeight: 'var(--fw-black)', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Icon name="lightning" size="sm" color="var(--clr-gold)" /> Meta Diaria
+              <Icon name="lightning" size="sm" color="var(--clr-gold)" /> Daily Goal
             </h3>
             <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', marginBottom: 12, lineHeight: 1.5 }}>
-              Completa lecciones para alcanzar tu objetivo de estudio hoy.
+              Complete lessons to reach your study objective today.
             </p>
-            <ProgressBar value={Math.min(progress?.xp || 0, 100)} max={100} label="XP del Día" showPct />
+            <ProgressBar value={Math.min(progress?.xp || 0, 100)} max={100} label="XP of the Day" showPct />
             <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-secondary)', marginTop: 10, textAlign: 'center', fontWeight: 'var(--fw-bold)' }}>
-              {(progress?.xp || 0) >= 100 ? '🎉 ¡Meta diaria completada!' : `Te faltan ${100 - (progress?.xp || 0)} XP para tu meta`}
+              {(progress?.xp || 0) >= 100 ? '🎉 Daily goal completed!' : `You need ${100 - (progress?.xp || 0)} more XP for your goal`}
             </div>
           </div>
 
-          {/* Widget 2: Insignias */}
+          {/* Widget 2: Badges */}
           <div className="card" style={{ padding: 'var(--sp-5)' }}>
             <h3 style={{ fontSize: 'var(--fs-base)', fontWeight: 'var(--fw-black)', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Icon name="star" size="sm" color="var(--clr-gold)" /> Logros Desbloqueados
+              <Icon name="star" size="sm" color="var(--clr-gold)" /> Unlocked Achievements
             </h3>
             {earnedBadges.length === 0 ? (
               <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', textAlign: 'center', padding: '12px 0' }}>
-                Completa lecciones para ganar insignias del Dojo
+                Complete lessons to earn Dojo badges
               </p>
             ) : (
               <div className="flex justify-around" style={{ gap: 12, marginTop: 8 }}>
