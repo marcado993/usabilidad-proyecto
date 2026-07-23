@@ -44,7 +44,7 @@ export function computeLevel(correctCount, total) {
 export const MCER_INFO = {
   A1: { name:'Beginner',         color:'#64748b', desc:'You understand basic everyday expressions.', next:'A2' },
   A2: { name:'Elementary',       color:'var(--clr-accent)', desc:'You can communicate in simple and routine situations.', next:'B1' },
-  B1: { name:'Intermediate',     color:'var(--clr-gold)',   desc:'You can handle standard travel and work situations.', next:'B2' },
+  B1: { name:'Intermediate',     color:'var(--clr-gold-text)', desc:'You can handle standard travel and work situations.', next:'B2' },
   B2: { name:'Upper Intermediate',color:'var(--clr-success)',desc:'You interact fluently with native speakers.', next:'C1' },
   C1: { name:'Advanced',         color:'var(--clr-purple)', desc:'You use the language flexibly and effectively.', next:'C2' },
   C2: { name:'Mastery',          color:'var(--clr-error)',  desc:'You understand practically everything and express yourself with great precision.', next:null },

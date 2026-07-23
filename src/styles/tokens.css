@@ -20,6 +20,7 @@
   --clr-gold:           #ffc01e; /* Tactile Gold */
   --clr-gold-light:     #ffe58f;
   --clr-gold-shadow:    #ad7d00;
+  --clr-gold-text:      #8a6200; /* Accessible gold for text-on-light-background (5.5:1, WCAG 1.4.3 AA) */
 
   --clr-success:        #58cc02; /* Duolingo Green */
   --clr-success-light:  #b7eb8f;
@@ -48,7 +49,7 @@
   /* ── Text (High legibility ink) ── */
   --txt-primary:   #181b20; /* Solid charcoal ink */
   --txt-secondary: #5a6270; /* Soft slate */
-  --txt-muted:     #8c96a8; /* Ink wash grey */
+  --txt-muted:     #6b7280; /* Ink wash grey — darkened for WCAG 1.4.3 (4.5:1+ on white/cream) */
   --txt-inverse:   #faf7f0;
 
   /* ── Cartoon Borders (Grammar Ninja / Comic style) ── */

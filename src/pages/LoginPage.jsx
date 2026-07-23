@@ -131,7 +131,7 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
           <div style={{ textAlign:'right' }}>
             <a
               href="#recover"
-              style={{ fontSize:'var(--fs-xs)', color:'var(--clr-accent)', fontWeight:'var(--fw-semi)' }}
+              style={{ fontSize:'var(--fs-xs)', color:'var(--clr-accent-shadow)', fontWeight:'var(--fw-semi)' }}
               onClick={e => { e.preventDefault(); onForgotPassword() }}
               aria-label="Recover forgotten password — We will send a link to your email"
             >
@@ -169,7 +169,7 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
         <p style={{ textAlign:'center', fontSize:'var(--fs-sm)', color:'var(--txt-muted)' }}>
           Don't have an account?{' '}
           <a href="#register" onClick={e => { e.preventDefault(); onRegister() }}
-            style={{ color:'var(--clr-accent)', fontWeight:'var(--fw-semi)' }}
+            style={{ color:'var(--clr-accent-shadow)', fontWeight:'var(--fw-semi)' }}
             aria-label="Create a new free account"
           >Register for free</a>
         </p>

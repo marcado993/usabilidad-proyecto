@@ -120,13 +120,12 @@ export function RadioOption({ label, selected, onSelect, state = '' }) {
 // H1: Visibilidad del estado — posición en wizard
 export function StepDots({ total, current }) {
   return (
-    <div className="step-dots" role="tablist" aria-label={`Step ${current + 1} of ${total}`}>
+    <div className="step-dots" role="group" aria-label={`Step ${current + 1} of ${total}`}>
       {Array.from({ length: total }, (_, i) => (
         <div
           key={i}
           className={['step-dot', i === current && 'step-dot--active', i < current && 'step-dot--done'].filter(Boolean).join(' ')}
-          role="tab"
-          aria-selected={i === current}
+          aria-current={i === current ? 'step' : undefined}
           aria-label={`Step ${i + 1}${i < current ? ' — completed' : i === current ? ' — current' : ''}`}
         />
       ))}

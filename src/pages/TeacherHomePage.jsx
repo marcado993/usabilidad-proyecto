@@ -16,7 +16,7 @@ const TEACHER_NAV = [
 
 const LEVEL_GROUPS = [
   { level:'A2', name:'Elementary',      color:'var(--clr-accent)',  bg:'rgba(79,142,247,0.15)',  border:'rgba(79,142,247,0.3)',  students:12, exercises:45, pending:8,  progress:68 },
-  { level:'B1', name:'Intermediate',    color:'var(--clr-gold)',    bg:'rgba(244,185,66,0.15)',  border:'rgba(244,185,66,0.3)',  students:18, exercises:38, pending:5,  progress:54 },
+  { level:'B1', name:'Intermediate',    color:'var(--clr-gold-text)', bg:'rgba(244,185,66,0.15)',  border:'rgba(244,185,66,0.3)',  students:18, exercises:38, pending:5,  progress:54 },
   { level:'B2', name:'Upper Intermediate', color:'var(--clr-success)', bg:'rgba(34,197,94,0.15)',   border:'rgba(34,197,94,0.3)',   students:7,  exercises:52, pending:2,  progress:82 },
   { level:'C1', name:'Advanced',        color:'var(--clr-purple)',  bg:'rgba(168,85,247,0.15)',  border:'rgba(168,85,247,0.3)', students:3,  exercises:60, pending:1,  progress:91 },
 ]

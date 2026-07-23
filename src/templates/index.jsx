@@ -9,10 +9,11 @@ import { Sidebar, PageHeader } from '../organisms'
 export function AppLayout({ user, nav, activeNav, navItems, title, parent, children }) {
   return (
     <div className="app-layout">
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <Sidebar user={user} activeNav={activeNav} nav={nav} items={navItems} />
       <div className="main-content">
         <PageHeader title={title} parent={parent} user={user} nav={nav} />
-        <div className="page-inner">{children}</div>
+        <main id="main-content" className="page-inner">{children}</main>
       </div>
     </div>
   )
@@ -23,7 +24,8 @@ export function AppLayout({ user, nav, activeNav, navItems, title, parent, child
 export function AuthLayout({ heroContent, formContent }) {
   return (
     <main className="auth-layout">
-      <div className="auth-hero" aria-hidden="true">
+      <a href="#auth-form-heading" className="skip-link">Skip to form</a>
+      <div className="auth-hero">
         {heroContent}
       </div>
       <section className="auth-form-area">

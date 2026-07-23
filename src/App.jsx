@@ -120,7 +120,7 @@ function LoadingScreen() {
         }} />
         
         {/* Mascot Face (Ninja) */}
-        <span style={{ fontSize: '4.5rem', filter: 'drop-shadow(2px 2px 0 var(--brd-default))', userSelect: 'none' }} role="img" aria-label="Mascota Fluento">
+        <span style={{ fontSize: '4.5rem', filter: 'drop-shadow(2px 2px 0 var(--brd-default))', userSelect: 'none' }} role="img" aria-label="Fluento mascot">
           🥷
         </span>
       </div>

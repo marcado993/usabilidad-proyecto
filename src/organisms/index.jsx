@@ -421,15 +421,14 @@ export function HeroCarousel({ activeSlide = 0, onSlideChange }) {
       </div>
 
       {/* Dots with pause indicator (H3: control) */}
-      <div className="auth-hero__dots" role="tablist" aria-label="Características de Fluento">
+      <div className="auth-hero__dots" role="group" aria-label="Fluento features">
         {SLIDES.map((_, i) => (
           <button
             key={i}
             className={`carousel-dot${slide === i ? ' carousel-dot--active' : ''}`}
             onClick={() => { onSlideChange && onSlideChange(i); setPaused(true) }}
-            role="tab"
-            aria-selected={slide === i}
-            aria-label={`Característica ${i + 1}: ${SLIDES[i].title}`}
+            aria-current={slide === i ? 'true' : undefined}
+            aria-label={`Feature ${i + 1}: ${SLIDES[i].title}`}
           />
         ))}
         {/* Pause/Play button (H3: control de animaciones) */}

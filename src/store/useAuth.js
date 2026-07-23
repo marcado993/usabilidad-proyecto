@@ -36,11 +36,11 @@ export function useAuth() {
           const safeSettings = (user.settings && typeof user.settings === 'object') ? user.settings : {}
           const safeUser = {
             id: user.id || genId(),
-            name: typeof user.name === 'string' ? user.name : 'Estudiante',
+            name: typeof user.name === 'string' ? user.name : 'Student',
             email: typeof user.email === 'string' ? user.email : '',
             role: user.role === 'teacher' ? 'teacher' : 'student',
             level: typeof user.level === 'string' ? user.level : 'A2',
-            initials: typeof user.initials === 'string' ? user.initials : 'ES',
+            initials: typeof user.initials === 'string' ? user.initials : 'ST',
             createdAt: user.createdAt || new Date().toISOString(),
             settings: { ...DEFAULT_SETTINGS, ...safeSettings }
           }
@@ -62,7 +62,7 @@ export function useAuth() {
     await delay(900)
     const users = storage.get('users') || []
     if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
-      return { ok: false, error: 'Ya existe una cuenta con ese correo electrónico.' }
+      return { ok: false, error: 'An account with that email already exists.' }
     }
     const user = {
       id: genId(),
@@ -99,8 +99,8 @@ export function useAuth() {
     await delay(1100)
     const users = storage.get('users') || []
     const user  = users.find(u => u.email.toLowerCase() === email.toLowerCase())
-    if (!user) return { ok: false, error: 'No encontramos una cuenta con ese correo.' }
-    if (user.password !== hashPassword(password)) return { ok: false, error: 'Contraseña incorrecta. Verifica e intenta de nuevo.' }
+    if (!user) return { ok: false, error: 'We could not find an account with that email.' }
+    if (user.password !== hashPassword(password)) return { ok: false, error: 'Incorrect password. Please check and try again.' }
 
     setCurrentUser(user)
     storage.set('session', { userId: user.id, remember })
