@@ -70,16 +70,21 @@ button {
   border: none;
   background: none;
 }
-button:focus-visible,
-a:focus-visible,
-[role="button"]:focus-visible,
-[role="switch"]:focus-visible,
-[role="tab"]:focus-visible,
-[role="radio"]:focus-visible,
-input:focus-visible,
-textarea:focus-visible {
+/* Universal focus-visible ring — covers every focusable element regardless
+   of tag or ARIA role, so no custom control (div[tabindex], future
+   components, etc.) can silently end up without a visible indicator. */
+:focus-visible {
   outline: 3px solid var(--brd-focus);
   outline-offset: 2px;
+}
+/* Tighter offset for controls inside overflow:hidden cards so the ring
+   isn't clipped by the card's rounded corners. */
+.cat-card:focus-visible,
+.lesson-card:focus-visible,
+.stat-card:focus-visible,
+.teacher-row:focus-visible,
+.faq-item:focus-visible {
+  outline-offset: -3px;
 }
 input, select, textarea {
   font-family: inherit;
