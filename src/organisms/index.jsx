@@ -3,7 +3,7 @@
  * Complex, self-contained UI sections composed of molecules and atoms.
  */
 import { useState, useEffect, useRef } from 'react'
-import { Button, Badge, Avatar, ProgressBar, Tooltip, IconBtn, Spinner, Icon } from '../atoms'
+import { Button, Badge, Avatar, ProgressBar, Tooltip, IconBtn, Spinner, Icon, Toggle } from '../atoms'
 import { NavItem, RadioOption, StepDots, LeaderboardItem, CategoryCard, LessonCard } from '../molecules'
 import { getQuestion } from '../data/lessons'
 
@@ -494,5 +494,129 @@ export function HeroCarousel({ activeSlide = 0, onSlideChange }) {
         </button>
       </div>
     </>
+  )
+}
+
+// ══════════════════════════════════════════════════
+//  ACCESSIBILITY PANEL (WCAG 1.4.4, 1.4.8, 1.4.12, 2.3.3)
+// ══════════════════════════════════════════════════
+const TEXT_SCALES = [100, 115, 130]
+const LINE_SPACINGS = [1.5, 1.8, 2.1]
+const LETTER_SPACINGS = [0, 1, 2]
+const WORD_SPACINGS = [0, 2, 4]
+
+export function AccessibilityPanel({ prefs, onUpdate, onReset, onClose }) {
+  const scaleIdx = Math.max(0, TEXT_SCALES.indexOf(prefs.textScale))
+  const lineIdx = Math.max(0, LINE_SPACINGS.indexOf(prefs.lineSpacing))
+  const letterIdx = Math.max(0, LETTER_SPACINGS.indexOf(prefs.letterSpacing))
+  const wordIdx = Math.max(0, WORD_SPACINGS.indexOf(prefs.wordSpacing))
+
+  const stepper = (label, idx, values, unit, onChange) => (
+    <div style={{ marginBottom: 18 }}>
+      <div className="flex items-center justify-between" style={{ marginBottom: 6 }}>
+        <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-semi)' }}>{label}</span>
+        <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)' }}>{values[idx]}{unit}</span>
+      </div>
+      <div className="flex gap-2">
+        <Button variant="secondary" size="sm" onClick={() => onChange(values[Math.max(0, idx - 1)])}
+          disabled={idx === 0} ariaLabel={`Decrease ${label.toLowerCase()}`}>−</Button>
+        <div className="progress__track" style={{ flex: 1, alignSelf: 'center' }} aria-hidden="true">
+          <div className="progress__fill" style={{ width: `${(idx / (values.length - 1)) * 100}%` }} />
+        </div>
+        <Button variant="secondary" size="sm" onClick={() => onChange(values[Math.min(values.length - 1, idx + 1)])}
+          disabled={idx === values.length - 1} ariaLabel={`Increase ${label.toLowerCase()}`}>+</Button>
+      </div>
+    </div>
+  )
+
+  return (
+    <Modal onClose={onClose} maxWidth={480}>
+      <h2 style={{ fontSize: 'var(--fs-lg)', fontWeight: 'var(--fw-black)', marginBottom: 4, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+        <Icon name="settings" size="sm" /> Accessibility options
+      </h2>
+      <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--txt-muted)', marginBottom: 20 }}>
+        Customize the interface to your needs. Your choices are saved on this device.
+      </p>
+
+      <div className="flex flex-col gap-4" style={{ marginBottom: 8 }}>
+        <Toggle id="a11y-contrast" checked={prefs.highContrast} onChange={v => onUpdate({ highContrast: v })} label="High contrast" />
+        <Toggle id="a11y-motion" checked={prefs.reduceMotion} onChange={v => onUpdate({ reduceMotion: v })} label="Pause animations and transitions" />
+        <Toggle id="a11y-dyslexia" checked={prefs.dyslexiaFont} onChange={v => onUpdate({ dyslexiaFont: v })} label="Dyslexia-friendly font" />
+      </div>
+
+      <div style={{ marginTop: 20 }}>
+        {stepper('Text size', scaleIdx, TEXT_SCALES, '%', v => onUpdate({ textScale: v }))}
+        {stepper('Line spacing', lineIdx, LINE_SPACINGS, 'x', v => onUpdate({ lineSpacing: v }))}
+        {stepper('Letter spacing', letterIdx, LETTER_SPACINGS, 'px', v => onUpdate({ letterSpacing: v }))}
+        {stepper('Word spacing', wordIdx, WORD_SPACINGS, 'px', v => onUpdate({ wordSpacing: v }))}
+      </div>
+
+      <Button variant="secondary" full onClick={onReset} ariaLabel="Reset accessibility options to default" style={{ marginTop: 4 }}>
+        Reset to default
+      </Button>
+    </Modal>
+  )
+}
+
+// ══════════════════════════════════════════════════
+//  KEYBOARD SHORTCUTS MODAL
+// ══════════════════════════════════════════════════
+const SHORTCUT_GROUPS = [
+  {
+    title: 'Global',
+    items: [
+      ['Open accessibility options', 'Alt + A'],
+      ['Open keyboard shortcuts', 'Alt + K'],
+      ['Close any open dialog or menu', 'Esc'],
+    ],
+  },
+  {
+    title: 'Navigation (while logged in)',
+    items: [
+      ['Go to Home', 'Alt + 1'],
+      ['Go to Activities / Statistics', 'Alt + 2'],
+      ['Go to Settings', 'Alt + 3'],
+      ['Go to Help', 'Alt + 4'],
+    ],
+  },
+  {
+    title: 'General keyboard navigation',
+    items: [
+      ['Move between elements', 'Tab / Shift+Tab'],
+      ['Activate buttons and links', 'Enter'],
+      ['Activate switches and radio options', 'Space'],
+    ],
+  },
+]
+
+export function KeyboardShortcutsModal({ onClose }) {
+  return (
+    <Modal onClose={onClose} maxWidth={480}>
+      <h2 style={{ fontSize: 'var(--fs-lg)', fontWeight: 'var(--fw-black)', marginBottom: 4, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+        <Icon name="info" size="sm" /> Keyboard shortcuts
+      </h2>
+      <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--txt-muted)', marginBottom: 18 }}>
+        Use these shortcuts to navigate Fluento quickly.
+      </p>
+      {SHORTCUT_GROUPS.map((group, gi) => (
+        <div key={gi} style={{ marginBottom: 18 }}>
+          <h3 style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', color: 'var(--txt-secondary)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 8 }}>
+            {group.title}
+          </h3>
+          <div className="flex flex-col gap-2">
+            {group.items.map(([label, key], i) => (
+              <div key={i} className="flex items-center justify-between" style={{ fontSize: 'var(--fs-sm)' }}>
+                <span>{label}</span>
+                <kbd style={{
+                  fontFamily: 'monospace', fontSize: 'var(--fs-xs)', fontWeight: 'var(--fw-bold)',
+                  background: 'var(--bg-card-2)', border: '1px solid var(--brd-default)',
+                  borderRadius: 'var(--rad-xs)', padding: '2px 8px',
+                }}>{key}</kbd>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </Modal>
   )
 }

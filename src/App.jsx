@@ -3,9 +3,10 @@
  * Manages: auth state, screen navigation, progress callbacks
  * Architecture: thin shell — all business logic delegated to hooks and pages
  */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from './store/useAuth'
 import { useProgress } from './store/useProgress'
+import { useA11yPrefs } from './hooks/useA11yPrefs'
 import { CATEGORIES } from './data/lessons'
 
 import LoginPage        from './pages/LoginPage'
@@ -20,10 +21,64 @@ import TeacherStatsPage    from './pages/TeacherStatsPage'
 import TeacherSettingsPage from './pages/TeacherSettingsPage'
 import TeacherHelpPage     from './pages/TeacherHelpPage'
 
-import { Spinner, Icon } from './atoms'
-import { Modal } from './organisms'
+import { Spinner, Icon, IconBtn } from './atoms'
+import { Modal, AccessibilityPanel, KeyboardShortcutsModal } from './organisms'
 import { FormField } from './molecules'
 import { Button } from './atoms'
+
+// Nav targets per role for the Alt+1..4 shortcuts, matching each role's sidebar order
+const NAV_BY_ROLE = {
+  student: ['student-home', 'student-activities', 'student-settings', 'student-help'],
+  teacher: ['teacher-home', 'teacher-stats', 'teacher-settings', 'teacher-help'],
+}
+
+// ── Floating accessibility launcher — available on every screen, incl. logged-out ──
+function AccessibilityLauncher({ nav, screen }) {
+  const { prefs, update, reset } = useA11yPrefs()
+  const [showA11y, setShowA11y] = useState(false)
+  const [showShortcuts, setShowShortcuts] = useState(false)
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (!e.altKey) return
+      const key = e.key.toLowerCase()
+      if (key === 'a') { e.preventDefault(); setShowA11y(v => !v) }
+      else if (key === 'k') { e.preventDefault(); setShowShortcuts(v => !v) }
+      else if (['1', '2', '3', '4'].includes(key) && nav) {
+        const role = screen?.startsWith('teacher') ? 'teacher' : 'student'
+        const target = NAV_BY_ROLE[role][Number(key) - 1]
+        if (target) { e.preventDefault(); nav(target) }
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [nav, screen])
+
+  return (
+    <>
+      <div style={{ position: 'fixed', bottom: 20, right: 20, zIndex: 900, display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <IconBtn
+          icon={<Icon name="gear" size="md" />}
+          ariaLabel="Open accessibility options (Alt+A)"
+          title="Accessibility options (Alt+A)"
+          onClick={() => setShowA11y(true)}
+          className="a11y-launcher-btn"
+        />
+        <IconBtn
+          icon={<Icon name="question" size="md" />}
+          ariaLabel="Open keyboard shortcuts (Alt+K)"
+          title="Keyboard shortcuts (Alt+K)"
+          onClick={() => setShowShortcuts(true)}
+          className="a11y-launcher-btn"
+        />
+      </div>
+      {showA11y && (
+        <AccessibilityPanel prefs={prefs} onUpdate={update} onReset={reset} onClose={() => setShowA11y(false)} />
+      )}
+      {showShortcuts && <KeyboardShortcutsModal onClose={() => setShowShortcuts(false)} />}
+    </>
+  )
+}
 
 // ── Forgot password modal (H6: enlace de recuperación)
 function ForgotPasswordModal({ onClose }) {
@@ -191,22 +246,27 @@ export default function App() {
         : 'login')
 
   // If user is logged in, attach progress hook
-  return <Inner
-    active={active}
-    currentUser={currentUser}
-    nav={nav}
-    showForgot={showForgot}
-    setForgot={setForgot}
-    handleLogin={handleLogin}
-    handleRegister={handleRegister}
-    handleDiagnosticComplete={handleDiagnosticComplete}
-    updateSettings={updateSettings}
-    updateProfile={updateProfile}
-    deleteAccount={deleteAccount}
-    logout={logout}
-    setScreen={setScreen}
-    setUserLevel={setUserLevel}
-  />
+  return (
+    <>
+      <Inner
+        active={active}
+        currentUser={currentUser}
+        nav={nav}
+        showForgot={showForgot}
+        setForgot={setForgot}
+        handleLogin={handleLogin}
+        handleRegister={handleRegister}
+        handleDiagnosticComplete={handleDiagnosticComplete}
+        updateSettings={updateSettings}
+        updateProfile={updateProfile}
+        deleteAccount={deleteAccount}
+        logout={logout}
+        setScreen={setScreen}
+        setUserLevel={setUserLevel}
+      />
+      <AccessibilityLauncher nav={nav} screen={active} />
+    </>
+  )
 }
 
 // Separate Inner so progress hook can run with currentUser.id

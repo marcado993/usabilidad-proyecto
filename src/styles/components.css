@@ -582,3 +582,16 @@
   box-shadow: none;
   background: var(--bg-base);
 }
+
+/* ── Floating accessibility launcher buttons ── */
+.a11y-launcher-btn {
+  width: 48px;
+  height: 48px;
+  background: var(--bg-card) !important;
+  border: var(--brd-width) solid var(--brd-default) !important;
+  border-radius: var(--rad-full);
+  box-shadow: var(--shd-md);
+}
+.a11y-launcher-btn:hover {
+  background: var(--bg-card-2) !important;
+}

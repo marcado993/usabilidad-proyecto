@@ -5,17 +5,55 @@
 
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; scroll-behavior: smooth; }
+html {
+  font-size: calc(16px * var(--a11y-text-scale, 100%) / 100%);
+  scroll-behavior: smooth;
+}
 body {
   font-family: var(--font-base);
   background: var(--bg-base);
   color: var(--txt-primary);
   min-height: 100vh;
-  line-height: 1.65;
+  line-height: var(--a11y-line-spacing, 1.65);
+  letter-spacing: var(--a11y-letter-spacing, 0);
+  word-spacing: var(--a11y-word-spacing, 0);
   -webkit-font-smoothing: antialiased;
   padding: 0;
   margin: 0;
 }
+
+/* ── Accessibility preferences (see useA11yPrefs) ── */
+html.a11y-reduce-motion *,
+html.a11y-reduce-motion *::before,
+html.a11y-reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+html.a11y-dyslexia-font body,
+html.a11y-dyslexia-font h1, html.a11y-dyslexia-font h2, html.a11y-dyslexia-font h3,
+html.a11y-dyslexia-font h4, html.a11y-dyslexia-font h5, html.a11y-dyslexia-font h6,
+html.a11y-dyslexia-font button, html.a11y-dyslexia-font input, html.a11y-dyslexia-font textarea {
+  font-family: Verdana, Tahoma, 'Comic Sans MS', sans-serif !important;
+}
+html.a11y-high-contrast {
+  --bg-base: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-2: #f0f0f0;
+  --bg-sidebar: #ffffff;
+  --txt-primary: #000000;
+  --txt-secondary: #000000;
+  --txt-muted: #1a1a1a;
+  --brd-default: #000000;
+  --clr-accent: #0040dd;
+  --clr-accent-shadow: #002a99;
+  --clr-gold-text: #6b4a00;
+  --clr-error: #c00000;
+  --clr-success: #0a6b0a;
+}
+html.a11y-high-contrast .btn--primary,
+html.a11y-high-contrast .btn--gold { color: #ffffff; background: #0040dd; }
 img { max-width: 100%; display: block; }
 
 /* ── Typographic Hierarchy (Fredoka Rounded Display) ── */
