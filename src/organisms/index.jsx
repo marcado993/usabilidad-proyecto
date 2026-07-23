@@ -2,7 +2,7 @@
  * ORGANISMS — Fluento Design System
  * Complex, self-contained UI sections composed of molecules and atoms.
  */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button, Badge, Avatar, ProgressBar, Tooltip, IconBtn, Spinner, Icon } from '../atoms'
 import { NavItem, RadioOption, StepDots, LeaderboardItem, CategoryCard, LessonCard } from '../molecules'
 import { getQuestion } from '../data/lessons'
@@ -96,28 +96,80 @@ export function Sidebar({ user, activeNav, nav, items }) {
 // ══════════════════════════════════════════════════
 //  PAGE HEADER (H1: breadcrumb, notif, logout)
 // ══════════════════════════════════════════════════
+const STUDENT_NOTIFS = [
+  { id: 'n1', title: 'Daily goal reminder', desc: "You're 40 XP away from today's goal — one more lesson to go!" },
+  { id: 'n2', title: 'Streak at risk', desc: 'Study today to keep your streak alive.' },
+]
+const TEACHER_NOTIFS = [
+  { id: 'n1', title: 'New homework submitted', desc: 'Carlos Ruiz submitted homework in A2 Vocabulary.' },
+  { id: 'n2', title: 'Student needs help', desc: 'Luis Pinto flagged "Second Conditional B1" as difficult.' },
+]
+
 export function PageHeader({ title, parent, user, nav }) {
   const role = user?.role || 'student'
+  const [notifOpen, setNotifOpen] = useState(false)
+  const [seen, setSeen] = useState(false)
+  const panelRef = useRef(null)
+  const btnRef = useRef(null)
+  const notifs = role === 'teacher' ? TEACHER_NOTIFS : STUDENT_NOTIFS
+
+  useEffect(() => {
+    if (!notifOpen) return
+    const onKey = (e) => { if (e.key === 'Escape') { setNotifOpen(false); btnRef.current?.focus() } }
+    const onClick = (e) => {
+      if (panelRef.current && !panelRef.current.contains(e.target) && !btnRef.current?.contains(e.target)) {
+        setNotifOpen(false)
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    document.addEventListener('mousedown', onClick)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('mousedown', onClick)
+    }
+  }, [notifOpen])
 
   return (
-    <header className="page-header">
+    <header className="page-header" style={{ position: 'relative' }}>
       <nav className="breadcrumb" aria-label="Navigation path">
         {parent && <><span>{parent}</span><span className="breadcrumb__sep" aria-hidden="true">›</span></>}
         <span className="breadcrumb__current">{title}</span>
       </nav>
       <div className="header-actions">
-        <Tooltip text="Notifications" position="bottom">
-          <IconBtn
-            icon={<Icon name="bell" size="md" />} badge
-            ariaLabel="View notifications (1 new)"
-            onClick={() => {}}
-          />
-        </Tooltip>
+        <div style={{ position: 'relative' }}>
+          <Tooltip text="Notifications" position="bottom">
+            <span ref={btnRef} style={{ display: 'inline-flex' }}>
+              <IconBtn
+                icon={<Icon name="bell" size="md" />} badge={!seen}
+                ariaLabel={seen ? 'View notifications' : `View notifications (${notifs.length} new)`}
+                onClick={() => { setNotifOpen(o => !o); setSeen(true) }}
+                aria-expanded={notifOpen}
+                aria-haspopup="true"
+              />
+            </span>
+          </Tooltip>
+          {notifOpen && (
+            <div
+              ref={panelRef}
+              className="card"
+              role="region"
+              aria-label="Notifications"
+              style={{ position: 'absolute', top: '110%', right: 0, width: 300, padding: 0, overflow: 'hidden', zIndex: 50 }}
+            >
+              {notifs.map((n, i) => (
+                <div key={n.id} style={{ padding: 'var(--sp-4)', borderBottom: i < notifs.length - 1 ? '1px solid var(--brd-default)' : 'none' }}>
+                  <div style={{ fontWeight: 'var(--fw-bold)', fontSize: 'var(--fs-sm)', marginBottom: 4 }}>{n.title}</div>
+                  <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)' }}>{n.desc}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
         <Tooltip text="My profile" position="bottom">
           <IconBtn
             icon={<Icon name="user" size="md" />}
             ariaLabel="View my profile"
-            onClick={() => nav(role === 'teacher' ? 'teacher-home' : 'student-settings')}
+            onClick={() => nav(role === 'teacher' ? 'teacher-settings' : 'student-settings')}
           />
         </Tooltip>
         <Tooltip text="Log out" position="bottom">

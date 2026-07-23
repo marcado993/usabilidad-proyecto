@@ -174,7 +174,7 @@ export function Tooltip({ text, children, position = 'top' }) {
 }
 
 // ── Icon button (ghost icon button) ──────────────────────────────────
-export function IconBtn({ icon, onClick, ariaLabel, title, badge = false, className = '' }) {
+export function IconBtn({ icon, onClick, ariaLabel, title, badge = false, className = '', ...rest }) {
   return (
     <button
       className={`btn btn--ghost btn--icon ${className}`}
@@ -182,6 +182,7 @@ export function IconBtn({ icon, onClick, ariaLabel, title, badge = false, classN
       aria-label={ariaLabel}
       title={title}
       style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+      {...rest}
     >
       {icon}
       {badge && <span className="notif-dot" aria-label="New notification" />}

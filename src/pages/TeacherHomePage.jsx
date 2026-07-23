@@ -8,10 +8,10 @@ import { AppLayout } from '../templates'
 import { ProgressBar } from '../atoms'
 
 const TEACHER_NAV = [
-  { key:'home',       screen:'teacher-home',  icon:<Icon name="home" size="sm" />, label:'Home'            },
-  { key:'statistics', screen:'teacher-stats', icon:<Icon name="chart" size="sm" />, label:'Statistics'      },
-  { key:'settings',   screen:'teacher-home',  icon:<Icon name="settings" size="sm" />, label:'Settings'      },
-  { key:'help',       screen:'teacher-home',  icon:<Icon name="help" size="sm" />, label:'Help'              },
+  { key:'home',       screen:'teacher-home',     icon:<Icon name="home" size="sm" />, label:'Home'       },
+  { key:'statistics', screen:'teacher-stats',    icon:<Icon name="chart" size="sm" />, label:'Statistics' },
+  { key:'settings',   screen:'teacher-settings', icon:<Icon name="settings" size="sm" />, label:'Settings' },
+  { key:'help',       screen:'teacher-help',     icon:<Icon name="help" size="sm" />, label:'Help'        },
 ]
 
 const LEVEL_GROUPS = [

@@ -15,8 +15,10 @@ import StudentHomePage  from './pages/StudentHomePage'
 import ActivitiesPage   from './pages/ActivitiesPage'
 import SettingsPage     from './pages/SettingsPage'
 import HelpPage         from './pages/HelpPage'
-import TeacherHomePage  from './pages/TeacherHomePage'
-import TeacherStatsPage from './pages/TeacherStatsPage'
+import TeacherHomePage     from './pages/TeacherHomePage'
+import TeacherStatsPage    from './pages/TeacherStatsPage'
+import TeacherSettingsPage from './pages/TeacherSettingsPage'
+import TeacherHelpPage     from './pages/TeacherHelpPage'
 
 import { Spinner, Icon } from './atoms'
 import { Modal } from './organisms'
@@ -286,6 +288,18 @@ function Inner({ active, currentUser, nav, showForgot, setForgot, handleLogin, h
 
   if (active === 'teacher-stats')
     return <TeacherStatsPage user={currentUser} nav={nav} />
+
+  if (active === 'teacher-settings')
+    return <TeacherSettingsPage
+      user={currentUser}
+      onUpdateSettings={updateSettings}
+      onUpdateProfile={updateProfile}
+      onDeleteAccount={handleDelete}
+      nav={nav}
+    />
+
+  if (active === 'teacher-help')
+    return <TeacherHelpPage user={currentUser} nav={nav} />
 
   return null
 }
