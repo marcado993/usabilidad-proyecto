@@ -49,7 +49,7 @@ export default function StudentHomePage({ user, progress, nav, onSetLevel }) {
           {/* Welcome banner */}
           <div className="welcome-banner" style={{ marginBottom: 12 }}>
             <div>
-              <div className="welcome-banner__title">Hello, {nameToShow}!</div>
+              <h1 className="welcome-banner__title">Hello, {nameToShow}!</h1>
               <div className="welcome-banner__sub">
                 Current Level: <strong style={{ color: mcer.color }}>{level} — {mcer.name}</strong>
                 &nbsp;·&nbsp; Next: <strong>{mcer.next || 'Mastery!'}</strong>

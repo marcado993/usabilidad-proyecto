@@ -11,7 +11,7 @@ import { ProgressBar, Badge, Avatar, Tooltip, Icon, HeuristicTag } from '../atom
 // H5: Prevención de errores — live validation states
 // H1: Visibilidad — visual feedback per field
 export function FormField({
-  id, label, type = 'text', value, onChange, onBlur,
+  id, label, type = 'text', value, onChange, onBlur, onFocus,
   placeholder, error, success, hint, required, autoComplete, rows,
 }) {
   const status = error ? 'invalid' : success ? 'valid' : ''
@@ -31,6 +31,7 @@ export function FormField({
         value={value}
         onChange={e => onChange(e.target.value)}
         onBlur={onBlur}
+        onFocus={onFocus}
         placeholder={placeholder}
         required={required}
         autoComplete={autoComplete}

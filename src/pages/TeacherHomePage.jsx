@@ -31,6 +31,7 @@ const RECENT = [
 export default function TeacherHomePage({ user, nav }) {
   return (
     <AppLayout user={user} nav={nav} activeNav="home" navItems={TEACHER_NAV} title="Teacher Dashboard">
+      <h1 className="sr-only">Teacher Dashboard</h1>
 
       {/* Stats */}
       <div className="grid-4 mb-6">

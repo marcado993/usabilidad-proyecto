@@ -3,8 +3,8 @@
  * Uses: AuthLayout (template) + HeroCarousel (organism) + FormField (molecule) + Button, Toggle (atoms)
  * Heurísticas: H1 (spinner), H2 (íconos, idioma), H3 (demo), H5 (validación), H6 (recuperar contraseña)
  */
-import { useState } from 'react'
-import { Button, Toggle, Icon } from '../atoms'
+import { useState, useEffect } from 'react'
+import { Button, Toggle, Icon, HeuristicTag } from '../atoms'
 import { FormField } from '../molecules'
 import { HeroCarousel } from '../organisms'
 import { AuthLayout } from '../templates'
@@ -26,6 +26,14 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
   const [loading,  setLoading ] = useState(false)
   const [apiError, setApiError] = useState('')
   const [slide,    setSlide   ] = useState(0)
+  const [showHint, setShowHint] = useState(true)
+
+  // H10/H2: a first-time coach mark pointing to the email field, so new
+  // users always know where to start. Dismisses on focus or after a while.
+  useEffect(() => {
+    const t = setTimeout(() => setShowHint(false), 9000)
+    return () => clearTimeout(t)
+  }, [])
 
   const handleSubmit = async (e) => {
     e?.preventDefault()
@@ -84,17 +92,30 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
         <p className="auth-hero__sub">Your gamified English learning platform</p>
         <HeroCarousel activeSlide={slide} onSlideChange={setSlide} />
       </div>
+
+      {/* Decorative mascot — same character as the loading screen, for brand consistency */}
+      <span
+        aria-hidden="true"
+        style={{
+          position: 'absolute', bottom: 24, right: 28, zIndex: 1,
+          fontSize: '2.6rem', userSelect: 'none',
+          animation: 'bounce 2.4s ease-in-out infinite',
+          filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.4))',
+        }}
+      >🥷</span>
     </>
   )
 
   // Form side
   const form = (
-    <div className="auth-form-box">
-      <h2 id="auth-form-heading" className="auth-form-title" tabIndex={-1}>Welcome back</h2>
+    <div className="auth-form-box" style={{ animation: 'slideUp 0.4s ease' }}>
+      <h2 id="auth-form-heading" className="auth-form-title" tabIndex={-1}>
+        Welcome back <HeuristicTag code="H1" note="Page always shows a clear, current title for where you are" />
+      </h2>
       <p className="auth-form-sub">Log in to continue your English progress</p>
 
       {/* Role selector (demo) */}
-      <div className="flex gap-2" style={{ marginTop: 20 }}>
+      <div className="flex gap-2" style={{ marginTop: 20, alignItems: 'center' }}>
         <Button
           variant={role === 'student' ? 'primary' : 'secondary'} size="sm"
           onClick={() => setRole('student')}
@@ -107,17 +128,39 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
           ariaLabel="Log in as Teacher" aria-pressed={role === 'teacher'}
           style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
         ><Icon name="teacher" size="sm" /> Teacher</Button>
+        <HeuristicTag code="H2" note="Recognizable role icons instead of abstract labels" />
       </div>
 
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5" style={{ marginTop: 28 }}>
-        <FormField
-          id="login-email" label="Email address" type="email"
-          placeholder="your@email.com"
-          hint="Use the email you registered with"
-          autoComplete="email" required
-          {...fieldProps('email')}
-          success={fieldProps('email').success ? 'Valid email' : ''}
-        />
+        <div style={{ position: 'relative' }}>
+          {/* Coach mark: animated pointer guiding first-time users to the email field */}
+          {showHint && (
+            <div
+              role="status"
+              style={{
+                position: 'absolute', top: -34, right: 0, zIndex: 2,
+                display: 'flex', alignItems: 'center', gap: 6,
+                background: 'var(--clr-primary)', color: '#fff',
+                padding: '5px 12px', borderRadius: 'var(--rad-full)',
+                fontSize: 'var(--fs-xs)', fontWeight: 'var(--fw-bold)',
+                whiteSpace: 'nowrap', boxShadow: 'var(--shd-sm)',
+                animation: 'bounce 1.6s ease-in-out infinite',
+              }}
+            >
+              Put your name/email here 👇
+            </div>
+          )}
+          <FormField
+            id="login-email" label="Email address" type="email"
+            placeholder="your@email.com"
+            hint="Use the email you registered with"
+            autoComplete="email" required
+            onFocus={() => setShowHint(false)}
+            {...fieldProps('email')}
+            success={fieldProps('email').success ? 'Valid email' : ''}
+          />
+        </div>
+        <HeuristicTag code="H10" note="Inline hint text under the field, no separate help page needed" />
 
         <div className="flex flex-col gap-2">
           <FormField
@@ -137,6 +180,7 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
             >
               Forgot your password?
             </a>
+            <HeuristicTag code="H6" note="Recovery is offered right where the user might get stuck" />
           </div>
         </div>
 
@@ -156,7 +200,7 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
           disabled={loading}
           ariaLabel="Log in to Fluento"
         >
-          Log In
+          Log In <HeuristicTag code="H1" note="Spinner replaces the label while the request is in flight" />
         </Button>
 
         {/* H3: modo demo */}
@@ -164,6 +208,7 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
           <p style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             <Icon name="lightning" size="xs" color="var(--clr-accent)" /> <strong style={{ color:'var(--clr-accent)' }}>Demo:</strong> Register or use any existing account.
           </p>
+          <HeuristicTag code="H3" note="A safe demo mode gives users freedom to explore" />
         </div>
 
         <p style={{ textAlign:'center', fontSize:'var(--fs-sm)', color:'var(--txt-muted)' }}>
