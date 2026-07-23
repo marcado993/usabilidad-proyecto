@@ -10,6 +10,7 @@ export const DEFAULT_A11Y = {
   highContrast: false,
   reduceMotion: false,
   dyslexiaFont: false,
+  showHeuristics: false, // dev/review aid: labels Nielsen heuristics on screen
   textScale: 100,     // 100 | 115 | 130
   lineSpacing: 1.65,  // multiplier
   letterSpacing: 0,   // px
@@ -21,6 +22,7 @@ function apply(prefs) {
   root.classList.toggle('a11y-high-contrast', prefs.highContrast)
   root.classList.toggle('a11y-reduce-motion', prefs.reduceMotion)
   root.classList.toggle('a11y-dyslexia-font', prefs.dyslexiaFont)
+  root.classList.toggle('show-heuristics', prefs.showHeuristics)
   root.style.setProperty('--a11y-text-scale', `${prefs.textScale}%`)
   root.style.setProperty('--a11y-line-spacing', prefs.lineSpacing)
   root.style.setProperty('--a11y-letter-spacing', `${prefs.letterSpacing}px`)

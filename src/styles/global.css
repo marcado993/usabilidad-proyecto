@@ -54,6 +54,28 @@ html.a11y-high-contrast {
 }
 html.a11y-high-contrast .btn--primary,
 html.a11y-high-contrast .btn--gold { color: #ffffff; background: #0040dd; }
+
+/* ── Nielsen heuristic tags (review aid, toggled from Accessibility panel) ── */
+.heuristic-tag {
+  display: none;
+  position: relative;
+  top: -1px;
+  margin-left: 6px;
+  font-family: monospace;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  background: var(--clr-purple);
+  border-radius: 999px;
+  padding: 3px 6px;
+  vertical-align: middle;
+  cursor: help;
+  z-index: 5;
+}
+html.show-heuristics .heuristic-tag {
+  display: inline-block;
+}
 img { max-width: 100%; display: block; }
 
 /* ── Typographic Hierarchy (Fredoka Rounded Display) ── */

@@ -4,7 +4,7 @@
  * Includes: MCER guide, FAQ, contact channels, bug report
  */
 import { useState } from 'react'
-import { Button, Icon } from '../atoms'
+import { Button, Icon, HeuristicTag } from '../atoms'
 import { FormField } from '../molecules'
 import { FAQAccordion } from '../organisms'
 import { AppLayout } from '../templates'
@@ -102,6 +102,7 @@ export default function HelpPage({ user, nav }) {
           <div>
             <h2 style={{ fontSize:'var(--fs-md)', fontWeight:'var(--fw-bold)', marginBottom:14, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
               <Icon name="question" size="sm" /> Frequently Asked Questions
+              <HeuristicTag code="H10" note="Dedicated help section — historically the weakest-scoring heuristic for this app" />
             </h2>
             <FAQAccordion items={FAQ_ITEMS} />
           </div>

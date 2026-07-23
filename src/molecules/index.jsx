@@ -4,7 +4,7 @@
  */
 import { useRef } from 'react'
 import gsap from 'gsap'
-import { ProgressBar, Badge, Avatar, Tooltip, Icon } from '../atoms'
+import { ProgressBar, Badge, Avatar, Tooltip, Icon, HeuristicTag } from '../atoms'
 
 
 // ── FormField (Label + Input + Validation) ───────────────────────────
@@ -39,8 +39,8 @@ export function FormField({
         aria-invalid={!!error}
       />
       <span id={`${id}-msg`}>
-        {error   && <span className="form-field__msg form-field__msg--error"   role="alert" aria-live="polite"><Icon name="warning" size="sm" style={{ marginRight: 4 }} /> {error}</span>}
-        {!error && success  && <span className="form-field__msg form-field__msg--success"><Icon name="check" size="sm" style={{ marginRight: 4 }} /> {success}</span>}
+        {error   && <span className="form-field__msg form-field__msg--error"   role="alert" aria-live="polite"><Icon name="warning" size="sm" style={{ marginRight: 4 }} /> {error}<HeuristicTag code="H9" note="Errors are stated in plain language with a suggested fix" /></span>}
+        {!error && success  && <span className="form-field__msg form-field__msg--success"><Icon name="check" size="sm" style={{ marginRight: 4 }} /> {success}<HeuristicTag code="H1" note="Live, visible confirmation that this field is valid" /></span>}
         {!error && !success && hint && <span className="form-field__msg form-field__msg--hint">{hint}</span>}
       </span>
     </div>

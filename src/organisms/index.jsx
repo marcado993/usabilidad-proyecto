@@ -3,7 +3,7 @@
  * Complex, self-contained UI sections composed of molecules and atoms.
  */
 import { useState, useEffect, useRef } from 'react'
-import { Button, Badge, Avatar, ProgressBar, Tooltip, IconBtn, Spinner, Icon, Toggle } from '../atoms'
+import { Button, Badge, Avatar, ProgressBar, Tooltip, IconBtn, Spinner, Icon, Toggle, HeuristicTag } from '../atoms'
 import { NavItem, RadioOption, StepDots, LeaderboardItem, CategoryCard, LessonCard } from '../molecules'
 import { getQuestion } from '../data/lessons'
 
@@ -30,6 +30,7 @@ export function Modal({ onClose, children, maxWidth = 460 }) {
           aria-label="Close (you can also press Escape)"
           title="Close (Esc)"
         >✕</button>
+        <HeuristicTag code="H3" note="Escape key + click-outside close this dialog" />
         <div className="modal-body">
           {children}
         </div>
@@ -58,10 +59,12 @@ export function Sidebar({ user, activeNav, nav, items }) {
       {/* Role badge (H4: indicador de rol activo) */}
       <div className={`sidebar__role-badge sidebar__role-badge--${role}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
         {role === 'teacher' ? <><Icon name="teacher" size="sm" /> Teacher</> : <><Icon name="student" size="sm" /> Student</>}
+        <HeuristicTag code="H4" note="Active role is always visible in the sidebar" />
       </div>
 
       {/* Nav */}
       <nav className="sidebar__nav">
+        <HeuristicTag code="H1" note="The highlighted item always shows where you are" />
         {items.map(item => (
           <NavItem
             key={item.key}
@@ -240,6 +243,7 @@ export function OnboardingWizard({ onDone }) {
 export function LessonModal({ lesson, category, onClose, onComplete }) {
   const [sel,     setSel]     = useState(null)
   const [loading, setLoading] = useState(false)
+  const [videoPlaying, setVideoPlaying] = useState(false)
   const q = getQuestion(lesson.id)
 
   const handleSend = async () => {
@@ -260,23 +264,70 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
           {lesson.title}
         </h2>
 
-        {/* Video placeholder (H2: reconocible) */}
-        <div style={{
-          background: 'linear-gradient(135deg, rgba(79,142,247,0.15), var(--bg-card))',
-          border: '1px solid rgba(79,142,247,0.3)', borderRadius: 'var(--rad-md)',
-          aspectRatio: '16/9', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexDirection: 'column', gap: 12, marginBottom: 20, cursor: 'pointer', transition: 'all 0.2s'
-        }} role="img" aria-label="Lesson video player — Click to play"
-           onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--clr-accent)'}
-           onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(79,142,247,0.3)'}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 56, height: 56, borderRadius: '50%', background: 'rgba(79,142,247,0.2)', border: '2.5px solid var(--clr-accent)' }}>
-            <Icon name="play" size="lg" color="var(--clr-accent-light)" style={{ marginLeft: 4 }} />
+        {/* Lesson video: real embed when the lesson has one, click-to-load pattern
+            so the iframe only loads after explicit user intent (H2: reconocible) */}
+        {lesson.videoId ? (
+          videoPlaying ? (
+            <div style={{ borderRadius: 'var(--rad-md)', overflow: 'hidden', marginBottom: 20, aspectRatio: '16/9' }}>
+              <iframe
+                width="100%" height="100%"
+                src={`https://www.youtube.com/embed/${lesson.videoId}?autoplay=1`}
+                title={lesson.videoTitle || `${lesson.title} — lesson video`}
+                style={{ border: 0, display: 'block' }}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          ) : (
+            <button
+              onClick={() => setVideoPlaying(true)}
+              style={{
+                width: '100%', background: 'linear-gradient(135deg, rgba(79,142,247,0.15), var(--bg-card))',
+                border: '1px solid rgba(79,142,247,0.3)', borderRadius: 'var(--rad-md)',
+                aspectRatio: '16/9', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flexDirection: 'column', gap: 12, marginBottom: 20, cursor: 'pointer', transition: 'all 0.2s'
+              }}
+              aria-label={`Play video: ${lesson.videoTitle || lesson.title}`}
+              onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--clr-accent)'}
+              onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(79,142,247,0.3)'}
+            >
+              <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 56, height: 56, borderRadius: '50%', background: 'rgba(79,142,247,0.2)', border: '2.5px solid var(--clr-accent)' }}>
+                <Icon name="play" size="lg" color="var(--clr-accent-light)" style={{ marginLeft: 4 }} />
+              </div>
+              <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', fontWeight: 'var(--fw-medium)' }}>Click to play</div>
+            </button>
+          )
+        ) : (
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(79,142,247,0.15), var(--bg-card))',
+            border: '1px solid rgba(79,142,247,0.3)', borderRadius: 'var(--rad-md)',
+            aspectRatio: '16/9', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexDirection: 'column', gap: 12, marginBottom: 20
+          }} role="img" aria-label="No video available for this lesson yet">
+            <Icon name="video" size="lg" color="var(--txt-muted)" />
+            <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', fontWeight: 'var(--fw-medium)' }}>Video coming soon</div>
           </div>
-          <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', fontWeight: 'var(--fw-medium)' }}>Click to play</div>
-        </div>
+        )}
+
+        {/* Lesson content — explanation before the quiz, when available */}
+        {lesson.content && (
+          <div style={{ textAlign: 'left', marginBottom: 20 }}>
+            <h3 style={{ fontSize: 'var(--fs-md)', fontWeight: 'var(--fw-bold)', marginBottom: 10 }}>
+              Lesson notes
+            </h3>
+            <ul className="flex flex-col gap-2" style={{ listStyle: 'none' }}>
+              {lesson.content.map((line, i) => (
+                <li key={i} style={{ fontSize: 'var(--fs-sm)', color: 'var(--txt-secondary)', lineHeight: 1.6, display: 'flex', gap: 8 }}>
+                  <Icon name="check" size="xs" color="var(--clr-success)" style={{ flexShrink: 0, marginTop: 4 }} />
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <h3 style={{ fontSize: 'var(--fs-md)', fontWeight: 'var(--fw-bold)', marginBottom: 14, textAlign:'left' }}>
-          {q.question}
+          {q.question} <HeuristicTag code="H5" note="Submit stays disabled until an option is picked, preventing empty submissions" />
         </h3>
 
         {/* Radio options (H5: restrictivo — solo una opción) */}
@@ -324,7 +375,7 @@ export function ResultModal({ type, xpGained = 50, streak = 0, onRetry, onContin
 
         {/* H9: tono empático sin culpar */}
         <h2 style={{ fontSize:'var(--fs-xl)', fontWeight:'var(--fw-black)', marginBottom:8 }}>
-          {isFail ? 'Almost there!' : 'Great job!'}
+          {isFail ? 'Almost there!' : 'Great job!'} <HeuristicTag code="H9" note="Encouraging, blame-free wording instead of 'Incorrect'" />
         </h2>
         <p style={{ color:'var(--txt-secondary)', fontSize:'var(--fs-sm)', lineHeight:1.7, marginBottom:16 }}>
           {isFail
@@ -542,6 +593,7 @@ export function AccessibilityPanel({ prefs, onUpdate, onReset, onClose }) {
         <Toggle id="a11y-contrast" checked={prefs.highContrast} onChange={v => onUpdate({ highContrast: v })} label="High contrast" />
         <Toggle id="a11y-motion" checked={prefs.reduceMotion} onChange={v => onUpdate({ reduceMotion: v })} label="Pause animations and transitions" />
         <Toggle id="a11y-dyslexia" checked={prefs.dyslexiaFont} onChange={v => onUpdate({ dyslexiaFont: v })} label="Dyslexia-friendly font" />
+        <Toggle id="a11y-heuristics" checked={prefs.showHeuristics} onChange={v => onUpdate({ showHeuristics: v })} label="Show usability heuristics (review mode)" />
       </div>
 
       <div style={{ marginTop: 20 }}>

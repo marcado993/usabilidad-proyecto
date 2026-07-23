@@ -3,7 +3,7 @@
  * Uses: AppLayout template, StatCard molecules, Badge atoms
  * H7: acceso directo a última lección, H6: "Continuar donde lo dejaste"
  */
-import { Button, Badge, ProgressBar, Icon, Tooltip } from '../atoms'
+import { Button, Badge, ProgressBar, Icon, Tooltip, HeuristicTag } from '../atoms'
 import { StatCard } from '../molecules'
 import { AppLayout } from '../templates'
 import { CATEGORIES, LESSONS_MAP } from '../data/lessons'
@@ -186,6 +186,7 @@ export default function StudentHomePage({ user, progress, nav, onSetLevel }) {
                   <div style={{ flex: 1 }}>
                     <div style={{ fontWeight:'var(--fw-semi)', marginBottom:6, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                       <Icon name="lightning" size="xs" color="var(--clr-accent)" /> Continue where you left off
+                      <HeuristicTag code="H6" note="Recognition over recall: your last lesson is surfaced automatically" />
                     </div>
                     <div style={{ fontSize:'var(--fs-sm)', color:'var(--txt-muted)', marginBottom: 6 }}>{lastLesson.title}</div>
                     <ProgressBar value={progress?.lessons?.[lastLesson.id]?.progress || 0} showPct={false} />

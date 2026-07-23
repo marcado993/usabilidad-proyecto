@@ -190,6 +190,34 @@ export function IconBtn({ icon, onClick, ariaLabel, title, badge = false, classN
   )
 }
 
+// ── HeuristicTag — visible Nielsen-heuristic label (review aid) ──────
+// Hidden by default; shown when the "Show usability heuristics" a11y
+// preference is on (see useA11yPrefs / html.show-heuristics).
+const HEURISTIC_NAMES = {
+  H1: 'Visibility of system status',
+  H2: 'Match between system and the real world',
+  H3: 'User control and freedom',
+  H4: 'Consistency and standards',
+  H5: 'Error prevention',
+  H6: 'Recognition rather than recall',
+  H7: 'Flexibility and efficiency of use',
+  H8: 'Aesthetic and minimalist design',
+  H9: 'Help users recognize, diagnose, and recover from errors',
+  H10: 'Help and documentation',
+}
+export function HeuristicTag({ code, note = '', className = '' }) {
+  const name = HEURISTIC_NAMES[code] || ''
+  return (
+    <span
+      className={`heuristic-tag ${className}`}
+      title={`Nielsen heuristic ${code}: ${name}${note ? ' — ' + note : ''}`}
+      aria-hidden="true"
+    >
+      {code}
+    </span>
+  )
+}
+
 // ── SVG Icon Atom (Using lucide-react) ──────────────────────────────
 // Elegant standard vector icons loaded via the 'lucide-react' library
 // Aligned with Jakob Nielsen's Heuristic 8 (Aesthetic and Minimalist Design)

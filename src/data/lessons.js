@@ -15,7 +15,18 @@ export const CATEGORIES = [
     desc: 'Verb to be, pronouns, basic greetings',
     level: 'A1',
     lessons: [
-      { id: 'a1-g1', title: "The Verb 'To Be' and Pronouns",       duration: '10 min' },
+      {
+        id: 'a1-g1', title: "The Verb 'To Be' and Pronouns", duration: '10 min',
+        videoId: 'LH57BAO9K88',
+        videoTitle: "Basic English Grammar — the verb 'to be' (YouTube)",
+        content: [
+          "The verb 'to be' is the most common verb in English. It has three forms in the present tense: am, is, and are.",
+          "Use am with I: I am a student.",
+          "Use is with he, she, it, or a singular noun: She is a teacher. The book is new.",
+          "Use are with you, we, they, or a plural noun: We are ready. They are friends.",
+          "In everyday speech, 'to be' is usually contracted: I'm, you're, he's, we're, they're.",
+        ],
+      },
       { id: 'a1-g2', title: 'Basic Greetings and Introductions',     duration: '8 min' },
     ],
   },
