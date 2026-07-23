@@ -42,15 +42,16 @@
 .btn--icon            { width: 44px; height: 44px; padding: 0; border-radius: var(--rad-md); min-height: unset; display: inline-flex; align-items: center; justify-content: center; }
 .btn--round           { border-radius: var(--rad-full); }
 
-/* Primary Button (Blue Dojo) */
+/* Primary Button (Blue Dojo) — background darkened from --clr-accent to
+   pass WCAG 1.4.3 with white text (was 3.24:1, now 6.16:1) */
 .btn--primary {
-  background: var(--clr-accent);
+  background: var(--clr-accent-btn);
   color: #fff;
   border-bottom-width: 5px;
   border-bottom-color: var(--clr-accent-shadow);
 }
 .btn--primary:hover:not(:disabled) {
-  background: var(--clr-accent-hover);
+  background: var(--clr-accent-shadow);
 }
 .btn--primary:active:not(:disabled) {
   transform: translateY(3px);

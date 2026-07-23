@@ -90,7 +90,7 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
   // Form side
   const form = (
     <div className="auth-form-box">
-      <h2 className="auth-form-title">Welcome back</h2>
+      <h2 id="auth-form-heading" className="auth-form-title" tabIndex={-1}>Welcome back</h2>
       <p className="auth-form-sub">Log in to continue your English progress</p>
 
       {/* Role selector (demo) */}

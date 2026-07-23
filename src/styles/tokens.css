@@ -16,6 +16,7 @@
   --clr-accent-light:   #69c0ff;
   --clr-accent-hover:   #40a9ff;
   --clr-accent-shadow:  #0050b3;
+  --clr-accent-btn:     #0958d9; /* Darker accent for white-text buttons (6.16:1, WCAG 1.4.3 AA) */
 
   --clr-gold:           #ffc01e; /* Tactile Gold */
   --clr-gold-light:     #ffe58f;
