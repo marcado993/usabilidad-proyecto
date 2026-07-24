@@ -24,7 +24,6 @@
   white-space: nowrap;
   border: var(--brd-width) solid var(--brd-default);
   cursor: pointer;
-  user-select: none;
   transform: translateY(0);
 }
 
@@ -193,7 +192,6 @@
   font-weight: var(--fw-bold);
   color: var(--txt-primary);
   flex-shrink: 0;
-  user-select: none;
   box-shadow: 2px 2px 0 var(--brd-default);
 }
 .avatar--sm  { width: 34px; height: 34px; font-size: var(--fs-xs); }
@@ -262,7 +260,7 @@
   transition: transform var(--tr-fast);
 }
 .toggle-track--on .toggle-thumb { transform: translateX(20px); }
-.toggle-label { font-family: var(--font-base); font-size: var(--fs-base); font-weight: var(--fw-medium); color: var(--txt-primary); user-select: none; }
+.toggle-label { font-family: var(--font-base); font-size: var(--fs-base); font-weight: var(--fw-medium); color: var(--txt-primary); }
 
 /* ── Tooltip Atom (Parchment bubble) ── */
 .tooltip-wrap     { position: relative; display: inline-flex; }

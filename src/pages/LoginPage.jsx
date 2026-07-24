@@ -98,7 +98,7 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
         aria-hidden="true"
         style={{
           position: 'absolute', bottom: 24, right: 28, zIndex: 1,
-          fontSize: '2.6rem', userSelect: 'none',
+          fontSize: '2.6rem',
           animation: 'bounce 2.4s ease-in-out infinite',
           filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.4))',
         }}
