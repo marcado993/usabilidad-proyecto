@@ -223,6 +223,17 @@ export default function App() {
   const [screen, setScreen]     = useState(null)  // null = auto-detect from currentUser
   const [showForgot, setForgot] = useState(false)
 
+  // ⚠️ TEMPORARY — WAVE ACCESSIBILITY TESTING BYPASS ⚠️
+  // Auto-logs in as the demo student so wave.webaim.org can scan the
+  // authenticated pages directly at the production URL. REMOVE THIS BLOCK
+  // once the WAVE screenshots are captured — the login screen must come
+  // back for real use.
+  useEffect(() => {
+    if (!loading && !currentUser) {
+      login({ email: 'student@fluento.app', password: 'Demo1234', remember: false })
+    }
+  }, [loading, currentUser])
+
   // Auth actions
   const handleLogin = async (creds) => {
     const result = await login(creds)
