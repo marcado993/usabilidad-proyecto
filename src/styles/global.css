@@ -94,7 +94,10 @@ button {
 }
 /* Universal focus-visible ring — covers every focusable element regardless
    of tag or ARIA role, so no custom control (div[tabindex], future
-   components, etc.) can silently end up without a visible indicator. */
+   components, etc.) can silently end up without a visible indicator.
+   WCAG 2.2 SC 2.4.7 Focus Visible + SC 2.4.11 Focus Appearance:
+   3px outline, 2px offset — solid, high-contrast (#1890ff vs light
+   backgrounds) and thick enough to satisfy the 2.4.11 area/contrast test. */
 :focus-visible {
   outline: 3px solid var(--brd-focus);
   outline-offset: 2px;

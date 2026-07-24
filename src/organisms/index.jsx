@@ -16,8 +16,13 @@ export function Modal({ onClose, children, maxWidth = 460 }) {
   const boxRef = useRef(null)
   const triggerRef = useRef(null)
 
-  // H3/2.4.3: move focus into the dialog on open, trap Tab inside it while
-  // open, and return focus to whatever opened it on close.
+  // WCAG 2.2 SC 2.4.3 Focus Order: move focus into the dialog on open.
+  // SC 2.1.2 No Keyboard Trap: the trap below only cycles Tab within the
+  // dialog's own focusable elements (never blocks Escape or leaves the user
+  // stuck) — that's what makes it a compliant trap and not a keyboard trap.
+  // SC 4.1.2 Name, Role, Value: role="dialog" + aria-modal="true" on the
+  // wrapper below expose this as a dialog to assistive tech.
+  // Focus returns to whatever opened it on close (part of 2.4.3 as well).
   useEffect(() => {
     triggerRef.current = document.activeElement
     const focusables = () => Array.from(boxRef.current?.querySelectorAll(FOCUSABLE) || [])

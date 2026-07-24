@@ -32,6 +32,21 @@ const NAV_BY_ROLE = {
   teacher: ['teacher-home', 'teacher-stats', 'teacher-settings', 'teacher-help'],
 }
 
+// WCAG 2.2 SC 2.4.2 Page Titled — one descriptive title per screen/state.
+const PAGE_TITLES = {
+  'login': 'Log In · Fluento',
+  'register': 'Create Account · Fluento',
+  'diagnostic': 'Placement Test · Fluento',
+  'student-home': 'Home · Fluento',
+  'student-activities': 'My Activities · Fluento',
+  'student-settings': 'Settings · Fluento',
+  'student-help': 'Help & Support · Fluento',
+  'teacher-home': 'Teacher Dashboard · Fluento',
+  'teacher-stats': 'Class Statistics · Fluento',
+  'teacher-settings': 'Settings · Fluento',
+  'teacher-help': 'Help & Support · Fluento',
+}
+
 // ── Floating accessibility launcher — available on every screen, incl. logged-out ──
 function AccessibilityLauncher({ nav, screen }) {
   const { prefs, update, reset } = useA11yPrefs()
@@ -238,13 +253,22 @@ export default function App() {
     setScreen(to)
   }
 
-  if (loading) return <LoadingScreen />
-
   // Determine active screen
   const active = screen
     ?? (currentUser
         ? (currentUser.role === 'teacher' ? 'teacher-home' : !currentUser.level ? 'diagnostic' : 'student-home')
         : 'login')
+
+  // WCAG 2.2 SC 2.4.2 Page Titled: this is a single-page app, so the browser
+  // tab title never changed by itself. Each screen gets a distinct, descriptive
+  // <title> so users (and screen-reader users switching tabs) always know
+  // where they are. Runs before the `loading` early return below so hook
+  // order stays stable across renders (Rules of Hooks).
+  useEffect(() => {
+    document.title = PAGE_TITLES[active] || 'Fluento'
+  }, [active])
+
+  if (loading) return <LoadingScreen />
 
   // If user is logged in, attach progress hook
   return (

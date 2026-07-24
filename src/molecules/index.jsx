@@ -86,7 +86,12 @@ export function StatCard({ label, value, sub, color, clickable = false, onClick,
       onClick={clickable ? onClick : undefined}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
-      role={clickable ? 'button' : 'img'}
+      /* WCAG 2.2 SC 4.1.2 Name, Role, Value: role="img" was wrong for the
+         non-clickable case — img's content model treats an aria-label as a
+         full replacement, so the label/value/sub text underneath was hidden
+         from screen readers. role="group" keeps aria-label as the group's
+         name while still exposing its child text to assistive tech. */
+      role={clickable ? 'button' : 'group'}
       tabIndex={clickable ? 0 : undefined}
       onKeyDown={clickable ? (e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick?.() } }) : undefined}
       aria-label={ariaLabel}

@@ -144,22 +144,29 @@ export function ProgressBar({ value, max = 100, label, showPct = true, variant =
 }
 
 // ── Toggle ────────────────────────────────────────────────────────────
+// WCAG 2.2 SC 4.1.2 Name, Role, Value: `htmlFor` only pairs a <label> with a
+// native form control (input/select/textarea); this switch is a <span
+// role="switch">, so instead of a (semantically invalid) htmlFor we give it
+// aria-labelledby pointing at the visible label text — that's what actually
+// exposes the accessible name to assistive tech.
 export function Toggle({ id, checked, onChange, label }) {
+  const labelId = `${id}-label`
   return (
-    <label className="toggle-wrap" htmlFor={id}>
+    <span className="toggle-wrap">
       <span
         id={id}
         className={`toggle-track${checked ? ' toggle-track--on' : ''}`}
         role="switch"
         aria-checked={checked}
+        aria-labelledby={label ? labelId : undefined}
         tabIndex={0}
         onClick={() => onChange(!checked)}
-        onKeyDown={e => (e.key === ' ' || e.key === 'Enter') && onChange(!checked)}
+        onKeyDown={e => (e.key === ' ' || e.key === 'Enter') && (e.preventDefault(), onChange(!checked))}
       >
         <span className="toggle-thumb" />
       </span>
-      {label && <span className="toggle-label">{label}</span>}
-    </label>
+      {label && <span id={labelId} className="toggle-label" onClick={() => onChange(!checked)}>{label}</span>}
+    </span>
   )
 }
 
