@@ -47,3 +47,51 @@ export function ensureLeaderboard() {
     storage.set('leaderboard', SEED_LEADERBOARD)
   }
 }
+
+/**
+ * Fixed demo accounts — always available, so anyone reviewing/grading the
+ * app can log in without registering, for both roles (Student/Teacher).
+ * Shown directly on the Login screen.
+ */
+export const DEMO_STUDENT_EMAIL = 'student@fluento.app'
+export const DEMO_TEACHER_EMAIL = 'teacher@fluento.app'
+export const DEMO_PASSWORD      = 'Demo1234'
+
+const DEMO_SETTINGS = { goalMinutes:20, studyReminder:false, notifEmail:true, notifPush:true, showInRanking:true, dailyGoal:'20 min' }
+
+export function ensureDemoUsers() {
+  const users = storage.get('users') || []
+  const hasStudent = users.some(u => u.email === DEMO_STUDENT_EMAIL)
+  const hasTeacher = users.some(u => u.email === DEMO_TEACHER_EMAIL)
+  if (hasStudent && hasTeacher) return
+
+  const next = [...users]
+
+  if (!hasStudent) {
+    const id = 'demo-student'
+    next.push({
+      id, name: 'Demo Student', email: DEMO_STUDENT_EMAIL,
+      password: hashPassword(DEMO_PASSWORD), role: 'student', level: 'B1',
+      initials: 'DS', createdAt: new Date().toISOString(), settings: { ...DEMO_SETTINGS },
+    })
+    storage.set(`progress_${id}`, {
+      userId: id, xp: 180, streak: 3, lastStudiedAt: new Date().toISOString(),
+      lessons: {}, completedLessons: ['a1-g1', 'a1-g2'],
+    })
+    const lb = storage.get('leaderboard') || SEED_LEADERBOARD
+    if (!lb.some(e => e.userId === id)) {
+      storage.set('leaderboard', [...lb, { userId: id, name: 'Demo Student', initials: 'DS', xp: 180 }])
+    }
+  }
+
+  if (!hasTeacher) {
+    const id = 'demo-teacher'
+    next.push({
+      id, name: 'Demo Teacher', email: DEMO_TEACHER_EMAIL,
+      password: hashPassword(DEMO_PASSWORD), role: 'teacher', level: null,
+      initials: 'DT', createdAt: new Date().toISOString(), settings: { ...DEMO_SETTINGS },
+    })
+  }
+
+  storage.set('users', next)
+}

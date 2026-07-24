@@ -9,6 +9,7 @@ import { FormField } from '../molecules'
 import { HeroCarousel } from '../organisms'
 import { AuthLayout } from '../templates'
 import { useForm } from '../hooks/useForm'
+import { DEMO_STUDENT_EMAIL, DEMO_TEACHER_EMAIL, DEMO_PASSWORD } from '../store/storage'
 
 function validator({ email, password }) {
   const e = {}
@@ -20,7 +21,7 @@ function validator({ email, password }) {
 }
 
 export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
-  const { fieldProps, touchAll, isValid, values } = useForm({ email: '', password: '' }, validator)
+  const { fieldProps, touchAll, isValid, values, set } = useForm({ email: '', password: '' }, validator)
   const [remember, setRemember] = useState(false)
   const [role,     setRole    ] = useState('student')
   const [loading,  setLoading ] = useState(false)
@@ -34,6 +35,13 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
     const t = setTimeout(() => setShowHint(false), 9000)
     return () => clearTimeout(t)
   }, [])
+
+  const fillDemo = (demoRole) => {
+    setShowHint(false)
+    setRole(demoRole)
+    set('email')(demoRole === 'teacher' ? DEMO_TEACHER_EMAIL : DEMO_STUDENT_EMAIL)
+    set('password')(DEMO_PASSWORD)
+  }
 
   const handleSubmit = async (e) => {
     e?.preventDefault()
@@ -203,12 +211,25 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
           Log In <HeuristicTag code="H1" note="Spinner replaces the label while the request is in flight" />
         </Button>
 
-        {/* H3: modo demo */}
-        <div style={{ padding:'12px 16px', background:'rgba(79,142,247,0.08)', borderRadius:'var(--rad-md)', border:'1px solid rgba(79,142,247,0.2)', textAlign:'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-          <p style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-            <Icon name="lightning" size="xs" color="var(--clr-accent)" /> <strong style={{ color:'var(--clr-accent)' }}>Demo:</strong> Register or use any existing account.
+        {/* H3: modo demo — cuentas fijas para revisores/evaluadores, sin registro */}
+        <div style={{ padding:'12px 16px', background:'rgba(79,142,247,0.08)', borderRadius:'var(--rad-md)', border:'1px solid rgba(79,142,247,0.2)' }}>
+          <p style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 10, justifyContent: 'center', width: '100%' }}>
+            <Icon name="lightning" size="xs" color="var(--clr-accent)" /> <strong style={{ color:'var(--clr-accent)' }}>Demo accounts</strong> — no registration needed:
+            <HeuristicTag code="H3" note="A safe demo mode gives users freedom to explore" />
           </p>
-          <HeuristicTag code="H3" note="A safe demo mode gives users freedom to explore" />
+          <div className="flex gap-2">
+            <Button variant="secondary" size="sm" full onClick={() => fillDemo('student')}
+              ariaLabel={`Fill demo student credentials: ${DEMO_STUDENT_EMAIL}`}>
+              Fill Student demo
+            </Button>
+            <Button variant="secondary" size="sm" full onClick={() => fillDemo('teacher')}
+              ariaLabel={`Fill demo teacher credentials: ${DEMO_TEACHER_EMAIL}`}>
+              Fill Teacher demo
+            </Button>
+          </div>
+          <p style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)', marginTop: 8, textAlign: 'center' }}>
+            {DEMO_STUDENT_EMAIL} / {DEMO_TEACHER_EMAIL} — password: {DEMO_PASSWORD}
+          </p>
         </div>
 
         <p style={{ textAlign:'center', fontSize:'var(--fs-sm)', color:'var(--txt-muted)' }}>

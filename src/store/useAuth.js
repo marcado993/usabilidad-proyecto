@@ -4,7 +4,7 @@
  * localStorage keys: fluento_users[], fluento_session
  */
 import { useState, useEffect } from 'react'
-import { storage, hashPassword, genId, ensureLeaderboard, SEED_LEADERBOARD } from './storage'
+import { storage, hashPassword, genId, ensureLeaderboard, ensureDemoUsers, SEED_LEADERBOARD } from './storage'
 
 const DEFAULT_SETTINGS = {
   goalMinutes: 20,
@@ -27,6 +27,7 @@ export function useAuth() {
   useEffect(() => {
     try {
       ensureLeaderboard()
+      ensureDemoUsers()
       const session = storage.get('session')
       if (session && typeof session === 'object' && session.userId) {
         const usersRaw = storage.get('users')

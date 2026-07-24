@@ -212,8 +212,9 @@ export default function App() {
   const handleLogin = async (creds) => {
     const result = await login(creds)
     if (result.ok) {
-      if (!result.user.level) setScreen('diagnostic')
-      else setScreen(result.user.role === 'teacher' ? 'teacher-home' : 'student-home')
+      if (result.user.role === 'teacher') setScreen('teacher-home')
+      else if (!result.user.level) setScreen('diagnostic')
+      else setScreen('student-home')
     }
     return result
   }
@@ -242,7 +243,7 @@ export default function App() {
   // Determine active screen
   const active = screen
     ?? (currentUser
-        ? (!currentUser.level ? 'diagnostic' : currentUser.role === 'teacher' ? 'teacher-home' : 'student-home')
+        ? (currentUser.role === 'teacher' ? 'teacher-home' : !currentUser.level ? 'diagnostic' : 'student-home')
         : 'login')
 
   // If user is logged in, attach progress hook
