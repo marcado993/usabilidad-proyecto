@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from './store/useAuth'
 import { useProgress } from './store/useProgress'
 import { useA11yPrefs } from './hooks/useA11yPrefs'
+import { useTabbableText } from './hooks/useTabbableText'
 import { CATEGORIES } from './data/lessons'
 
 import LoginPage        from './pages/LoginPage'
@@ -311,6 +312,12 @@ function Inner({ active, currentUser, nav, showForgot, setForgot, handleLogin, h
 
   const userId   = currentUser?.id || '__anon__'
   const { progress, completeLesson } = useProgress(userId)
+
+  // WCAG 2.2 SC 2.1.1 Keyboard: put every block of static text into the tab
+  // order so the whole page — headings, paragraphs, lesson content, quiz
+  // questions and answers — can be walked through with Tab alone, with no
+  // mouse. See src/hooks/useTabbableText.js for the full rationale.
+  useTabbableText(active)
 
   const handleLogout = () => { logout(); setScreen('login') }
   const handleDelete = () => { deleteAccount(); setScreen('login') }
