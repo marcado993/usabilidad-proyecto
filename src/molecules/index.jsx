@@ -88,7 +88,7 @@ export function StatCard({ label, value, sub, color, clickable = false, onClick,
       onMouseLeave={handleLeave}
       role={clickable ? 'button' : 'img'}
       tabIndex={clickable ? 0 : undefined}
-      onKeyDown={clickable ? (e => e.key === 'Enter' && onClick?.()) : undefined}
+      onKeyDown={clickable ? (e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick?.() } }) : undefined}
       aria-label={ariaLabel}
     >
       <div className="stat-card__label">{label}</div>
@@ -368,7 +368,7 @@ export function LessonCard({ icon, bgAlpha, borderAlpha, title, progress, durati
       onMouseLeave={handleLeave}
       role="button"
       tabIndex={0}
-      onKeyDown={e => e.key === 'Enter' && onClick()}
+      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick() } }}
       aria-label={`Lesson: ${title} — ${isCompleted ? 'Completed' : `${progress}% completed`}`}
     >
       <div className="lesson-card__icon" style={{ background: bgAlpha, border: `1px solid ${borderAlpha}`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>

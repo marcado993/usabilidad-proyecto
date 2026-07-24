@@ -10,11 +10,35 @@ import { getQuestion } from '../data/lessons'
 // ══════════════════════════════════════════════════
 //  MODAL (H3: Control y libertad — Esc + overlay)
 // ══════════════════════════════════════════════════
+const FOCUSABLE = 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])'
+
 export function Modal({ onClose, children, maxWidth = 460 }) {
+  const boxRef = useRef(null)
+  const triggerRef = useRef(null)
+
+  // H3/2.4.3: move focus into the dialog on open, trap Tab inside it while
+  // open, and return focus to whatever opened it on close.
   useEffect(() => {
-    const h = (e) => { if (e.key === 'Escape') onClose() }
+    triggerRef.current = document.activeElement
+    const focusables = () => Array.from(boxRef.current?.querySelectorAll(FOCUSABLE) || [])
+    const first = focusables()[0]
+    ;(first || boxRef.current)?.focus()
+
+    const h = (e) => {
+      if (e.key === 'Escape') { onClose(); return }
+      if (e.key !== 'Tab') return
+      const items = focusables()
+      if (!items.length) { e.preventDefault(); return }
+      const firstEl = items[0]
+      const lastEl = items[items.length - 1]
+      if (e.shiftKey && document.activeElement === firstEl) { e.preventDefault(); lastEl.focus() }
+      else if (!e.shiftKey && document.activeElement === lastEl) { e.preventDefault(); firstEl.focus() }
+    }
     document.addEventListener('keydown', h)
-    return () => document.removeEventListener('keydown', h)
+    return () => {
+      document.removeEventListener('keydown', h)
+      triggerRef.current?.focus?.()
+    }
   }, [onClose])
 
   return (
@@ -23,7 +47,7 @@ export function Modal({ onClose, children, maxWidth = 460 }) {
       onClick={e => e.target === e.currentTarget && onClose()}
       role="dialog" aria-modal="true"
     >
-      <div className="modal-box" style={{ maxWidth }}>
+      <div className="modal-box" style={{ maxWidth }} ref={boxRef} tabIndex={-1}>
         <button
           className="modal-close"
           onClick={onClose}
@@ -80,9 +104,9 @@ export function Sidebar({ user, activeNav, nav, items }) {
       <div className="sidebar__footer">
         <div
           className="sidebar__user"
-          onClick={() => nav(role === 'teacher' ? 'teacher-home' : 'student-settings')}
+          onClick={() => nav(role === 'teacher' ? 'teacher-settings' : 'student-settings')}
           role="button" tabIndex={0}
-          onKeyDown={e => e.key === 'Enter' && nav(role === 'teacher' ? 'teacher-home' : 'student-settings')}
+          onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); nav(role === 'teacher' ? 'teacher-settings' : 'student-settings') } }}
           aria-label={`Profile of ${name}`}
         >
           <Avatar initials={initials} size="md" role={role} />
@@ -244,6 +268,7 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
   const [sel,     setSel]     = useState(null)
   const [loading, setLoading] = useState(false)
   const [videoPlaying, setVideoPlaying] = useState(false)
+  const [showTranscript, setShowTranscript] = useState(false)
   const q = getQuestion(lesson.id)
 
   const handleSend = async () => {
@@ -306,6 +331,32 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
           }} role="img" aria-label="No video available for this lesson yet">
             <Icon name="video" size="lg" color="var(--txt-muted)" />
             <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', fontWeight: 'var(--fw-medium)' }}>Video coming soon</div>
+          </div>
+        )}
+
+        {/* Text transcript for the video (WCAG 1.2.1 — alternative for time-based media) */}
+        {lesson.videoId && lesson.transcript && (
+          <div style={{ textAlign: 'left', marginBottom: 20 }}>
+            <Button
+              variant="secondary" size="sm"
+              onClick={() => setShowTranscript(v => !v)}
+              aria-expanded={showTranscript}
+              aria-controls={`transcript-${lesson.id}`}
+              ariaLabel={showTranscript ? 'Hide video transcript' : 'Show video transcript'}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            >
+              <Icon name="reading" size="xs" /> {showTranscript ? 'Hide transcript' : 'Show transcript'}
+            </Button>
+            {showTranscript && (
+              <div id={`transcript-${lesson.id}`} className="card" style={{ marginTop: 10, padding: 'var(--sp-4)', maxHeight: 220, overflowY: 'auto' }}>
+                <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', marginBottom: 8, fontStyle: 'italic' }}>
+                  Text transcript of the video above:
+                </p>
+                {lesson.transcript.map((line, i) => (
+                  <p key={i} style={{ fontSize: 'var(--fs-sm)', color: 'var(--txt-secondary)', lineHeight: 1.6, marginBottom: 8 }}>{line}</p>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
@@ -465,7 +516,7 @@ export function FAQAccordion({ items }) {
         <div key={i} className="faq-item"
           onClick={() => setOpen(open === i ? null : i)}
           role="button" tabIndex={0}
-          onKeyDown={e => e.key === 'Enter' && setOpen(open === i ? null : i)}
+          onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(open === i ? null : i) } }}
           aria-expanded={open === i}
           aria-label={item.q}
         >

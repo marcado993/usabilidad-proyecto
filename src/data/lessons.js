@@ -19,6 +19,17 @@ export const CATEGORIES = [
         id: 'a1-g1', title: "The Verb 'To Be' and Pronouns", duration: '10 min',
         videoId: 'LH57BAO9K88',
         videoTitle: "Basic English Grammar — the verb 'to be' (YouTube)",
+        transcript: [
+          "Hi, I'm Emma. In this lesson we're going to look at the verb 'to be' — the most important verb in English.",
+          "'To be' has three forms in the present tense: am, is, and are.",
+          "We use 'am' only with the pronoun I: 'I am a teacher.'",
+          "We use 'is' with he, she, it, and singular nouns: 'He is happy.' 'The weather is nice today.'",
+          "We use 'are' with you, we, they, and plural nouns: 'You are welcome.' 'They are students.'",
+          "In spoken English, we almost always use contractions: I'm, you're, he's, she's, it's, we're, they're.",
+          "To make the negative, add 'not': I'm not, you aren't, he isn't.",
+          "To ask a question, put the verb before the subject: Are you ready? Is she coming?",
+          "That's the verb 'to be' in a nutshell. Practice the examples below, and I'll see you in the next lesson!",
+        ],
         content: [
           "The verb 'to be' is the most common verb in English. It has three forms in the present tense: am, is, and are.",
           "Use am with I: I am a student.",

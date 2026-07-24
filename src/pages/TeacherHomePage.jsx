@@ -61,7 +61,7 @@ export default function TeacherHomePage({ user, nav }) {
             className="teacher-row"
             onClick={() => nav('teacher-stats')}
             role="button" tabIndex={0}
-            onKeyDown={e => e.key === 'Enter' && nav('teacher-stats')}
+            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); nav('teacher-stats') } }}
             aria-label={`Group ${g.level} ${g.name}: ${g.students} students, ${g.progress}% average progress. View statistics`}
           >
             <div className="teacher-row__badge" style={{ background:g.bg, border:`2px solid ${g.border}`, color:g.color }}>
