@@ -142,8 +142,9 @@ export default function ActivitiesPage({ user, progress, onComplete, nav, onSetL
                     }}
                     className={`level-seal-btn${isCurrent ? ' level-seal-btn--active' : ''}${isPassed ? ' level-seal-btn--passed' : ''}${isBlocked ? ' level-seal-btn--blocked' : ''}`}
                     style={{ zIndex: 2 }}
+                    /* No title: it repeated aria-label word for word (WAVE
+                       "redundant title text"). aria-label alone names it. */
                     aria-label={isBlocked ? `Level ${lv} (Locked)` : `Change to level ${lv}`}
-                    title={isBlocked ? `Level ${lv} (Locked)` : `Change to level ${lv}`}
                   >
                     {lv}
                   </button>
@@ -230,7 +231,9 @@ export default function ActivitiesPage({ user, progress, onComplete, nav, onSetL
                   <Tooltip key={b.id} text={b.desc} position="top">
                     <div style={{ textAlign: 'center', cursor: 'help', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                       <Icon name={b.icon} size="xl" color={b.earned ? 'var(--clr-gold)' : 'var(--txt-muted)'} style={{ marginBottom: 4 }} />
-                      <span style={{ fontSize: '10px', fontWeight: 'var(--fw-bold)', color: b.earned ? 'var(--clr-gold-shadow)' : 'var(--txt-muted)', textTransform: 'uppercase', letterSpacing: '0.02em' }}>{b.name}</span>
+                      {/* WCAG 2.2 SC 1.4.3 + SC 1.4.4: see StudentHomePage — gold
+                          text darkened to 5.49:1 and size raised 10px→12px. */}
+                      <span style={{ fontSize: '12px', fontWeight: 'var(--fw-bold)', color: b.earned ? 'var(--clr-gold-text)' : 'var(--txt-muted)', textTransform: 'uppercase', letterSpacing: '0.02em' }}>{b.name}</span>
                     </div>
                   </Tooltip>
                 ))}

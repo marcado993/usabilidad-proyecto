@@ -26,6 +26,7 @@
   --clr-success:        #58cc02; /* Duolingo Green */
   --clr-success-light:  #b7eb8f;
   --clr-success-shadow: #389e0d;
+  --clr-success-dark:   #2f6b00; /* Green dark enough for white text (6.1:1, WCAG 1.4.3 AA) */
 
   --clr-error:          #ff4d4f; /* Crimson Ninja Crimson */
   --clr-error-light:    #ffccc7;

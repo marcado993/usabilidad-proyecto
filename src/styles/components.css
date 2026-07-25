@@ -74,7 +74,9 @@
   border-color: var(--brd-default);
 }
 .nav-item--active {
-  color: var(--clr-accent);
+  /* WCAG 2.2 SC 1.4.3 Contrast (Minimum): --clr-accent (#1890ff) on the pale
+     #e6f7ff pill was only 2.95:1. --clr-accent-shadow (#0050b3) is 7.3:1. */
+  color: var(--clr-accent-shadow);
   background: #e6f7ff;
   border-color: var(--brd-default);
   box-shadow: 3px 3px 0 var(--brd-default);
@@ -400,7 +402,9 @@
   height: 42px;
   border-radius: 12px;
   border: var(--brd-width) solid var(--brd-default);
-  background: linear-gradient(135deg, var(--clr-accent), var(--clr-accent-hover));
+  /* WCAG 2.2 SC 1.4.3: the original #1890ff→#40a9ff gradient left the white
+     "F" at ~3.2:1. Darkening the stops brings it above 4.5:1. */
+  background: linear-gradient(135deg, var(--clr-accent-shadow), var(--clr-accent-btn));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -564,18 +568,21 @@
   background: var(--bg-card-2);
 }
 .level-seal-btn--active {
-  background: var(--clr-accent);
+  /* WCAG 2.2 SC 1.4.3: white on --clr-accent was 3.24:1; accent-btn is 6.16:1 */
+  background: var(--clr-accent-btn);
   color: #ffffff;
   border-color: var(--brd-default);
   box-shadow: 3px 3px 0 var(--brd-default);
   transform: scale(1.15);
 }
 .level-seal-btn--active:hover {
-  background: var(--clr-accent-hover);
+  background: var(--clr-accent-shadow);
   transform: scale(1.15) translateY(-2px);
 }
 .level-seal-btn--passed {
-  background: var(--clr-success);
+  /* WCAG 2.2 SC 1.4.3: white on --clr-success (#58cc02) was only 2.09:1.
+     --clr-success-dark (#2f6b00) gives 6.1:1 with white. */
+  background: var(--clr-success-dark);
   color: #ffffff;
   border-color: var(--brd-default);
   box-shadow: 2px 2px 0 var(--brd-default);

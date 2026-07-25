@@ -209,7 +209,9 @@ export function NavItem({ icon, label, active, onClick }) {
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       aria-current={active ? 'page' : undefined}
-      title={label}
+      /* No title attribute: it duplicated the visible label verbatim, which
+         WAVE flags as "redundant title text" — screen readers would announce
+         the same words twice. The visible text is already the accessible name. */
     >
       <span className="nav-item__icon" aria-hidden="true">{icon}</span>
       {label}
