@@ -213,8 +213,12 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
 
         {/* H3: modo demo — cuentas fijas para revisores/evaluadores, sin registro */}
         <div style={{ padding:'12px 16px', background:'rgba(79,142,247,0.08)', borderRadius:'var(--rad-md)', border:'1px solid rgba(79,142,247,0.2)' }}>
-          <p style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 10, justifyContent: 'center', width: '100%' }}>
-            <Icon name="lightning" size="xs" color="var(--clr-accent)" /> <strong style={{ color:'var(--clr-accent)' }}>Demo accounts</strong> — no registration needed:
+          {/* WCAG 2.2 SC 1.4.3: this box has a tinted background (rgba(79,142,247,0.08)
+              over white = #eceff1), not pure white. axe-core measured --txt-muted at
+              4.18:1 and --clr-accent at 2.8:1 against it — both below 4.5:1 at 12px.
+              Darkened to --txt-secondary (5.5:1) and --clr-accent-shadow (6.8:1). */}
+          <p style={{ fontSize:'var(--fs-xs)', color:'var(--txt-secondary)', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 10, justifyContent: 'center', width: '100%' }}>
+            <Icon name="lightning" size="xs" color="var(--clr-accent-shadow)" /> <strong style={{ color:'var(--clr-accent-shadow)' }}>Demo accounts</strong> — no registration needed:
             <HeuristicTag code="H3" note="A safe demo mode gives users freedom to explore" />
           </p>
           <div className="flex gap-2">
@@ -227,7 +231,7 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
               Fill Teacher demo
             </Button>
           </div>
-          <p style={{ fontSize:'var(--fs-xs)', color:'var(--txt-muted)', marginTop: 8, textAlign: 'center' }}>
+          <p style={{ fontSize:'var(--fs-xs)', color:'var(--txt-secondary)', marginTop: 8, textAlign: 'center' }}>
             {DEMO_STUDENT_EMAIL} / {DEMO_TEACHER_EMAIL} — password: {DEMO_PASSWORD}
           </p>
         </div>
