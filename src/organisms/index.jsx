@@ -352,15 +352,29 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
             >
               <Icon name="reading" size="xs" /> {showTranscript ? 'Hide transcript' : 'Show transcript'}
             </Button>
+            {/* WCAG 2.2 SC 1.2.1/1.2.3 (text alternative for time-based media)
+                + SC 1.3.1 Info and Relationships: exposed as a landmark region
+                with a real heading, so NVDA can jump straight to it and
+                announce what it is instead of reading loose paragraphs. */}
             {showTranscript && (
-              <div id={`transcript-${lesson.id}`} className="card" style={{ marginTop: 10, padding: 'var(--sp-4)', maxHeight: 220, overflowY: 'auto' }}>
+              <section
+                id={`transcript-${lesson.id}`}
+                className="card"
+                role="region"
+                aria-labelledby={`transcript-h-${lesson.id}`}
+                style={{ marginTop: 10, padding: 'var(--sp-4)', maxHeight: 220, overflowY: 'auto' }}
+              >
+                <h4 id={`transcript-h-${lesson.id}`} style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', marginBottom: 4 }}>
+                  Video transcript
+                </h4>
                 <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', marginBottom: 8, fontStyle: 'italic' }}>
-                  Text transcript of the video above:
+                  Full text of everything explained in the video above, for
+                  screen-reader users and anyone who cannot play the audio.
                 </p>
                 {lesson.transcript.map((line, i) => (
                   <p key={i} style={{ fontSize: 'var(--fs-sm)', color: 'var(--txt-secondary)', lineHeight: 1.6, marginBottom: 8 }}>{line}</p>
                 ))}
-              </div>
+              </section>
             )}
           </div>
         )}

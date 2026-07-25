@@ -98,7 +98,9 @@ export function StatCard({ label, value, sub, color, clickable = false, onClick,
     >
       <div className="stat-card__label">{label}</div>
       <div className="stat-card__value" style={{ color }}>{value}</div>
-      {sub && <div className="stat-card__sub" style={{ color: clickable ? 'var(--clr-accent)' : undefined }}>{sub}</div>}
+      {/* WCAG 2.2 SC 1.4.3: --clr-accent on white is 3.24:1, below the 4.5:1
+          needed at this size; --clr-accent-shadow is 7.3:1. */}
+      {sub && <div className="stat-card__sub" style={{ color: clickable ? 'var(--clr-accent-shadow)' : undefined }}>{sub}</div>}
     </div>
   )
   return tooltip ? <Tooltip text={tooltip}>{inner}</Tooltip> : inner

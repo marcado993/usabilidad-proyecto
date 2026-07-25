@@ -275,8 +275,13 @@
   font-weight: var(--fw-bold);
   white-space: nowrap;
   pointer-events: none;
+  /* WCAG 2.2 SC 1.4.13 Content on Hover or Focus: hiding with visibility (not
+     opacity alone) keeps the tooltip out of the accessibility tree and out of
+     contrast calculations while closed. It is revealed on BOTH hover and
+     keyboard focus below, so Tab-only users get the same information. */
+  visibility: hidden;
   opacity: 0;
-  transition: opacity var(--tr-fast);
+  transition: opacity var(--tr-fast), visibility var(--tr-fast);
   z-index: 200;
   border: var(--brd-width) solid var(--brd-default);
   box-shadow: 3px 3px 0 var(--brd-default);
@@ -292,7 +297,7 @@
   transform: translateX(-50%);
 }
 .tooltip-wrap:hover .tooltip-box,
-.tooltip-wrap:focus-within .tooltip-box { opacity: 1; }
+.tooltip-wrap:focus-within .tooltip-box { opacity: 1; visibility: visible; }
 
 /* ── SVG Icon Atom ── */
 .svg-icon svg {

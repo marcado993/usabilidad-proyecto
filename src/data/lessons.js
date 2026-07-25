@@ -38,7 +38,35 @@ export const CATEGORIES = [
           "In everyday speech, 'to be' is usually contracted: I'm, you're, he's, we're, they're.",
         ],
       },
-      { id: 'a1-g2', title: 'Basic Greetings and Introductions',     duration: '8 min' },
+      {
+        id: 'a1-g2', title: 'Basic Greetings and Introductions', duration: '8 min',
+        videoId: '6lE4O6fXpgs',
+        videoTitle: 'Basic Greetings & Introducing People — Beginner English A1 (Simple-ESL, YouTube)',
+        // WCAG 2.2 SC 1.2.1 / 1.2.3: text alternative for the video, so the
+        // same teaching content is available to screen-reader users and to
+        // anyone who cannot play audio. Rendered by LessonModal's transcript
+        // panel, which is reachable by keyboard.
+        transcript: [
+          "Greetings in English change depending on how formal the situation is, and on the time of day.",
+          "Neutral greetings that work almost anywhere: 'Hello.' and 'Hi.'",
+          "By time of day: 'Good morning' before noon, 'Good afternoon' until about six, and 'Good evening' after that.",
+          "Note that 'Good night' is not a greeting — it is used when leaving or going to bed.",
+          "Informal greetings between friends: 'Hey!', 'What's up?', 'How's it going?'",
+          "To introduce yourself, say: 'Hello, my name is Ana.' or more casually, 'Hi, I'm Ana.'",
+          "A polite reply to an introduction is: 'Nice to meet you.' The other person can answer 'Nice to meet you too.'",
+          "To introduce someone else, use: 'This is my friend Carlos.' or 'I'd like you to meet my colleague, Ms. Lopez.'",
+          "In formal situations, use a title and last name: 'Good morning, Mr. Smith.' Use first names only when invited to.",
+          "To say goodbye: 'Goodbye', 'Bye', 'See you later', or 'Have a nice day.'",
+        ],
+        content: [
+          "Use Hello or Hi as all-purpose greetings — Hi is slightly more informal.",
+          "Time-based greetings: Good morning (before noon), Good afternoon (noon to ~6pm), Good evening (after ~6pm).",
+          "Good night is a farewell, not a greeting.",
+          "Introduce yourself with My name is... (formal) or I'm... (informal).",
+          "Respond to an introduction with Nice to meet you.",
+          "In formal settings use title + surname: Mr. / Ms. / Dr. + last name.",
+        ],
+      },
     ],
   },
   {
@@ -94,7 +122,33 @@ export const CATEGORIES = [
     desc: 'Present Perfect, Conditionals, Passive',
     level: 'B1',
     lessons: [
-      { id: 'g-1', title: 'Present Perfect — Usage and structure',       duration: '15 min' },
+      {
+        id: 'g-1', title: 'Present Perfect — Usage and structure', duration: '15 min',
+        videoId: 'zBzUJlOo930',
+        videoTitle: 'Present Perfect Verb Tense — English Grammar Lesson (Oxford Online English, YouTube)',
+        // WCAG 2.2 SC 1.2.1 / 1.2.3: text alternative for the video content.
+        transcript: [
+          "The present perfect is formed with 'have' or 'has' plus the past participle of the verb.",
+          "Use 'have' with I, you, we and they: 'I have finished.' Use 'has' with he, she and it: 'She has finished.'",
+          "The first main use is for actions in the past where the exact time is not important: 'I have been to Japan.'",
+          "Compare that with the past simple, which needs a finished time: 'I went to Japan in 2019.'",
+          "Because of that, you cannot say 'I have been to Japan last year' — 'last year' is a finished time, so you need the past simple.",
+          "The second main use is for something that started in the past and is still true now: 'I have lived here for ten years.'",
+          "With this meaning we often use 'for' plus a period of time, or 'since' plus a starting point: 'for three days', 'since Monday'.",
+          "The third use is for recent actions with a present result: 'I've lost my keys' — meaning I do not have them now.",
+          "Common adverbs with the present perfect are 'just', 'already', 'yet', 'ever' and 'never'.",
+          "'Yet' is used in negatives and questions: 'I haven't finished yet.' 'Have you finished yet?'",
+          "To make a question, put 'have' or 'has' before the subject: 'Have you eaten?' 'Has he arrived?'",
+        ],
+        content: [
+          "Structure: have / has + past participle. I have worked. She has worked.",
+          "Use it for past actions when the time is unspecified or unimportant: I have visited Rome.",
+          "Use it for situations continuing to the present: We have known each other since 2010.",
+          "Use it for recent actions with a present result: He has broken his arm.",
+          "Do NOT use it with a finished time expression — use the past simple instead: I saw her yesterday (not I have seen her yesterday).",
+          "for + duration (for two years) vs since + starting point (since 2010).",
+        ],
+      },
       { id: 'g-2', title: 'Second Conditional — If clauses',          duration: '20 min' },
       { id: 'g-3', title: 'Passive Voice — Construction and usage',          duration: '18 min' },
     ],

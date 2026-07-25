@@ -225,7 +225,8 @@
 .lb-item__rank--top { color: var(--clr-gold); }
 .lb-item__name     { flex: 1; font-size: var(--fs-base); font-weight: var(--fw-bold); }
 .lb-item__name--self { color: var(--clr-primary-dark); }
-.lb-item__pts      { font-family: var(--font-display); font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--clr-accent); }
+/* WCAG 2.2 SC 1.4.3: --clr-accent on white was 3.24:1 at 13.6px (needs 4.5). */
+.lb-item__pts      { font-family: var(--font-display); font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--clr-accent-shadow); }
 
 /* ── CategoryCard molecule ── */
 .cat-card {

@@ -164,7 +164,8 @@ export default function StudentHomePage({ user, progress, nav, onSetLevel }) {
             />
             <StatCard
               label="Lessons" value={(progress?.completedLessons || []).length} sub="completed"
-              color="var(--clr-success)"
+              /* WCAG 2.2 SC 1.4.3: --clr-success on white is only 2.09:1 */
+              color="var(--clr-success-dark)"
             />
             <StatCard
               label="Current Level" value={level} sub={mcer.name}
