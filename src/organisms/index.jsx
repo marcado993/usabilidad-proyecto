@@ -16,6 +16,18 @@ export function Modal({ onClose, children, maxWidth = 460 }) {
   const boxRef = useRef(null)
   const triggerRef = useRef(null)
 
+  // Keep the latest onClose in a ref. Callers almost always pass an inline
+  // arrow (onClose={() => setOpen(false)}), which is a NEW function identity
+  // on every parent render. If the focus-trap effect below depended on it,
+  // every state change inside the dialog — ticking a checkbox in the
+  // accessibility panel, for instance — would tear the trap down and rebuild
+  // it, and rebuilding moves focus to the dialog's first control (the Close
+  // button). The user ticks an option and the focus silently jumps to Close,
+  // so their next Enter/Space dismisses the dialog. Reading onClose through a
+  // ref lets the effect run once per open, as it should.
+  const onCloseRef = useRef(onClose)
+  useEffect(() => { onCloseRef.current = onClose })
+
   // WCAG 2.2 SC 2.4.3 Focus Order: move focus into the dialog on open.
   // SC 2.1.2 No Keyboard Trap: the trap below only cycles Tab within the
   // dialog's own focusable elements (never blocks Escape or leaves the user
@@ -30,7 +42,7 @@ export function Modal({ onClose, children, maxWidth = 460 }) {
     ;(first || boxRef.current)?.focus()
 
     const h = (e) => {
-      if (e.key === 'Escape') { onClose(); return }
+      if (e.key === 'Escape') { onCloseRef.current?.(); return }
       if (e.key !== 'Tab') return
       const items = focusables()
       if (!items.length) { e.preventDefault(); return }
@@ -44,7 +56,7 @@ export function Modal({ onClose, children, maxWidth = 460 }) {
       document.removeEventListener('keydown', h)
       triggerRef.current?.focus?.()
     }
-  }, [onClose])
+  }, [])   // mount/unmount only — see the onCloseRef note above
 
   return (
     <div
@@ -339,39 +351,42 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
           </div>
         )}
 
-        {/* Text transcript for the video (WCAG 1.2.1 — alternative for time-based media) */}
-        {lesson.videoId && lesson.transcript && (
+        {/* Written lesson notes. Deliberately NOT labelled "transcript": the
+            text is authored for this app, not taken from the video's audio.
+            See the header note in data/lessons.js for why that distinction
+            matters to the WCAG 1.2.3 conformance claim. */}
+        {lesson.keyPoints && (
           <div style={{ textAlign: 'left', marginBottom: 20 }}>
             <Button
               variant="secondary" size="sm"
               onClick={() => setShowTranscript(v => !v)}
               aria-expanded={showTranscript}
-              aria-controls={`transcript-${lesson.id}`}
-              ariaLabel={showTranscript ? 'Hide video transcript' : 'Show video transcript'}
+              aria-controls={`keypoints-${lesson.id}`}
+              ariaLabel={showTranscript ? 'Hide written lesson notes' : 'Show written lesson notes'}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
             >
-              <Icon name="reading" size="xs" /> {showTranscript ? 'Hide transcript' : 'Show transcript'}
+              <Icon name="reading" size="xs" /> {showTranscript ? 'Hide lesson notes' : 'Read lesson notes'}
             </Button>
-            {/* WCAG 2.2 SC 1.2.1/1.2.3 (text alternative for time-based media)
-                + SC 1.3.1 Info and Relationships: exposed as a landmark region
-                with a real heading, so NVDA can jump straight to it and
+            {/* WCAG 2.2 SC 1.3.1 Info and Relationships: exposed as a landmark
+                region with a real heading, so NVDA can jump straight to it and
                 announce what it is instead of reading loose paragraphs. */}
             {showTranscript && (
               <section
-                id={`transcript-${lesson.id}`}
+                id={`keypoints-${lesson.id}`}
                 className="card"
                 role="region"
-                aria-labelledby={`transcript-h-${lesson.id}`}
+                aria-labelledby={`keypoints-h-${lesson.id}`}
                 style={{ marginTop: 10, padding: 'var(--sp-4)', maxHeight: 220, overflowY: 'auto' }}
               >
-                <h4 id={`transcript-h-${lesson.id}`} style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', marginBottom: 4 }}>
-                  Video transcript
+                <h4 id={`keypoints-h-${lesson.id}`} style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', marginBottom: 4 }}>
+                  Written lesson notes
                 </h4>
-                <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)', marginBottom: 8, fontStyle: 'italic' }}>
-                  Full text of everything explained in the video above, for
-                  screen-reader users and anyone who cannot play the audio.
+                <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-secondary)', marginBottom: 8, fontStyle: 'italic' }}>
+                  {lesson.videoId
+                    ? 'A written summary of the same grammar points covered in the video above. This is not a transcript of the video — for the spoken words, turn on captions in the player.'
+                    : 'A written summary of this lesson’s grammar points.'}
                 </p>
-                {lesson.transcript.map((line, i) => (
+                {lesson.keyPoints.map((line, i) => (
                   <p key={i} style={{ fontSize: 'var(--fs-sm)', color: 'var(--txt-secondary)', lineHeight: 1.6, marginBottom: 8 }}>{line}</p>
                 ))}
               </section>
@@ -638,14 +653,22 @@ export function AccessibilityPanel({ prefs, onUpdate, onReset, onClose }) {
         <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-semi)' }}>{label}</span>
         <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-muted)' }}>{values[idx]}{unit}</span>
       </div>
+      {/* WCAG 2.2 SC 2.4.3 Focus Order: these use aria-disabled, NOT the
+          `disabled` attribute. A disabled button is removed from the tab order
+          and the browser drops focus to <body> the moment it disables itself —
+          so a keyboard user who holds + until the maximum loses their place in
+          the dialog entirely. aria-disabled keeps the control focusable and
+          announced as unavailable, and the handler simply no-ops at the edge. */}
       <div className="flex gap-2">
-        <Button variant="secondary" size="sm" onClick={() => onChange(values[Math.max(0, idx - 1)])}
-          disabled={idx === 0} ariaLabel={`Decrease ${label.toLowerCase()}`}>−</Button>
+        <Button variant="secondary" size="sm"
+          onClick={() => idx > 0 && onChange(values[idx - 1])}
+          aria-disabled={idx === 0} ariaLabel={`Decrease ${label.toLowerCase()}`}>−</Button>
         <div className="progress__track" style={{ flex: 1, alignSelf: 'center' }} aria-hidden="true">
           <div className="progress__fill" style={{ width: `${(idx / (values.length - 1)) * 100}%` }} />
         </div>
-        <Button variant="secondary" size="sm" onClick={() => onChange(values[Math.min(values.length - 1, idx + 1)])}
-          disabled={idx === values.length - 1} ariaLabel={`Increase ${label.toLowerCase()}`}>+</Button>
+        <Button variant="secondary" size="sm"
+          onClick={() => idx < values.length - 1 && onChange(values[idx + 1])}
+          aria-disabled={idx === values.length - 1} ariaLabel={`Increase ${label.toLowerCase()}`}>+</Button>
       </div>
     </div>
   )

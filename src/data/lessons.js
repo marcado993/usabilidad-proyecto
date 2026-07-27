@@ -2,6 +2,25 @@
  * data/lessons.js — Static lesson content
  * Atomic Design: Data layer (not a component)
  * This acts as the content database for the localStorage-backed app
+ *
+ * ── About `keyPoints` and WCAG conformance ──────────────────────────────
+ * `keyPoints` holds WRITTEN LESSON NOTES authored for this project. They
+ * summarise the same grammar the linked YouTube video teaches, but they are
+ * NOT a verbatim transcript of it and must never be labelled as one.
+ *
+ * What that means for WCAG 2.2:
+ *  - SC 1.2.2 Captions (A) is met by the videos themselves — the linked
+ *    YouTube videos carry their own captions, served by YouTube's player.
+ *  - SC 1.2.3 Audio Description or Media Alternative (A) is NOT claimed as
+ *    met by these notes. A conforming "media alternative for text" has to
+ *    convey EQUIVALENT information to the video, including anything spoken
+ *    or shown on screen. A summary does not qualify, however accurate.
+ *  - These notes are therefore a genuine usability and comprehension aid
+ *    (and useful to screen-reader users), but they are supplementary
+ *    content, not a conformance mechanism.
+ *
+ * To actually claim 1.2.3, the video would need a real transcript produced
+ * from its audio, or a self-hosted video whose captions we control.
  */
 
 export const CATEGORIES = [
@@ -19,16 +38,14 @@ export const CATEGORIES = [
         id: 'a1-g1', title: "The Verb 'To Be' and Pronouns", duration: '10 min',
         videoId: 'LH57BAO9K88',
         videoTitle: "Basic English Grammar — the verb 'to be' (YouTube)",
-        transcript: [
-          "Hi, I'm Emma. In this lesson we're going to look at the verb 'to be' — the most important verb in English.",
+        keyPoints: [
           "'To be' has three forms in the present tense: am, is, and are.",
-          "We use 'am' only with the pronoun I: 'I am a teacher.'",
-          "We use 'is' with he, she, it, and singular nouns: 'He is happy.' 'The weather is nice today.'",
-          "We use 'are' with you, we, they, and plural nouns: 'You are welcome.' 'They are students.'",
-          "In spoken English, we almost always use contractions: I'm, you're, he's, she's, it's, we're, they're.",
+          "Use 'am' only with the pronoun I: I am a teacher.",
+          "Use 'is' with he, she, it, and singular nouns: He is happy. The weather is nice today.",
+          "Use 'are' with you, we, they, and plural nouns: You are welcome. They are students.",
+          "In spoken English, contractions are almost always used: I'm, you're, he's, she's, it's, we're, they're.",
           "To make the negative, add 'not': I'm not, you aren't, he isn't.",
           "To ask a question, put the verb before the subject: Are you ready? Is she coming?",
-          "That's the verb 'to be' in a nutshell. Practice the examples below, and I'll see you in the next lesson!",
         ],
         content: [
           "The verb 'to be' is the most common verb in English. It has three forms in the present tense: am, is, and are.",
@@ -42,11 +59,8 @@ export const CATEGORIES = [
         id: 'a1-g2', title: 'Basic Greetings and Introductions', duration: '8 min',
         videoId: '6lE4O6fXpgs',
         videoTitle: 'Basic Greetings & Introducing People — Beginner English A1 (Simple-ESL, YouTube)',
-        // WCAG 2.2 SC 1.2.1 / 1.2.3: text alternative for the video, so the
-        // same teaching content is available to screen-reader users and to
-        // anyone who cannot play audio. Rendered by LessonModal's transcript
-        // panel, which is reachable by keyboard.
-        transcript: [
+        // Written lesson notes (not a verbatim transcript — see note at top).
+        keyPoints: [
           "Greetings in English change depending on how formal the situation is, and on the time of day.",
           "Neutral greetings that work almost anywhere: 'Hello.' and 'Hi.'",
           "By time of day: 'Good morning' before noon, 'Good afternoon' until about six, and 'Good evening' after that.",
@@ -126,8 +140,8 @@ export const CATEGORIES = [
         id: 'g-1', title: 'Present Perfect — Usage and structure', duration: '15 min',
         videoId: 'zBzUJlOo930',
         videoTitle: 'Present Perfect Verb Tense — English Grammar Lesson (Oxford Online English, YouTube)',
-        // WCAG 2.2 SC 1.2.1 / 1.2.3: text alternative for the video content.
-        transcript: [
+        // Written lesson notes (not a verbatim transcript - see note at top).
+        keyPoints: [
           "The present perfect is formed with 'have' or 'has' plus the past participle of the verb.",
           "Use 'have' with I, you, we and they: 'I have finished.' Use 'has' with he, she and it: 'She has finished.'",
           "The first main use is for actions in the past where the exact time is not important: 'I have been to Japan.'",
