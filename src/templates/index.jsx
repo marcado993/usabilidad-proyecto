@@ -15,7 +15,12 @@ export function AppLayout({ user, nav, activeNav, navItems, title, parent, child
       <Sidebar user={user} activeNav={activeNav} nav={nav} items={navItems} />
       <div className="main-content">
         <PageHeader title={title} parent={parent} user={user} nav={nav} />
-        <main id="main-content" className="page-inner">{children}</main>
+        {/* tabIndex={-1} is what makes the skip link actually work. Browsers
+            only move focus to focusable elements, so without it "Skip to main
+            content" just scrolls: focus stays behind and the next Tab walks
+            back through the whole sidebar — the exact block the link exists to
+            bypass. WCAG 2.2 SC 2.4.1 Bypass Blocks. */}
+        <main id="main-content" className="page-inner" tabIndex={-1}>{children}</main>
       </div>
     </div>
   )
