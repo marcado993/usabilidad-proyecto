@@ -290,6 +290,17 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
   const [showNotes, setShowNotes] = useState(false)
   const transcript = TRANSCRIPTS[lesson.id]
   const q = getQuestion(lesson.id)
+  const skipVideoRef  = useRef(null)   // bypass button, sits before the iframe
+  const afterVideoRef = useRef(null)   // first control past the video
+
+  // Clicking "Click to play" swaps the play button for the iframe, so the
+  // element that had focus is destroyed and focus falls back to <body> —
+  // the next Tab then restarts from the top of the document. Move focus onto
+  // the bypass button instead, which also puts the user one keystroke away
+  // from stepping over the player. WCAG 2.2 SC 2.4.3 Focus Order.
+  useEffect(() => {
+    if (videoPlaying) skipVideoRef.current?.focus()
+  }, [videoPlaying])
 
   const handleSend = async () => {
     if (sel === null) return
@@ -313,15 +324,35 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
             so the iframe only loads after explicit user intent (H2: reconocible) */}
         {lesson.videoId ? (
           videoPlaying ? (
-            <div style={{ borderRadius: 'var(--rad-md)', overflow: 'hidden', marginBottom: 20, aspectRatio: '16/9' }}>
-              <iframe
-                width="100%" height="100%"
-                src={`https://www.youtube.com/embed/${lesson.videoId}?autoplay=1`}
-                title={lesson.videoTitle || `${lesson.title} — lesson video`}
-                style={{ border: 0, display: 'block' }}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+            /* WCAG 2.2 SC 2.1.2 No Keyboard Trap. The YouTube embed is a
+               cross-origin iframe: once Tab moves inside it, the player owns
+               the keyboard and our modal's focus trap cannot see those
+               keystrokes at all, so it cannot cycle the user back out. They
+               have to Tab through every control YouTube renders before they
+               reach the lesson again — a real trap.
+
+               The fix has to work BEFORE focus enters the iframe, so this
+               bypass button sits ahead of it in the tab order: reach the
+               video, and the first thing you land on is a way past it. */
+            <div style={{ marginBottom: 20 }}>
+              <button
+                ref={skipVideoRef}
+                className="btn btn--secondary btn--sm"
+                onClick={() => afterVideoRef.current?.focus()}
+                style={{ marginBottom: 8, display: 'inline-flex', alignItems: 'center', gap: 6 }}
+              >
+                <Icon name="reading" size="xs" /> Skip video player
+              </button>
+              <div style={{ borderRadius: 'var(--rad-md)', overflow: 'hidden', aspectRatio: '16/9' }}>
+                <iframe
+                  width="100%" height="100%"
+                  src={`https://www.youtube.com/embed/${lesson.videoId}?autoplay=1`}
+                  title={lesson.videoTitle || `${lesson.title} — lesson video`}
+                  style={{ border: 0, display: 'block' }}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
             </div>
           ) : (
             <button
@@ -363,6 +394,7 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
         {transcript && (
           <div style={{ textAlign: 'left', marginBottom: 20 }}>
             <Button
+              ref={afterVideoRef}
               variant="secondary" size="sm"
               onClick={() => setShowTranscript(v => !v)}
               aria-expanded={showTranscript}
