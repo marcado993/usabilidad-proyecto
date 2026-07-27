@@ -413,7 +413,7 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
                 className="card"
                 role="region"
                 aria-labelledby={`transcript-h-${lesson.id}`}
-                style={{ marginTop: 10, padding: 'var(--sp-4)', maxHeight: 280, overflowY: 'auto' }}
+                style={{ marginTop: 10, padding: 'var(--sp-4)', maxHeight: 280, overflowY: 'auto', scrollPaddingBlock: 12 }}
               >
                 <h4 id={`transcript-h-${lesson.id}`} style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', marginBottom: 4 }}>
                   Video transcript
@@ -453,7 +453,7 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
                 className="card"
                 role="region"
                 aria-labelledby={`keypoints-h-${lesson.id}`}
-                style={{ marginTop: 10, padding: 'var(--sp-4)', maxHeight: 220, overflowY: 'auto' }}
+                style={{ marginTop: 10, padding: 'var(--sp-4)', maxHeight: 220, overflowY: 'auto', scrollPaddingBlock: 12 }}
               >
                 <h4 id={`keypoints-h-${lesson.id}`} style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', marginBottom: 4 }}>
                   Written lesson notes

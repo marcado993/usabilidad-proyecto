@@ -3,7 +3,7 @@
  * Uses: AuthLayout (template) + HeroCarousel (organism) + FormField (molecule) + Button, Toggle (atoms)
  * Heurísticas: H1 (spinner), H2 (íconos, idioma), H3 (demo), H5 (validación), H6 (recuperar contraseña)
  */
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button, Toggle, Icon, HeuristicTag } from '../atoms'
 import { FormField } from '../molecules'
 import { HeroCarousel } from '../organisms'
@@ -27,17 +27,18 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
   const [loading,  setLoading ] = useState(false)
   const [apiError, setApiError] = useState('')
   const [slide,    setSlide   ] = useState(0)
-  const [showHint, setShowHint] = useState(true)
-
-  // H10/H2: a first-time coach mark pointing to the email field, so new
-  // users always know where to start. Dismisses on focus or after a while.
-  useEffect(() => {
-    const t = setTimeout(() => setShowHint(false), 9000)
-    return () => clearTimeout(t)
-  }, [])
+  // H10/H2: coach mark pointing at the credential fields, so a first-time
+  // user always knows where to start.
+  //
+  // It used to disappear on a 9-second timer, which was both unhelpful (it
+  // vanished while people were still reading it) and a WCAG 2.2 SC 2.2.1
+  // Timing Adjustable problem: content must not time out on the user unless
+  // they can turn that off or extend it. There is no timer now — the hint
+  // stays until the user actually starts typing their email, which is the
+  // moment it stops being useful.
+  const showHint = !values.email
 
   const fillDemo = (demoRole) => {
-    setShowHint(false)
     setRole(demoRole)
     set('email')(demoRole === 'teacher' ? DEMO_TEACHER_EMAIL : DEMO_STUDENT_EMAIL)
     set('password')(DEMO_PASSWORD)
@@ -155,7 +156,7 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
                 animation: 'bounce 1.6s ease-in-out infinite',
               }}
             >
-              Put your name/email here 👇
+              Enter your email and password here 👇
             </div>
           )}
           <FormField
@@ -163,7 +164,6 @@ export default function LoginPage({ onLogin, onRegister, onForgotPassword }) {
             placeholder="your@email.com"
             hint="Use the email you registered with"
             autoComplete="email" required
-            onFocus={() => setShowHint(false)}
             {...fieldProps('email')}
             success={fieldProps('email').success ? 'Valid email' : ''}
           />

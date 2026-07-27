@@ -20,7 +20,11 @@
 .form-field__required { color: var(--clr-error); margin-left: 2px; }
 .form-field__msg      { font-size: var(--fs-xs); font-weight: var(--fw-bold); display: flex; align-items: center; gap: var(--sp-1); margin-top: 4px; }
 .form-field__msg--error   { color: var(--clr-error); }
-.form-field__msg--success  { color: var(--clr-success); }
+/* WCAG 2.2 SC 1.4.3: the brand green (#58cc02) is a background/accent colour,
+   not a text colour — as 12px text on the cream page it measures 1.95:1.
+   --clr-success-dark is the darkened variant reserved for text (6.1:1).
+   This only shows once a field validates, which is why it went unnoticed. */
+.form-field__msg--success  { color: var(--clr-success-dark); }
 .form-field__msg--hint     { color: var(--txt-secondary); }
 
 /* ── StatCard molecule (Tactile Cartoon Card) ── */
@@ -342,7 +346,17 @@
 .modal-body {
   max-height: 70vh;
   overflow-y: auto;
+  /* The focus ring extends 11px past the element (3px outline + 2px offset
+     + 6px halo). Setting overflow-y:auto forces the horizontal axis to clip
+     as well — per CSS, once one axis is not `visible` the other cannot be —
+     so without breathing room the ring gets sliced off at the edges.
+     The negative margin cancels the padding so the layout is unchanged; the
+     modal box's own padding absorbs it. WCAG 2.2 SC 2.4.11 Focus Appearance:
+     the indicator has to be fully visible, not partially clipped. */
+  padding: 12px;
+  margin: -12px;
   padding-right: var(--sp-2);
+  margin-right: calc(-1 * var(--sp-2));
 }
 .modal-body::-webkit-scrollbar {
   width: 8px;
