@@ -3,24 +3,25 @@
  * Atomic Design: Data layer (not a component)
  * This acts as the content database for the localStorage-backed app
  *
- * ── About `keyPoints` and WCAG conformance ──────────────────────────────
- * `keyPoints` holds WRITTEN LESSON NOTES authored for this project. They
- * summarise the same grammar the linked YouTube video teaches, but they are
- * NOT a verbatim transcript of it and must never be labelled as one.
+ * ── Video text alternatives: two different things ───────────────────────
+ * Every lesson that embeds a video carries BOTH:
  *
- * What that means for WCAG 2.2:
- *  - SC 1.2.2 Captions (A) is met by the videos themselves — the linked
- *    YouTube videos carry their own captions, served by YouTube's player.
- *  - SC 1.2.3 Audio Description or Media Alternative (A) is NOT claimed as
- *    met by these notes. A conforming "media alternative for text" has to
- *    convey EQUIVALENT information to the video, including anything spoken
- *    or shown on screen. A summary does not qualify, however accurate.
- *  - These notes are therefore a genuine usability and comprehension aid
- *    (and useful to screen-reader users), but they are supplementary
- *    content, not a conformance mechanism.
+ *  1. `transcript` (in data/transcripts.js, keyed by lesson id) — the
+ *     verbatim transcript of that video, taken from its own published
+ *     caption track. This is what satisfies WCAG 2.2 SC 1.2.3 Audio
+ *     Description or Media Alternative (A), which requires a text
+ *     alternative conveying EQUIVALENT information to the video.
  *
- * To actually claim 1.2.3, the video would need a real transcript produced
- * from its audio, or a self-hosted video whose captions we control.
+ *  2. `keyPoints` (below) — a short written summary of the grammar, authored
+ *     for this app. This is a comprehension aid, NOT an accessibility
+ *     conformance mechanism: a summary can never substitute for a
+ *     transcript, because it drops information the video actually conveys.
+ *
+ * Do not collapse the two. Labelling a summary as a "transcript" is the
+ * specific mistake this file previously made.
+ *
+ * SC 1.2.2 Captions (A) is additionally met by the videos themselves, whose
+ * caption tracks are served by the YouTube player.
  */
 
 export const CATEGORIES = [
@@ -36,8 +37,11 @@ export const CATEGORIES = [
     lessons: [
       {
         id: 'a1-g1', title: "The Verb 'To Be' and Pronouns", duration: '10 min',
-        videoId: 'LH57BAO9K88',
-        videoTitle: "Basic English Grammar — the verb 'to be' (YouTube)",
+        // Was LH57BAO9K88, which is a lesson about household CHORES — nothing
+        // to do with the verb 'to be'. Caught by reading the video's actual
+        // caption track instead of trusting its title.
+        videoId: '929jxBdtUSM',
+        videoTitle: "How to Use 'To Be' in English — English Grammar Lesson (Oxford Online English, YouTube)",
         keyPoints: [
           "'To be' has three forms in the present tense: am, is, and are.",
           "Use 'am' only with the pronoun I: I am a teacher.",

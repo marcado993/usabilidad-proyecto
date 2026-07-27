@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Button, Badge, Avatar, ProgressBar, Tooltip, IconBtn, Spinner, Icon, Toggle, HeuristicTag } from '../atoms'
 import { NavItem, RadioOption, StepDots, LeaderboardItem, CategoryCard, LessonCard } from '../molecules'
 import { getQuestion } from '../data/lessons'
+import { TRANSCRIPTS } from '../data/transcripts'
 
 // ══════════════════════════════════════════════════
 //  MODAL (H3: Control y libertad — Esc + overlay)
@@ -286,6 +287,8 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
   const [loading, setLoading] = useState(false)
   const [videoPlaying, setVideoPlaying] = useState(false)
   const [showTranscript, setShowTranscript] = useState(false)
+  const [showNotes, setShowNotes] = useState(false)
+  const transcript = TRANSCRIPTS[lesson.id]
   const q = getQuestion(lesson.id)
 
   const handleSend = async () => {
@@ -351,26 +354,68 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
           </div>
         )}
 
-        {/* Written lesson notes. Deliberately NOT labelled "transcript": the
-            text is authored for this app, not taken from the video's audio.
-            See the header note in data/lessons.js for why that distinction
-            matters to the WCAG 1.2.3 conformance claim. */}
-        {lesson.keyPoints && (
+        {/* WCAG 2.2 SC 1.2.3 Audio Description or Media Alternative (A):
+            the verbatim transcript of the embedded video. Sourced from the
+            video's own caption track (see data/transcripts.js) — never
+            hand-written, because a transcript that does not match its audio
+            fails the very users it exists for. Always rendered whenever the
+            lesson has a video, so the text alternative is never optional. */}
+        {transcript && (
           <div style={{ textAlign: 'left', marginBottom: 20 }}>
             <Button
               variant="secondary" size="sm"
               onClick={() => setShowTranscript(v => !v)}
               aria-expanded={showTranscript}
-              aria-controls={`keypoints-${lesson.id}`}
-              ariaLabel={showTranscript ? 'Hide written lesson notes' : 'Show written lesson notes'}
+              aria-controls={`transcript-${lesson.id}`}
+              ariaLabel={showTranscript ? 'Hide full video transcript' : 'Show full video transcript'}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
             >
-              <Icon name="reading" size="xs" /> {showTranscript ? 'Hide lesson notes' : 'Read lesson notes'}
+              <Icon name="reading" size="xs" /> {showTranscript ? 'Hide transcript' : 'Show full transcript'}
             </Button>
-            {/* WCAG 2.2 SC 1.3.1 Info and Relationships: exposed as a landmark
-                region with a real heading, so NVDA can jump straight to it and
+            {/* SC 1.3.1 Info and Relationships: exposed as a landmark region
+                with a real heading, so NVDA can jump straight to it and
                 announce what it is instead of reading loose paragraphs. */}
             {showTranscript && (
+              <section
+                id={`transcript-${lesson.id}`}
+                className="card"
+                role="region"
+                aria-labelledby={`transcript-h-${lesson.id}`}
+                style={{ marginTop: 10, padding: 'var(--sp-4)', maxHeight: 280, overflowY: 'auto' }}
+              >
+                <h4 id={`transcript-h-${lesson.id}`} style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', marginBottom: 4 }}>
+                  Video transcript
+                </h4>
+                <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-secondary)', marginBottom: 10, fontStyle: 'italic' }}>
+                  Full transcript of the video above, from its published
+                  captions. Source: {transcript.channel} —{' '}
+                  <a href={transcript.sourceUrl} target="_blank" rel="noopener noreferrer">
+                    watch on YouTube
+                  </a>.
+                </p>
+                {transcript.paragraphs.map((line, i) => (
+                  <p key={i} style={{ fontSize: 'var(--fs-sm)', color: 'var(--txt-secondary)', lineHeight: 1.6, marginBottom: 8 }}>{line}</p>
+                ))}
+              </section>
+            )}
+          </div>
+        )}
+
+        {/* Short written summary — a comprehension aid layered on top of the
+            transcript above, never a replacement for it. */}
+        {lesson.keyPoints && (
+          <div style={{ textAlign: 'left', marginBottom: 20 }}>
+            <Button
+              variant="secondary" size="sm"
+              onClick={() => setShowNotes(v => !v)}
+              aria-expanded={showNotes}
+              aria-controls={`keypoints-${lesson.id}`}
+              ariaLabel={showNotes ? 'Hide written lesson notes' : 'Show written lesson notes'}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            >
+              <Icon name="reading" size="xs" /> {showNotes ? 'Hide lesson notes' : 'Read lesson notes'}
+            </Button>
+            {showNotes && (
               <section
                 id={`keypoints-${lesson.id}`}
                 className="card"
@@ -382,9 +427,7 @@ export function LessonModal({ lesson, category, onClose, onComplete }) {
                   Written lesson notes
                 </h4>
                 <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--txt-secondary)', marginBottom: 8, fontStyle: 'italic' }}>
-                  {lesson.videoId
-                    ? 'A written summary of the same grammar points covered in the video above. This is not a transcript of the video — for the spoken words, turn on captions in the player.'
-                    : 'A written summary of this lesson’s grammar points.'}
+                  A short summary of the key grammar points{lesson.videoId ? ' — the full transcript is above' : ''}.
                 </p>
                 {lesson.keyPoints.map((line, i) => (
                   <p key={i} style={{ fontSize: 'var(--fs-sm)', color: 'var(--txt-secondary)', lineHeight: 1.6, marginBottom: 8 }}>{line}</p>
